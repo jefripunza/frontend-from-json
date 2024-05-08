@@ -1,0 +1,26 @@
+{
+  "title": "Product #name#",
+  "onLoad": "console.log('Product Loaded...', { params }); findAndReplace('#name#', params.id); return params.id;",
+  "onClose": "console.log('Product Close...', { params })",
+  "render": {
+    "element": "div",
+    "attributes": {
+      "className": "container"
+    },
+    "children": [
+      "This is Product Page...",
+      {
+        "element": "div",
+        "children": [
+          {
+            "element": "button",
+            "action": {
+              "onClick": "console.log('Product Click Me...', { params }); toast.success('🦄 Wow so easy!', { position: \"top-right\", autoClose: 5000, hideProgressBar: false, closeOnClick: true, pauseOnHover: true, draggable: true, progress: undefined, theme: \"light\", transition: toastTransition.Flip, });"
+            },
+            "children": ["Click Me..."]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "title": "Cart Page",
+  "onLoad": "console.log('Cart Loaded...')",
+  "onClose": "console.log('Cart Close...')",
+  "render": {
+    "element": "div",
+    "attributes": {
+      "className": "container"
+    },
+    "children": ["This is Cart Page..."]
+  }
+}

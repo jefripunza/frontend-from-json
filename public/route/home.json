@@ -1,0 +1,81 @@
+{
+  "title": "Example HTML from JSON",
+  "onLoad": "console.log('Root Loaded...')",
+  "onClose": "console.log('Root Close...')",
+  "render": {
+    "element": "div",
+    "attributes": {
+      "className": "container"
+    },
+    "children": [
+      {
+        "element": "div",
+        "children": [
+          "Count: ",
+          {
+            "element": "span",
+            "attributes": {
+              "id": "count"
+            },
+            "children": ["0"]
+          }
+        ]
+      },
+      {
+        "element": "ul",
+        "children": [
+          {
+            "element": "li",
+            "action": {
+              "onClick": "console.log('Clicked!', { window, store, e }); let count = store.count || 0; count++; document.getElementById('count').innerHTML = count; store.setStore({ count });",
+              "onMouseOver": "console.log('Mouse over!');"
+            },
+            "children": [
+              "Hello ",
+              {
+                "element": "strong",
+                "children": ["World"]
+              }
+            ]
+          },
+          {
+            "element": "li",
+            "children": [
+              {
+                "element": "a",
+                "attributes": {
+                  "href": "/about"
+                },
+                "children": ["About Page..."]
+              }
+            ]
+          },
+          {
+            "element": "li",
+            "children": [
+              {
+                "element": "a",
+                "attributes": {
+                  "href": "/product/abc"
+                },
+                "children": ["Product ABC..."]
+              }
+            ]
+          },
+          {
+            "element": "li",
+            "children": [
+              {
+                "element": "a",
+                "attributes": {
+                  "href": "/product/123"
+                },
+                "children": ["Product 123..."]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

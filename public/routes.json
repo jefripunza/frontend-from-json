@@ -1,0 +1,12 @@
+{
+  "routes": [
+    {
+      "endpoint": "*",
+      "json": "/route/not-found.json"
+    },
+    {
+      "endpoint": "/",
+      "json": "/route/portfolio.json"
+    }
+  ]
+}

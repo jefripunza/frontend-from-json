@@ -1,0 +1,11 @@
+{
+  "title": "404 | Not Found",
+  "onLoad": "console.log('Not Found Loaded...')",
+  "render": {
+    "element": "div",
+    "attributes": {
+      "className": "container"
+    },
+    "children": ["Page Not Found!"]
+  }
+}

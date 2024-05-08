@@ -1,0 +1,3030 @@
+{
+  "title": "Portfolio Page",
+  "onLoad": "console.log('Portfolio Loaded...')",
+  "onClose": "console.log('Portfolio Close...')",
+  "render": {
+    "element": "div",
+    "children": [
+      {
+        "element": "header",
+        "children": [
+          {
+            "element": "div",
+            "children": [
+              {
+                "element": "div",
+                "children": [
+                  {
+                    "element": "div",
+                    "children": [
+                      {
+                        "element": "img",
+                        "attributes": {
+                          "className": "profile-image img-fluid float-start rounded-circle",
+                          "src": "assets/images/profile.png",
+                          "alt": "profile image"
+                        }
+                      },
+                      {
+                        "element": "div",
+                        "children": [
+                          {
+                            "element": "h1",
+                            "children": ["Jefri Herdi Triyanto"],
+                            "attributes": {
+                              "className": "name"
+                            }
+                          },
+                          {
+                            "element": "h2",
+                            "children": ["Principal Engineer"],
+                            "attributes": {
+                              "className": "desc"
+                            }
+                          },
+                          {
+                            "element": "ul",
+                            "children": [
+                              {
+                                "element": "li",
+                                "children": [
+                                  {
+                                    "element": "a",
+                                    "children": [
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "fab fa-twitter"
+                                        }
+                                      }
+                                    ],
+                                    "attributes": {
+                                      "href": "#"
+                                    }
+                                  }
+                                ],
+                                "attributes": {
+                                  "className": "list-inline-item"
+                                }
+                              },
+                              {
+                                "element": "li",
+                                "children": [
+                                  {
+                                    "element": "a",
+                                    "children": [
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "fab fa-linkedin-in"
+                                        }
+                                      }
+                                    ],
+                                    "attributes": {
+                                      "href": "#"
+                                    }
+                                  }
+                                ],
+                                "attributes": {
+                                  "className": "list-inline-item"
+                                }
+                              },
+                              {
+                                "element": "li",
+                                "children": [
+                                  {
+                                    "element": "a",
+                                    "children": [
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "fab fa-github-alt"
+                                        }
+                                      }
+                                    ],
+                                    "attributes": {
+                                      "href": "#"
+                                    }
+                                  }
+                                ],
+                                "attributes": {
+                                  "className": "list-inline-item"
+                                }
+                              },
+                              {
+                                "element": "li",
+                                "children": [
+                                  {
+                                    "element": "a",
+                                    "children": [
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "fab fa-stack-overflow"
+                                        }
+                                      }
+                                    ],
+                                    "attributes": {
+                                      "href": "#"
+                                    }
+                                  }
+                                ],
+                                "attributes": {
+                                  "className": "list-inline-item"
+                                }
+                              },
+                              {
+                                "element": "li",
+                                "children": [
+                                  {
+                                    "element": "a",
+                                    "children": [
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "fab fa-codepen"
+                                        }
+                                      }
+                                    ],
+                                    "attributes": {
+                                      "href": "#"
+                                    }
+                                  }
+                                ],
+                                "attributes": {
+                                  "className": "list-inline-item last-item"
+                                }
+                              }
+                            ],
+                            "attributes": {
+                              "className": "social list-inline"
+                            }
+                          }
+                        ],
+                        "attributes": {
+                          "className": "profile-content"
+                        }
+                      }
+                    ],
+                    "attributes": {
+                      "className": "col"
+                    }
+                  },
+                  {
+                    "element": "div",
+                    "children": [
+                      {
+                        "element": "div",
+                        "children": [
+                          {
+                            "element": "div",
+                            "children": [
+                              {
+                                "element": "input",
+                                "attributes": {
+                                  "element": "checkbox",
+                                  "className": "form-check-input me-2",
+                                  "id": "darkSwitch"
+                                }
+                              },
+                              {
+                                "element": "label",
+                                "children": ["Dark Mode"],
+                                "attributes": {
+                                  "className": "custom-control-label",
+                                  "htmlFor": "darkSwitch"
+                                }
+                              }
+                            ],
+                            "attributes": {
+                              "className": "form-check form-switch mx-auto mx-md-0"
+                            }
+                          }
+                        ],
+                        "attributes": {
+                          "className": "dark-mode-switch d-flex"
+                        }
+                      },
+                      {
+                        "element": "a",
+                        "children": [
+                          {
+                            "element": "i",
+                            "attributes": {
+                              "className": "fas fa-paper-plane"
+                            }
+                          },
+                          " Contact Me"
+                        ],
+                        "attributes": {
+                          "className": "btn btn-cta-primary",
+                          "href": "https://themes.3rdwavemedia.com/",
+                          "target": "_blank"
+                        }
+                      }
+                    ],
+                    "attributes": {
+                      "className": "col-12 col-md-auto"
+                    }
+                  }
+                ],
+                "attributes": {
+                  "className": "row align-items-center"
+                }
+              }
+            ],
+            "attributes": {
+              "className": "container"
+            }
+          }
+        ],
+        "attributes": {
+          "className": "header"
+        }
+      },
+      {
+        "element": "div",
+        "children": [
+          {
+            "element": "div",
+            "children": [
+              {
+                "element": "div",
+                "children": [
+                  {
+                    "element": "section",
+                    "children": [
+                      {
+                        "element": "div",
+                        "children": [
+                          {
+                            "element": "h2",
+                            "children": ["About Me"],
+                            "attributes": {
+                              "className": "heading"
+                            }
+                          },
+                          {
+                            "element": "div",
+                            "children": [
+                              {
+                                "element": "p",
+                                "children": [
+                                  "Write a brief intro about yourself. It's a good idea to include your personal interests and hobbies as well. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec. Commodo ligula eget dolor. Aenean massa.       "
+                                ]
+                              },
+                              "     "
+                            ],
+                            "attributes": {
+                              "className": "children"
+                            }
+                          },
+                          "   "
+                        ],
+                        "attributes": {
+                          "className": "section-inner shadow-sm rounded"
+                        }
+                      },
+                      " "
+                    ],
+                    "attributes": {
+                      "className": "about section"
+                    }
+                  },
+                  "\n ",
+                  {
+                    "element": "section",
+                    "children": [
+                      "   ",
+                      {
+                        "element": "div",
+                        "children": [
+                          "     ",
+                          {
+                            "element": "h2",
+                            "children": ["Latest Projects"],
+                            "attributes": {
+                              "className": "heading"
+                            }
+                          },
+                          "     ",
+                          {
+                            "element": "div",
+                            "children": [
+                              "       ",
+                              {
+                                "element": "div",
+                                "children": [
+                                  " ",
+                                  {
+                                    "element": "div",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "a",
+                                        "children": [
+                                          "     ",
+                                          {
+                                            "element": "img",
+                                            "attributes": {
+                                              "className": "img-fluid project-image rounded shadow-sm",
+                                              "src": "assets/images/projects/project-featured.jpg",
+                                              "alt": "project name"
+                                            }
+                                          },
+                                          "   "
+                                        ],
+                                        "attributes": {
+                                          "href": "https://themes.3rdwavemedia.com/bootstrap-templates/startup/launch-bootstrap-4-template-for-saas-businesses/",
+                                          "target": "_blank"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "div",
+                                        "children": [
+                                          "     ",
+                                          {
+                                            "element": "div",
+                                            "children": ["New"],
+                                            "attributes": {
+                                              "className": "text"
+                                            }
+                                          },
+                                          "   "
+                                        ],
+                                        "attributes": {
+                                          "className": "ribbon"
+                                        }
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "featured-image has-ribbon"
+                                    }
+                                  },
+                                  "\n ",
+                                  {
+                                    "element": "h3",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "a",
+                                        "children": [
+                                          "Launch - The perfect Bootstrap template for SaaS products"
+                                        ],
+                                        "attributes": {
+                                          "href": "https://themes.3rdwavemedia.com/bootstrap-templates/startup/launch-bootstrap-4-template-for-saas-businesses/",
+                                          "target": "_blank"
+                                        }
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "title mb-3"
+                                    }
+                                  },
+                                  "\n ",
+                                  {
+                                    "element": "div",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "p",
+                                        "children": [
+                                          "     You can promote your main project here. Suspendisse in tellus     dolor. Vivamus a tortor eu turpis pharetra consequat quis non     metus. Aliquam aliquam, orci eu suscipit pellentesque, mauris     dui tincidunt enim, eget iaculis ante dolor non turpis. Ut     enim ad minima veniam, quis nostrum exercitationem ullam     corporis suscipit laboriosam.   "
+                                        ]
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "desc text-start"
+                                    }
+                                  },
+                                  " ",
+                                  {
+                                    "element": "a",
+                                    "children": [
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "fas fa-thumbs-up"
+                                        }
+                                      },
+                                      " Back my project"
+                                    ],
+                                    "attributes": {
+                                      "className": "btn btn-cta-secondary",
+                                      "href": "https://themes.3rdwavemedia.com/bootstrap-templates/startup/launch-bootstrap-4-template-for-saas-businesses/",
+                                      "target": "_blank"
+                                    }
+                                  },
+                                  "       "
+                                ],
+                                "attributes": {
+                                  "className": "item featured text-center"
+                                }
+                              },
+                              "       ",
+                              {
+                                "element": "hr",
+                                "attributes": {
+                                  "className": "divider"
+                                }
+                              },
+                              "       ",
+                              {
+                                "element": "div",
+                                "children": [
+                                  " ",
+                                  {
+                                    "element": "a",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "img",
+                                        "attributes": {
+                                          "className": "img-fluid project-image rounded shadow-sm",
+                                          "src": "assets/images/projects/project-1.png",
+                                          "alt": "project name"
+                                        }
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "col-md-4 col-12",
+                                      "href": "https://themes.3rdwavemedia.com/bootstrap-templates/startup/coderpro-bootstrap-4-startup-template-for-software-projects/",
+                                      "target": "_blank"
+                                    }
+                                  },
+                                  " ",
+                                  {
+                                    "element": "div",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "h3",
+                                        "children": [
+                                          "     ",
+                                          {
+                                            "element": "a",
+                                            "children": [
+                                              "CoderPro - Boootstrap Startup Template For Software       Projects"
+                                            ],
+                                            "attributes": {
+                                              "href": "https://themes.3rdwavemedia.com/bootstrap-templates/startup/coderpro-bootstrap-4-startup-template-for-software-projects/",
+                                              "target": "_blank"
+                                            }
+                                          },
+                                          "   "
+                                        ],
+                                        "attributes": {
+                                          "className": "title"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "p",
+                                        "children": [
+                                          "     You can put one of your secondary projects here. Suspendisse     in tellus dolor. Vivamus a tortor eu turpis pharetra consequat     quis non metus. Aliquam aliquam, orci eu suscipit     pellentesque, mauris dui tincidunt enim, eget iaculis ante     dolor non turpis.   "
+                                        ],
+                                        "attributes": {
+                                          "className": "mb-2"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "p",
+                                        "children": [
+                                          "     ",
+                                          {
+                                            "element": "a",
+                                            "children": [
+                                              {
+                                                "element": "i",
+                                                "attributes": {
+                                                  "className": "fas fa-external-link-alt"
+                                                }
+                                              },
+                                              "Find out more"
+                                            ],
+                                            "attributes": {
+                                              "className": "more-link",
+                                              "href": "https://themes.3rdwavemedia.com/bootstrap-templates/startup/coderpro-bootstrap-4-startup-template-for-software-projects/",
+                                              "target": "_blank"
+                                            }
+                                          },
+                                          "   "
+                                        ]
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "desc col-md-8 col-12"
+                                    }
+                                  },
+                                  "       "
+                                ],
+                                "attributes": {
+                                  "className": "item row"
+                                }
+                              },
+                              "\n       ",
+                              {
+                                "element": "div",
+                                "children": [
+                                  " ",
+                                  {
+                                    "element": "a",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "img",
+                                        "attributes": {
+                                          "className": "img-fluid project-image rounded shadow-sm",
+                                          "src": "assets/images/projects/project-2.png",
+                                          "alt": "project name"
+                                        }
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "col-md-4 col-12",
+                                      "href": "https://themes.3rdwavemedia.com/bootstrap-templates/resume/devcard-bootstrap-4-vcard-portfolio-template-for-software-developers/",
+                                      "target": "_blank"
+                                    }
+                                  },
+                                  " ",
+                                  {
+                                    "element": "div",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "h3",
+                                        "children": [
+                                          "     ",
+                                          {
+                                            "element": "a",
+                                            "children": [
+                                              "DevCard - Boootstrap Portfolio Template for Software       Developers"
+                                            ],
+                                            "attributes": {
+                                              "href": "https://themes.3rdwavemedia.com/bootstrap-templates/resume/devcard-bootstrap-4-vcard-portfolio-template-for-software-developers/",
+                                              "target": "_blank"
+                                            }
+                                          },
+                                          "   "
+                                        ],
+                                        "attributes": {
+                                          "className": "title"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "p",
+                                        "children": [
+                                          "     You can put one of your secondary projects here. Suspendisse     in tellus dolor. Vivamus a tortor eu turpis pharetra consequat     quis non metus. Aliquam aliquam, orci eu suscipit     pellentesque, mauris dui tincidunt enim, eget iaculis ante     dolor non turpis.   "
+                                        ],
+                                        "attributes": {
+                                          "className": "mb-2"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "p",
+                                        "children": [
+                                          "     ",
+                                          {
+                                            "element": "a",
+                                            "children": [
+                                              {
+                                                "element": "i",
+                                                "attributes": {
+                                                  "className": "fas fa-external-link-alt"
+                                                }
+                                              },
+                                              "Find out more"
+                                            ],
+                                            "attributes": {
+                                              "className": "more-link",
+                                              "href": "https://themes.3rdwavemedia.com/bootstrap-templates/resume/devcard-bootstrap-4-vcard-portfolio-template-for-software-developers/",
+                                              "target": "_blank"
+                                            }
+                                          },
+                                          "   "
+                                        ]
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "desc col-md-8 col-12"
+                                    }
+                                  },
+                                  "       "
+                                ],
+                                "attributes": {
+                                  "className": "item row"
+                                }
+                              },
+                              "\n       ",
+                              {
+                                "element": "div",
+                                "children": [
+                                  " ",
+                                  {
+                                    "element": "a",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "img",
+                                        "attributes": {
+                                          "className": "img-fluid project-image rounded shadow-sm",
+                                          "src": "assets/images/projects/project-3.png",
+                                          "alt": "project name"
+                                        }
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "col-md-4 col-12",
+                                      "href": "https://themes.3rdwavemedia.com/bootstrap-templates/resume/instance-bootstrap-portfolio-theme-for-developers/",
+                                      "target": "_blank"
+                                    }
+                                  },
+                                  " ",
+                                  {
+                                    "element": "div",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "h3",
+                                        "children": [
+                                          "     ",
+                                          {
+                                            "element": "a",
+                                            "children": [
+                                              "Instance - Boootstrap Portfolio Template for Aspiring Full       Stack Developers"
+                                            ],
+                                            "attributes": {
+                                              "href": "https://themes.3rdwavemedia.com/bootstrap-templates/resume/instance-bootstrap-portfolio-theme-for-developers/",
+                                              "target": "_blank"
+                                            }
+                                          },
+                                          "   "
+                                        ],
+                                        "attributes": {
+                                          "className": "title"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "p",
+                                        "children": [
+                                          "     You can put one of your secondary projects here. Suspendisse     in tellus dolor. Vivamus a tortor eu turpis pharetra consequat     quis non metus. Aliquam aliquam, orci eu suscipit     pellentesque, mauris dui tincidunt enim, eget iaculis ante     dolor non turpis.   "
+                                        ],
+                                        "attributes": {
+                                          "className": "mb-2"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "p",
+                                        "children": [
+                                          "     ",
+                                          {
+                                            "element": "a",
+                                            "children": [
+                                              {
+                                                "element": "i",
+                                                "attributes": {
+                                                  "className": "fas fa-external-link-alt"
+                                                }
+                                              },
+                                              "Find out more"
+                                            ],
+                                            "attributes": {
+                                              "className": "more-link",
+                                              "href": "https://themes.3rdwavemedia.com/bootstrap-templates/resume/instance-bootstrap-portfolio-theme-for-developers/",
+                                              "target": "_blank"
+                                            }
+                                          },
+                                          "   "
+                                        ]
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "desc col-md-8 col-12"
+                                    }
+                                  },
+                                  "       "
+                                ],
+                                "attributes": {
+                                  "className": "item row"
+                                }
+                              },
+                              "\n       ",
+                              {
+                                "element": "div",
+                                "children": [
+                                  " ",
+                                  {
+                                    "element": "a",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "img",
+                                        "attributes": {
+                                          "className": "img-fluid project-image rounded shadow-sm",
+                                          "src": "assets/images/projects/project-4.png",
+                                          "alt": "project name"
+                                        }
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "col-md-4 col-12",
+                                      "href": "https://themes.3rdwavemedia.com/bootstrap-templates/startup/bootstrap-template-for-mobile-apps-nova-pro/",
+                                      "target": "_blank"
+                                    }
+                                  },
+                                  " ",
+                                  {
+                                    "element": "div",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "h3",
+                                        "children": [
+                                          "     ",
+                                          {
+                                            "element": "a",
+                                            "children": [
+                                              "Nova Pro - Boootstrap Template for Mobile Startups"
+                                            ],
+                                            "attributes": {
+                                              "href": "https://themes.3rdwavemedia.com/bootstrap-templates/startup/bootstrap-template-for-mobile-apps-nova-pro/",
+                                              "target": "_blank"
+                                            }
+                                          },
+                                          "   "
+                                        ],
+                                        "attributes": {
+                                          "className": "title"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "p",
+                                        "children": [
+                                          "     You can put one of your secondary projects here. Suspendisse     in tellus dolor. Vivamus a tortor eu turpis pharetra consequat     quis non metus.   "
+                                        ],
+                                        "attributes": {
+                                          "className": "mb-2"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "p",
+                                        "children": [
+                                          "     ",
+                                          {
+                                            "element": "a",
+                                            "children": [
+                                              {
+                                                "element": "i",
+                                                "attributes": {
+                                                  "className": "fas fa-external-link-alt"
+                                                }
+                                              },
+                                              "Find out more"
+                                            ],
+                                            "attributes": {
+                                              "className": "more-link",
+                                              "href": "https://themes.3rdwavemedia.com/bootstrap-templates/startup/bootstrap-template-for-mobile-apps-nova-pro/",
+                                              "target": "_blank"
+                                            }
+                                          },
+                                          "   "
+                                        ]
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "desc col-md-8 col-12"
+                                    }
+                                  },
+                                  "       "
+                                ],
+                                "attributes": {
+                                  "className": "item row"
+                                }
+                              },
+                              "       ",
+                              {
+                                "element": "div",
+                                "children": [
+                                  " ",
+                                  {
+                                    "element": "a",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "img",
+                                        "attributes": {
+                                          "className": "img-fluid project-image rounded shadow-sm",
+                                          "src": "assets/images/projects/project-5.png",
+                                          "alt": "project name"
+                                        }
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "col-md-4 col-12",
+                                      "href": "https://themes.3rdwavemedia.com/bootstrap-templates/startup/devstudio-bootstrap-theme-for-web-development-agencies-and-developers/",
+                                      "target": "_blank"
+                                    }
+                                  },
+                                  " ",
+                                  {
+                                    "element": "div",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "h3",
+                                        "children": [
+                                          "     ",
+                                          {
+                                            "element": "a",
+                                            "children": [
+                                              "DevStudio - Boootstrap Template for WebDev Agencies and       Freelance Developers"
+                                            ],
+                                            "attributes": {
+                                              "href": "https://themes.3rdwavemedia.com/bootstrap-templates/startup/devstudio-bootstrap-theme-for-web-development-agencies-and-developers/",
+                                              "target": "_blank"
+                                            }
+                                          },
+                                          "   "
+                                        ],
+                                        "attributes": {
+                                          "className": "title"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "p",
+                                        "children": [
+                                          "     You can put one of your secondary projects here. Quisque     rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue.     Curabitur ullamcorper ultricies nisi.   "
+                                        ],
+                                        "attributes": {
+                                          "className": "mb-2"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "p",
+                                        "children": [
+                                          "     ",
+                                          {
+                                            "element": "a",
+                                            "children": [
+                                              {
+                                                "element": "i",
+                                                "attributes": {
+                                                  "className": "fas fa-external-link-alt"
+                                                }
+                                              },
+                                              "Find out more"
+                                            ],
+                                            "attributes": {
+                                              "className": "more-link",
+                                              "href": "https://themes.3rdwavemedia.com/bootstrap-templates/startup/devstudio-bootstrap-theme-for-web-development-agencies-and-developers/",
+                                              "target": "_blank"
+                                            }
+                                          },
+                                          "   "
+                                        ]
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "desc col-md-8 col-12"
+                                    }
+                                  },
+                                  "       "
+                                ],
+                                "attributes": {
+                                  "className": "item row"
+                                }
+                              },
+                              "     "
+                            ],
+                            "attributes": {
+                              "className": "children"
+                            }
+                          },
+                          "   "
+                        ],
+                        "attributes": {
+                          "className": "section-inner shadow-sm rounded"
+                        }
+                      },
+                      " "
+                    ],
+                    "attributes": {
+                      "className": "latest section"
+                    }
+                  },
+                  "\n ",
+                  {
+                    "element": "section",
+                    "children": [
+                      "   ",
+                      {
+                        "element": "div",
+                        "children": [
+                          "     ",
+                          {
+                            "element": "h2",
+                            "children": ["Other Projects"],
+                            "attributes": {
+                              "className": "heading"
+                            }
+                          },
+                          "     ",
+                          {
+                            "element": "div",
+                            "children": [
+                              "       ",
+                              {
+                                "element": "div",
+                                "children": [
+                                  " ",
+                                  {
+                                    "element": "h3",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "a",
+                                        "children": [
+                                          "Pillar - Free Boootstrap Resume/CV Template for Developers"
+                                        ],
+                                        "attributes": {
+                                          "href": "https://themes.3rdwavemedia.com/bootstrap-templates/resume/free-bootstrap4-resume-cv-template-for-developers-pillar/",
+                                          "target": "_blank"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "span",
+                                        "children": ["Free"],
+                                        "attributes": {
+                                          "className": "badge badge-theme"
+                                        }
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "title"
+                                    }
+                                  },
+                                  " ",
+                                  {
+                                    "element": "p",
+                                    "children": [
+                                      "   Provide a brief description of your project. Ut enim ad minima   veniam, quis nostrum exercitationem ullam corporis suscipit   laboriosam, nisi ut aliquid ex ea commodi consequatu. "
+                                    ],
+                                    "attributes": {
+                                      "className": "summary"
+                                    }
+                                  },
+                                  " ",
+                                  {
+                                    "element": "p",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "a",
+                                        "children": [
+                                          {
+                                            "element": "i",
+                                            "attributes": {
+                                              "className": "fas fa-external-link-alt"
+                                            }
+                                          },
+                                          "Download Now"
+                                        ],
+                                        "attributes": {
+                                          "className": "more-link",
+                                          "href": "https://themes.3rdwavemedia.com/bootstrap-templates/resume/free-bootstrap4-resume-cv-template-for-developers-pillar/",
+                                          "target": "_blank"
+                                        }
+                                      },
+                                      " "
+                                    ]
+                                  },
+                                  "       "
+                                ],
+                                "attributes": {
+                                  "className": "item"
+                                }
+                              },
+                              "       ",
+                              {
+                                "element": "div",
+                                "children": [
+                                  " ",
+                                  {
+                                    "element": "h3",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "a",
+                                        "children": [
+                                          "DevBlog - Free Boootstrap Blog Template for Developers"
+                                        ],
+                                        "attributes": {
+                                          "href": "https://themes.3rdwavemedia.com/bootstrap-templates/speciality/devblog-free-bootstrap-4-blog-template-for-developers/",
+                                          "target": "_blank"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "span",
+                                        "children": ["Free"],
+                                        "attributes": {
+                                          "className": "badge badge-theme"
+                                        }
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "title"
+                                    }
+                                  },
+                                  " ",
+                                  {
+                                    "element": "p",
+                                    "children": [
+                                      "   Provide a brief description of your project. Maecenas ornare   ultricies risus, in fermentum augue consectetur in. Vestibulum   vitae mauris iaculis, sollicitudin velit in, molestie nulla. "
+                                    ],
+                                    "attributes": {
+                                      "className": "summary"
+                                    }
+                                  },
+                                  " ",
+                                  {
+                                    "element": "p",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "a",
+                                        "children": [
+                                          {
+                                            "element": "i",
+                                            "attributes": {
+                                              "className": "fas fa-external-link-alt"
+                                            }
+                                          },
+                                          "Download Now"
+                                        ],
+                                        "attributes": {
+                                          "className": "more-link",
+                                          "href": "https://themes.3rdwavemedia.com/bootstrap-templates/speciality/devblog-free-bootstrap-4-blog-template-for-developers/",
+                                          "target": "_blank"
+                                        }
+                                      },
+                                      " "
+                                    ]
+                                  },
+                                  "       "
+                                ],
+                                "attributes": {
+                                  "className": "item"
+                                }
+                              },
+                              "       ",
+                              {
+                                "element": "div",
+                                "children": [
+                                  " ",
+                                  {
+                                    "element": "h3",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "a",
+                                        "children": [
+                                          "Nova - Free App Landing Page Template for App Developers"
+                                        ],
+                                        "attributes": {
+                                          "href": "https://themes.3rdwavemedia.com/bootstrap-templates/startup/nova-bootstrap-landing-page-template-for-mobile-apps/",
+                                          "target": "_blank"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "span",
+                                        "children": ["Free"],
+                                        "attributes": {
+                                          "className": "badge badge-theme"
+                                        }
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "title"
+                                    }
+                                  },
+                                  " ",
+                                  {
+                                    "element": "p",
+                                    "children": [
+                                      "   Provide a brief description of your project. Lorem ipsum dolor   sit amet, consectetur adipiscing elit. In vel purus enim. Etiam   tortor felis, fermentum ac ultrices sed. "
+                                    ],
+                                    "attributes": {
+                                      "className": "summary"
+                                    }
+                                  },
+                                  " ",
+                                  {
+                                    "element": "p",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "a",
+                                        "children": [
+                                          {
+                                            "element": "i",
+                                            "attributes": {
+                                              "className": "fas fa-external-link-alt"
+                                            }
+                                          },
+                                          "Download Now"
+                                        ],
+                                        "attributes": {
+                                          "className": "more-link",
+                                          "href": "https://themes.3rdwavemedia.com/bootstrap-templates/startup/nova-bootstrap-landing-page-template-for-mobile-apps/",
+                                          "target": "_blank"
+                                        }
+                                      },
+                                      " "
+                                    ]
+                                  },
+                                  "       "
+                                ],
+                                "attributes": {
+                                  "className": "item"
+                                }
+                              },
+                              "\n       ",
+                              {
+                                "element": "a",
+                                "children": [
+                                  "More on GitHub ",
+                                  {
+                                    "element": "i",
+                                    "attributes": {
+                                      "className": "fas fa-chevron-right pt-1"
+                                    }
+                                  }
+                                ],
+                                "attributes": {
+                                  "className": "btn btn-cta-secondary",
+                                  "href": "#"
+                                }
+                              },
+                              "     "
+                            ],
+                            "attributes": {
+                              "className": "children"
+                            }
+                          },
+                          "   "
+                        ],
+                        "attributes": {
+                          "className": "section-inner shadow-sm rounded"
+                        }
+                      },
+                      " "
+                    ],
+                    "attributes": {
+                      "className": "projects section"
+                    }
+                  },
+                  "\n ",
+                  {
+                    "element": "section",
+                    "children": [
+                      "   ",
+                      {
+                        "element": "div",
+                        "children": [
+                          "     ",
+                          {
+                            "element": "h2",
+                            "children": ["Work Experience"],
+                            "attributes": {
+                              "className": "heading"
+                            }
+                          },
+                          "     ",
+                          {
+                            "element": "div",
+                            "children": [
+                              "       ",
+                              {
+                                "element": "div",
+                                "children": [
+                                  " ",
+                                  {
+                                    "element": "h3",
+                                    "children": [
+                                      "   Co-Founder & Lead Developer -   ",
+                                      {
+                                        "element": "span",
+                                        "children": [
+                                          {
+                                            "element": "a",
+                                            "children": ["Startup Hub"],
+                                            "attributes": {
+                                              "href": "#"
+                                            }
+                                          }
+                                        ],
+                                        "attributes": {
+                                          "className": "place"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "span",
+                                        "children": ["(2023 - Present)"],
+                                        "attributes": {
+                                          "className": "year"
+                                        }
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "title"
+                                    }
+                                  },
+                                  " ",
+                                  {
+                                    "element": "p",
+                                    "children": [
+                                      "   Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac,   enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a,   tellus. Phasellus viverra nulla ut metus varius laoreet. Donec   vitae sapien ut libero venenatis faucibus. Nullam quis ante.   Etiam sit amet orci eget eros faucibus tincidunt. "
+                                    ]
+                                  },
+                                  "       "
+                                ],
+                                "attributes": {
+                                  "className": "item"
+                                }
+                              },
+                              "       ",
+                              {
+                                "element": "div",
+                                "children": [
+                                  " ",
+                                  {
+                                    "element": "h3",
+                                    "children": [
+                                      "   Software Engineer -   ",
+                                      {
+                                        "element": "span",
+                                        "children": [
+                                          {
+                                            "element": "a",
+                                            "children": ["Google"],
+                                            "attributes": {
+                                              "href": "#"
+                                            }
+                                          }
+                                        ],
+                                        "attributes": {
+                                          "className": "place"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "span",
+                                        "children": ["(2020 - 2023)"],
+                                        "attributes": {
+                                          "className": "year"
+                                        }
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "title"
+                                    }
+                                  },
+                                  " ",
+                                  {
+                                    "element": "p",
+                                    "children": [
+                                      "   Vivamus a tortor eu turpis pharetra consequat quis non metus.   Aliquam aliquam, orci eu suscipit pellentesque, mauris dui   tincidunt enim. Sed fringilla mauris sit amet nibh. Donec   sodales sagittis magna. "
+                                    ]
+                                  },
+                                  "       "
+                                ],
+                                "attributes": {
+                                  "className": "item"
+                                }
+                              },
+                              "\n       ",
+                              {
+                                "element": "div",
+                                "children": [
+                                  " ",
+                                  {
+                                    "element": "h3",
+                                    "children": [
+                                      "   Software Engineer -   ",
+                                      {
+                                        "element": "span",
+                                        "children": [
+                                          {
+                                            "element": "a",
+                                            "children": ["eBay"],
+                                            "attributes": {
+                                              "href": "#"
+                                            }
+                                          }
+                                        ],
+                                        "attributes": {
+                                          "className": "place"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "span",
+                                        "children": ["(2019 - 2020)"],
+                                        "attributes": {
+                                          "className": "year"
+                                        }
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "title"
+                                    }
+                                  },
+                                  " ",
+                                  {
+                                    "element": "p",
+                                    "children": [
+                                      "   Maecenas tempus, tellus eget condimentum rhoncus, sem quam   semper libero, sit amet adipiscing sem neque sed ipsum. "
+                                    ]
+                                  },
+                                  "       "
+                                ],
+                                "attributes": {
+                                  "className": "item"
+                                }
+                              },
+                              "     "
+                            ],
+                            "attributes": {
+                              "className": "children"
+                            }
+                          },
+                          "   "
+                        ],
+                        "attributes": {
+                          "className": "section-inner shadow-sm rounded"
+                        }
+                      },
+                      " "
+                    ],
+                    "attributes": {
+                      "className": "experience section"
+                    }
+                  },
+                  " ",
+                  {
+                    "element": "section",
+                    "children": [
+                      "   ",
+                      {
+                        "element": "div",
+                        "children": [
+                          "     ",
+                          {
+                            "element": "h2",
+                            "children": ["My GitHub"],
+                            "attributes": {
+                              "className": "heading"
+                            }
+                          },
+                          "     ",
+                          {
+                            "element": "p",
+                            "children": [
+                              "       You can embed your GitHub contribution graph calendar using       IonicaBizau's       ",
+                              {
+                                "element": "a",
+                                "children": ["GitHub Calendar"],
+                                "attributes": {
+                                  "href": "https://github.com/IonicaBizau/github-calendar",
+                                  "target": "_blank"
+                                }
+                              },
+                              "       widget.     "
+                            ]
+                          },
+                          "\n     ",
+                          {
+                            "element": "div",
+                            "attributes": {
+                              "id": "github-graph",
+                              "className": "github-graph"
+                            }
+                          },
+                          "\n     ",
+                          {
+                            "element": "p",
+                            "children": [
+                              "       You can also embed your GitHub activities using Casey Scarborough's       ",
+                              {
+                                "element": "a",
+                                "children": ["GitHub Activity Stream"],
+                                "attributes": {
+                                  "href": "https://github.com/caseyscarborough/github-activity",
+                                  "target": "_blank"
+                                }
+                              },
+                              "       widget.     "
+                            ]
+                          },
+                          "\n     ",
+                          {
+                            "element": "div",
+                            "attributes": {
+                              "id": "ghfeed",
+                              "className": "ghfeed"
+                            }
+                          },
+                          "   "
+                        ],
+                        "attributes": {
+                          "className": "section-inner shadow-sm rounded"
+                        }
+                      },
+                      " "
+                    ],
+                    "attributes": {
+                      "className": "github section"
+                    }
+                  },
+                  "\n    "
+                ],
+                "attributes": {
+                  "className": "primary col-lg-8 col-12"
+                }
+              },
+              "\n    ",
+              {
+                "element": "div",
+                "children": [
+                  " ",
+                  {
+                    "element": "aside",
+                    "children": [
+                      "   ",
+                      {
+                        "element": "div",
+                        "children": [
+                          "     ",
+                          {
+                            "element": "h2",
+                            "children": ["Basic Information"],
+                            "attributes": {
+                              "className": "heading sr-only"
+                            }
+                          },
+                          "     ",
+                          {
+                            "element": "div",
+                            "children": [
+                              "       ",
+                              {
+                                "element": "ul",
+                                "children": [
+                                  " ",
+                                  {
+                                    "element": "li",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "fas fa-map-marker-alt"
+                                        }
+                                      },
+                                      {
+                                        "element": "span",
+                                        "children": ["Location:"],
+                                        "attributes": {
+                                          "className": "sr-only"
+                                        }
+                                      },
+                                      "San Francisco, US "
+                                    ]
+                                  },
+                                  " ",
+                                  {
+                                    "element": "li",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "fas fa-envelope"
+                                        }
+                                      },
+                                      {
+                                        "element": "span",
+                                        "children": ["Email:"],
+                                        "attributes": {
+                                          "className": "sr-only"
+                                        }
+                                      },
+                                      {
+                                        "element": "a",
+                                        "children": ["jameslee@website.com"],
+                                        "attributes": {
+                                          "href": "#"
+                                        }
+                                      },
+                                      " "
+                                    ]
+                                  },
+                                  " ",
+                                  {
+                                    "element": "li",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "fas fa-link"
+                                        }
+                                      },
+                                      {
+                                        "element": "span",
+                                        "children": ["Website:"],
+                                        "attributes": {
+                                          "className": "sr-only"
+                                        }
+                                      },
+                                      {
+                                        "element": "a",
+                                        "children": ["https://www.website.com"],
+                                        "attributes": {
+                                          "href": "#"
+                                        }
+                                      },
+                                      " "
+                                    ]
+                                  },
+                                  "       "
+                                ],
+                                "attributes": {
+                                  "className": "list-unstyled"
+                                }
+                              },
+                              "     "
+                            ],
+                            "attributes": {
+                              "className": "children"
+                            }
+                          },
+                          "   "
+                        ],
+                        "attributes": {
+                          "className": "section-inner shadow-sm rounded"
+                        }
+                      },
+                      " "
+                    ],
+                    "attributes": {
+                      "className": "info aside section"
+                    }
+                  },
+                  "\n ",
+                  {
+                    "element": "aside",
+                    "children": [
+                      "   ",
+                      {
+                        "element": "div",
+                        "children": [
+                          "     ",
+                          {
+                            "element": "h2",
+                            "children": ["Skills"],
+                            "attributes": {
+                              "className": "heading"
+                            }
+                          },
+                          "     ",
+                          {
+                            "element": "div",
+                            "children": [
+                              "       ",
+                              {
+                                "element": "p",
+                                "children": [
+                                  " Intro about your skills goes here. Keep the list lean and only show your primary skillset. You can always provide a link to your Linkedin or Github profile so people can get more info there.       "
+                                ],
+                                "attributes": {
+                                  "className": "intro"
+                                }
+                              },
+                              "\n       ",
+                              {
+                                "element": "div",
+                                "children": [
+                                  " ",
+                                  {
+                                    "element": "div",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "h3",
+                                        "children": [
+                                          "     Python & Django",
+                                          {
+                                            "element": "span",
+                                            "children": [
+                                              {
+                                                "element": "i",
+                                                "attributes": {
+                                                  "className": "fas fa-info-circle"
+                                                }
+                                              },
+                                              "Expert"
+                                            ],
+                                            "attributes": {
+                                              "className": "level-label",
+                                              "data-bs-toggle": "tooltip",
+                                              "data-bs-placement": "left",
+                                              "data-bs-title": "You can use the tooltip to explain more about your skill level..."
+                                            }
+                                          },
+                                          "   "
+                                        ],
+                                        "attributes": {
+                                          "className": "level-title"
+                                        }
+                                      },
+                                      "\n   ",
+                                      {
+                                        "element": "div",
+                                        "children": [
+                                          "     ",
+                                          {
+                                            "element": "div",
+                                            "attributes": {
+                                              "className": "progress-bar level-bar-inner",
+                                              "role": "progressbar",
+                                              "style": { "width": "96%" },
+                                              "aria-valuenow": "96",
+                                              "aria-valuemin": "0",
+                                              "aria-valuemax": "96"
+                                            }
+                                          },
+                                          "   "
+                                        ],
+                                        "attributes": {
+                                          "className": "level-bar progress"
+                                        }
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "item"
+                                    }
+                                  },
+                                  "\n ",
+                                  {
+                                    "element": "div",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "h3",
+                                        "children": [
+                                          "     Javascript & jQuery",
+                                          {
+                                            "element": "span",
+                                            "children": [
+                                              {
+                                                "element": "i",
+                                                "attributes": {
+                                                  "className": "fas fa-info-circle"
+                                                }
+                                              },
+                                              "Expert"
+                                            ],
+                                            "attributes": {
+                                              "className": "level-label",
+                                              "data-bs-toggle": "tooltip",
+                                              "data-bs-placement": "left",
+                                              "data-bs-title": "You can use the tooltip to explain more about your skill level..."
+                                            }
+                                          },
+                                          "   "
+                                        ],
+                                        "attributes": {
+                                          "className": "level-title"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "div",
+                                        "children": [
+                                          "     ",
+                                          {
+                                            "element": "div",
+                                            "attributes": {
+                                              "className": "progress-bar level-bar-inner",
+                                              "role": "progressbar",
+                                              "style": { "width": "94%" },
+                                              "aria-valuenow": "94",
+                                              "aria-valuemin": "0",
+                                              "aria-valuemax": "94"
+                                            }
+                                          },
+                                          "   "
+                                        ],
+                                        "attributes": {
+                                          "className": "level-bar progress"
+                                        }
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "item"
+                                    }
+                                  },
+                                  "\n ",
+                                  {
+                                    "element": "div",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "h3",
+                                        "children": [
+                                          "     HTML5, CSS3, SASS & LESS",
+                                          {
+                                            "element": "span",
+                                            "children": [
+                                              {
+                                                "element": "i",
+                                                "attributes": {
+                                                  "className": "fas fa-info-circle"
+                                                }
+                                              },
+                                              "Expert"
+                                            ],
+                                            "attributes": {
+                                              "className": "level-label",
+                                              "data-bs-toggle": "tooltip",
+                                              "data-bs-placement": "left",
+                                              "data-bs-title": "You can use the tooltip to explain more about your skill level..."
+                                            }
+                                          },
+                                          "   "
+                                        ],
+                                        "attributes": {
+                                          "className": "level-title"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "div",
+                                        "children": [
+                                          "     ",
+                                          {
+                                            "element": "div",
+                                            "attributes": {
+                                              "className": "progress-bar level-bar-inner",
+                                              "role": "progressbar",
+                                              "style": { "width": "93%" },
+                                              "aria-valuenow": "93",
+                                              "aria-valuemin": "0",
+                                              "aria-valuemax": "96"
+                                            }
+                                          },
+                                          "   "
+                                        ],
+                                        "attributes": {
+                                          "className": "level-bar progress"
+                                        }
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "item"
+                                    }
+                                  },
+                                  "\n ",
+                                  {
+                                    "element": "div",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "h3",
+                                        "children": [
+                                          "     Ruby on Rails",
+                                          {
+                                            "element": "span",
+                                            "children": [
+                                              {
+                                                "element": "i",
+                                                "attributes": {
+                                                  "className": "fas fa-info-circle"
+                                                }
+                                              },
+                                              "Pro"
+                                            ],
+                                            "attributes": {
+                                              "className": "level-label",
+                                              "data-bs-toggle": "tooltip",
+                                              "data-bs-placement": "left",
+                                              "data-bs-title": "You can use the tooltip to explain more about your skill level..."
+                                            }
+                                          },
+                                          "   "
+                                        ],
+                                        "attributes": {
+                                          "className": "level-title"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "div",
+                                        "children": [
+                                          "     ",
+                                          {
+                                            "element": "div",
+                                            "attributes": {
+                                              "className": "progress-bar level-bar-inner",
+                                              "role": "progressbar",
+                                              "style": { "width": "86%" },
+                                              "aria-valuenow": "86",
+                                              "aria-valuemin": "0",
+                                              "aria-valuemax": "96"
+                                            }
+                                          },
+                                          "   "
+                                        ],
+                                        "attributes": {
+                                          "className": "level-bar progress"
+                                        }
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "item"
+                                    }
+                                  },
+                                  "\n ",
+                                  {
+                                    "element": "p",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "a",
+                                        "children": [
+                                          {
+                                            "element": "i",
+                                            "attributes": {
+                                              "className": "fas fa-external-link-alt"
+                                            }
+                                          },
+                                          "More on GitHub"
+                                        ],
+                                        "attributes": {
+                                          "className": "more-link",
+                                          "href": "#"
+                                        }
+                                      },
+                                      " "
+                                    ]
+                                  },
+                                  "       "
+                                ],
+                                "attributes": {
+                                  "className": "skillset"
+                                }
+                              },
+                              "     "
+                            ],
+                            "attributes": {
+                              "className": "children"
+                            }
+                          },
+                          "   "
+                        ],
+                        "attributes": {
+                          "className": "section-inner shadow-sm rounded"
+                        }
+                      },
+                      " "
+                    ],
+                    "attributes": {
+                      "className": "skills aside section"
+                    }
+                  },
+                  "\n ",
+                  {
+                    "element": "aside",
+                    "children": [
+                      "   ",
+                      {
+                        "element": "div",
+                        "children": [
+                          "     ",
+                          {
+                            "element": "h2",
+                            "children": ["Testimonials"],
+                            "attributes": {
+                              "className": "heading"
+                            }
+                          },
+                          "     ",
+                          {
+                            "element": "div",
+                            "children": [
+                              "       ",
+                              {
+                                "element": "div",
+                                "children": [
+                                  " ",
+                                  {
+                                    "element": "blockquote",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "p",
+                                        "children": [
+                                          "     ",
+                                          {
+                                            "element": "i",
+                                            "attributes": {
+                                              "className": "fas fa-quote-left"
+                                            }
+                                          },
+                                          "James is an excellent     software engineer and he is passionate about what he does. You     can totally count on him to deliver your projects!   "
+                                        ]
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "quote"
+                                    }
+                                  },
+                                  " ",
+                                  {
+                                    "element": "p",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "span",
+                                        "children": ["Tim Adams"],
+                                        "attributes": {
+                                          "className": "name"
+                                        }
+                                      },
+                                      {
+                                        "element": "br"
+                                      },
+                                      {
+                                        "element": "span",
+                                        "children": ["Curabitur commodo"],
+                                        "attributes": {
+                                          "className": "title"
+                                        }
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "source"
+                                    }
+                                  },
+                                  "       "
+                                ],
+                                "attributes": {
+                                  "className": "item"
+                                }
+                              },
+                              "\n       ",
+                              {
+                                "element": "p",
+                                "children": [
+                                  " ",
+                                  {
+                                    "element": "a",
+                                    "children": [
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "fas fa-external-link-alt"
+                                        }
+                                      },
+                                      "More on Linkedin"
+                                    ],
+                                    "attributes": {
+                                      "className": "more-link",
+                                      "href": "#"
+                                    }
+                                  },
+                                  "       "
+                                ]
+                              },
+                              "     "
+                            ],
+                            "attributes": {
+                              "className": "children"
+                            }
+                          },
+                          "   "
+                        ],
+                        "attributes": {
+                          "className": "section-inner shadow-sm rounded"
+                        }
+                      },
+                      " "
+                    ],
+                    "attributes": {
+                      "className": "testimonials aside section"
+                    }
+                  },
+                  "\n ",
+                  {
+                    "element": "aside",
+                    "children": [
+                      "   ",
+                      {
+                        "element": "div",
+                        "children": [
+                          "     ",
+                          {
+                            "element": "h2",
+                            "children": ["Education"],
+                            "attributes": {
+                              "className": "heading"
+                            }
+                          },
+                          "     ",
+                          {
+                            "element": "div",
+                            "children": [
+                              "       ",
+                              {
+                                "element": "div",
+                                "children": [
+                                  " ",
+                                  {
+                                    "element": "h3",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "fas fa-graduation-cap"
+                                        }
+                                      },
+                                      " MSc Computer Science "
+                                    ],
+                                    "attributes": {
+                                      "className": "title"
+                                    }
+                                  },
+                                  " ",
+                                  {
+                                    "element": "h4",
+                                    "children": [
+                                      "   University College London ",
+                                      {
+                                        "element": "span",
+                                        "children": ["(2018-2019)"],
+                                        "attributes": {
+                                          "className": "year"
+                                        }
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "university"
+                                    }
+                                  },
+                                  "       "
+                                ],
+                                "attributes": {
+                                  "className": "item"
+                                }
+                              },
+                              "       ",
+                              {
+                                "element": "div",
+                                "children": [
+                                  " ",
+                                  {
+                                    "element": "h3",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "fas fa-graduation-cap"
+                                        }
+                                      },
+                                      " BSc Computer Science "
+                                    ],
+                                    "attributes": {
+                                      "className": "title"
+                                    }
+                                  },
+                                  " ",
+                                  {
+                                    "element": "h4",
+                                    "children": [
+                                      "   University of Bristol ",
+                                      {
+                                        "element": "span",
+                                        "children": ["(2014-2018)"],
+                                        "attributes": {
+                                          "className": "year"
+                                        }
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "university"
+                                    }
+                                  },
+                                  "       "
+                                ],
+                                "attributes": {
+                                  "className": "item"
+                                }
+                              },
+                              "     "
+                            ],
+                            "attributes": {
+                              "className": "children"
+                            }
+                          },
+                          "   "
+                        ],
+                        "attributes": {
+                          "className": "section-inner shadow-sm rounded"
+                        }
+                      },
+                      " "
+                    ],
+                    "attributes": {
+                      "className": "education aside section"
+                    }
+                  },
+                  "\n ",
+                  {
+                    "element": "aside",
+                    "children": [
+                      "   ",
+                      {
+                        "element": "div",
+                        "children": [
+                          "     ",
+                          {
+                            "element": "h2",
+                            "children": ["Languages"],
+                            "attributes": {
+                              "className": "heading"
+                            }
+                          },
+                          "     ",
+                          {
+                            "element": "div",
+                            "children": [
+                              "       ",
+                              {
+                                "element": "ul",
+                                "children": [
+                                  " ",
+                                  {
+                                    "element": "li",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "span",
+                                        "children": [
+                                          {
+                                            "element": "strong",
+                                            "children": ["English:"]
+                                          }
+                                        ],
+                                        "attributes": {
+                                          "className": "title"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "span",
+                                        "children": [
+                                          "Native Speaker ",
+                                          {
+                                            "element": "br",
+                                            "attributes": {
+                                              "className": "visible-xs"
+                                            }
+                                          },
+                                          {
+                                            "element": "i",
+                                            "attributes": {
+                                              "className": "fas fa-star"
+                                            }
+                                          },
+                                          "     ",
+                                          {
+                                            "element": "i",
+                                            "attributes": {
+                                              "className": "fas fa-star"
+                                            }
+                                          },
+                                          " ",
+                                          {
+                                            "element": "i",
+                                            "attributes": {
+                                              "className": "fas fa-star"
+                                            }
+                                          },
+                                          "     ",
+                                          {
+                                            "element": "i",
+                                            "attributes": {
+                                              "className": "fas fa-star"
+                                            }
+                                          },
+                                          " ",
+                                          {
+                                            "element": "i",
+                                            "attributes": {
+                                              "className": "fas fa-star"
+                                            }
+                                          },
+                                          "   "
+                                        ],
+                                        "attributes": {
+                                          "className": "level"
+                                        }
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "item"
+                                    }
+                                  },
+                                  " ",
+                                  {
+                                    "element": "li",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "span",
+                                        "children": [
+                                          {
+                                            "element": "strong",
+                                            "children": ["Spanish:"]
+                                          }
+                                        ],
+                                        "attributes": {
+                                          "className": "title"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "span",
+                                        "children": [
+                                          "Professional Proficiency     ",
+                                          {
+                                            "element": "br",
+                                            "attributes": {
+                                              "className": "visible-sm visible-xs"
+                                            }
+                                          },
+                                          {
+                                            "element": "i",
+                                            "attributes": {
+                                              "className": "fas fa-star"
+                                            }
+                                          },
+                                          "     ",
+                                          {
+                                            "element": "i",
+                                            "attributes": {
+                                              "className": "fas fa-star"
+                                            }
+                                          },
+                                          " ",
+                                          {
+                                            "element": "i",
+                                            "attributes": {
+                                              "className": "fas fa-star"
+                                            }
+                                          },
+                                          "     ",
+                                          {
+                                            "element": "i",
+                                            "attributes": {
+                                              "className": "fas fa-star-half"
+                                            }
+                                          }
+                                        ],
+                                        "attributes": {
+                                          "className": "level"
+                                        }
+                                      },
+                                      " "
+                                    ],
+                                    "attributes": {
+                                      "className": "item"
+                                    }
+                                  },
+                                  "       "
+                                ],
+                                "attributes": {
+                                  "className": "list-unstyled"
+                                }
+                              },
+                              "     "
+                            ],
+                            "attributes": {
+                              "className": "children"
+                            }
+                          },
+                          "   "
+                        ],
+                        "attributes": {
+                          "className": "section-inner shadow-sm rounded"
+                        }
+                      },
+                      " "
+                    ],
+                    "attributes": {
+                      "className": "languages aside section"
+                    }
+                  },
+                  "\n ",
+                  {
+                    "element": "aside",
+                    "children": [
+                      "   ",
+                      {
+                        "element": "div",
+                        "children": [
+                          "     ",
+                          {
+                            "element": "h2",
+                            "children": ["Latest Blog Posts"],
+                            "attributes": {
+                              "className": "heading"
+                            }
+                          },
+                          "     ",
+                          {
+                            "element": "p",
+                            "children": [
+                              "       You can use Sascha Depold's       ",
+                              {
+                                "element": "a",
+                                "children": ["Vanilla RSS plugin"],
+                                "attributes": {
+                                  "href": "https://github.com/sdepold/jquery-rss",
+                                  "target": "_blank"
+                                }
+                              },
+                              "       to pull in your blog post feeds.     "
+                            ]
+                          },
+                          "     ",
+                          {
+                            "element": "div",
+                            "attributes": {
+                              "id": "rss-feeds",
+                              "className": "children"
+                            }
+                          },
+                          "   "
+                        ],
+                        "attributes": {
+                          "className": "section-inner shadow-sm rounded"
+                        }
+                      },
+                      " "
+                    ],
+                    "attributes": {
+                      "className": "blog aside section"
+                    }
+                  },
+                  "\n ",
+                  {
+                    "element": "aside",
+                    "children": [
+                      "   ",
+                      {
+                        "element": "div",
+                        "children": [
+                          "     ",
+                          {
+                            "element": "h2",
+                            "children": ["Favourite coding music"],
+                            "attributes": {
+                              "className": "heading"
+                            }
+                          },
+                          "     ",
+                          {
+                            "element": "div",
+                            "children": [
+                              "       ",
+                              {
+                                "element": "ul",
+                                "children": [
+                                  " ",
+                                  {
+                                    "element": "li",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "fas fa-headphones"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "a",
+                                        "children": [
+                                          "Etiam hendrerit urna nunc"
+                                        ],
+                                        "attributes": {
+                                          "href": "#"
+                                        }
+                                      },
+                                      " "
+                                    ]
+                                  },
+                                  " ",
+                                  {
+                                    "element": "li",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "fas fa-headphones"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "a",
+                                        "children": [
+                                          "Ut sollicitudin in mauris non auctor"
+                                        ],
+                                        "attributes": {
+                                          "href": "#"
+                                        }
+                                      },
+                                      " "
+                                    ]
+                                  },
+                                  " ",
+                                  {
+                                    "element": "li",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "fas fa-headphones"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "a",
+                                        "children": [
+                                          "Etiam hendrerit urna nunc"
+                                        ],
+                                        "attributes": {
+                                          "href": "#"
+                                        }
+                                      },
+                                      " "
+                                    ]
+                                  },
+                                  " ",
+                                  {
+                                    "element": "li",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "fas fa-headphones"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "a",
+                                        "children": ["Duis et felis bibendum"],
+                                        "attributes": {
+                                          "href": "#"
+                                        }
+                                      },
+                                      " "
+                                    ]
+                                  },
+                                  "       "
+                                ],
+                                "attributes": {
+                                  "className": "list-unstyled"
+                                }
+                              },
+                              "     "
+                            ],
+                            "attributes": {
+                              "className": "children"
+                            }
+                          },
+                          "   "
+                        ],
+                        "attributes": {
+                          "className": "section-inner shadow-sm rounded"
+                        }
+                      },
+                      " "
+                    ],
+                    "attributes": {
+                      "className": "list music aside section"
+                    }
+                  },
+                  "\n ",
+                  {
+                    "element": "aside",
+                    "children": [
+                      "   ",
+                      {
+                        "element": "div",
+                        "children": [
+                          "     ",
+                          {
+                            "element": "h2",
+                            "children": ["Conferences"],
+                            "attributes": {
+                              "className": "heading"
+                            }
+                          },
+                          "     ",
+                          {
+                            "element": "div",
+                            "children": [
+                              "       ",
+                              {
+                                "element": "ul",
+                                "children": [
+                                  " ",
+                                  {
+                                    "element": "li",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "far fa-calendar-alt"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "a",
+                                        "children": ["WWDC 2030"],
+                                        "attributes": {
+                                          "href": "#",
+                                          "target": "_blank"
+                                        }
+                                      },
+                                      " (San Francisco) "
+                                    ]
+                                  },
+                                  " ",
+                                  {
+                                    "element": "li",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "far fa-calendar-alt"
+                                        }
+                                      },
+                                      "   ",
+                                      {
+                                        "element": "a",
+                                        "children": ["Hive"],
+                                        "attributes": {
+                                          "href": "#"
+                                        }
+                                      },
+                                      " (Seattle) "
+                                    ]
+                                  },
+                                  "       "
+                                ],
+                                "attributes": {
+                                  "className": "list-unstyled"
+                                }
+                              },
+                              "     "
+                            ],
+                            "attributes": {
+                              "className": "children"
+                            }
+                          },
+                          "   "
+                        ],
+                        "attributes": {
+                          "className": "section-inner shadow-sm rounded"
+                        }
+                      },
+                      " "
+                    ],
+                    "attributes": {
+                      "className": "list conferences aside section"
+                    }
+                  },
+                  "\n ",
+                  {
+                    "element": "aside",
+                    "children": [
+                      "   ",
+                      {
+                        "element": "div",
+                        "children": [
+                          "     ",
+                          {
+                            "element": "h2",
+                            "children": ["Credits"],
+                            "attributes": {
+                              "className": "heading"
+                            }
+                          },
+                          "     ",
+                          {
+                            "element": "div",
+                            "children": [
+                              "       ",
+                              {
+                                "element": "ul",
+                                "children": [
+                                  " ",
+                                  {
+                                    "element": "li",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "a",
+                                        "attributes": {
+                                          "href": "https://getbootstrap.com/",
+                                          "target": "_blank"
+                                        }
+                                      },
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "fas fa-external-link-alt"
+                                        }
+                                      },
+                                      "Bootstrap "
+                                    ]
+                                  },
+                                  " ",
+                                  {
+                                    "element": "li",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "a",
+                                        "attributes": {
+                                          "href": "https://fortawesome.github.io/Font-Awesome/",
+                                          "target": "_blank"
+                                        }
+                                      },
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "fas fa-external-link-alt"
+                                        }
+                                      },
+                                      "FontAwesome "
+                                    ]
+                                  },
+                                  " ",
+                                  {
+                                    "element": "li",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "a",
+                                        "attributes": {
+                                          "href": "https://github.com/IonicaBizau/github-calendar",
+                                          "target": "_blank"
+                                        }
+                                      },
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "fas fa-external-link-alt"
+                                        }
+                                      },
+                                      "GitHub Calendar     Plugin "
+                                    ]
+                                  },
+                                  "\n ",
+                                  {
+                                    "element": "li",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "a",
+                                        "attributes": {
+                                          "href": "https://caseyscarborough.com/projects/github-activity/",
+                                          "target": "_blank"
+                                        }
+                                      },
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "fas fa-external-link-alt"
+                                        }
+                                      },
+                                      "GitHub Activity     Stream "
+                                    ]
+                                  },
+                                  "\n ",
+                                  {
+                                    "element": "li",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "a",
+                                        "attributes": {
+                                          "href": "https://github.com/sdepold/vanilla-rss",
+                                          "target": "_blank"
+                                        }
+                                      },
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "fas fa-external-link-alt"
+                                        }
+                                      },
+                                      "Vanilla RSS "
+                                    ]
+                                  },
+                                  " ",
+                                  {
+                                    "element": "li",
+                                    "children": [
+                                      "   ",
+                                      {
+                                        "element": "a",
+                                        "attributes": {
+                                          "href": "https://github.com/coliff/dark-mode-switch"
+                                        }
+                                      },
+                                      {
+                                        "element": "i",
+                                        "attributes": {
+                                          "className": "fas fa-external-link-alt"
+                                        }
+                                      },
+                                      "Dark Mode Switch "
+                                    ]
+                                  },
+                                  "       "
+                                ],
+                                "attributes": {
+                                  "className": "list-unstyled pb-2"
+                                }
+                              },
+                              "\n       ",
+                              {
+                                "element": "hr"
+                              },
+                              "\n       ",
+                              {
+                                "element": "p",
+                                "children": [
+                                  " This Boootstrap portfolio template is handcrafted by UX designer ",
+                                  {
+                                    "element": "a",
+                                    "attributes": {
+                                      "href": "https://twitter.com/3rdwave_themes",
+                                      "target": "_blank"
+                                    }
+                                  },
+                                  "Xiaoying Riley at ",
+                                  {
+                                    "element": "a",
+                                    "attributes": {
+                                      "href": "https://themes.3rdwavemedia.com/",
+                                      "target": "_blank"
+                                    }
+                                  },
+                                  "3rd Wave Media for developers and is ",
+                                  {
+                                    "element": "strong",
+                                    "children": ["FREE"]
+                                  },
+                                  " as long as you keep the footer attribution link.       "
+                                ],
+                                "attributes": {
+                                  "className": "pt-2"
+                                }
+                              },
+                              "       ",
+                              {
+                                "element": "p",
+                                "children": [
+                                  " If you’d like to ",
+                                  {
+                                    "element": "strong",
+                                    "children": [
+                                      "use this template without the attribution link"
+                                    ]
+                                  },
+                                  ", you can ",
+                                  {
+                                    "element": "a",
+                                    "attributes": {
+                                      "href": "https://themes.3rdwavemedia.com/bootstrap-templates/resume/free-bootstrap-portfolio-theme-for-web-developers/",
+                                      "target": "_blank"
+                                    }
+                                  },
+                                  "buy the commercial license. "
+                                ]
+                              },
+                              {
+                                "element": "a",
+                                "attributes": {
+                                  "className": "btn btn-cta-primary btn-download",
+                                  "href": "https://themes.3rdwavemedia.com/bootstrap-templates/resume/free-bootstrap-theme-for-web-developers/",
+                                  "target": "_blank"
+                                }
+                              },
+                              {
+                                "element": "i",
+                                "attributes": {
+                                  "className": "fas fa-download"
+                                }
+                              },
+                              " I want to download ",
+                              {
+                                "element": "hr"
+                              },
+                              {
+                                "element": "h5",
+                                "children": [
+                                  " Want more free Bootstrap themes and templates? "
+                                ],
+                                "attributes": {
+                                  "className": "subheading pt-3"
+                                }
+                              },
+                              {
+                                "element": "p",
+                                "children": [
+                                  " Check out our ",
+                                  {
+                                    "element": "a",
+                                    "attributes": {
+                                      "href": "https://themes.3rdwavemedia.com/bootstrap-templates/free/"
+                                    }
+                                  },
+                                  "collection of free themes and templates. "
+                                ]
+                              },
+                              {
+                                "element": "p",
+                                "children": [
+                                  " Follow ",
+                                  {
+                                    "element": "a",
+                                    "attributes": {
+                                      "href": "https://twitter.com/3rdwave_themes",
+                                      "target": "_blank"
+                                    }
+                                  },
+                                  "Xiaoying on twitter so you don't miss any future freebies!       "
+                                ]
+                              },
+                              {
+                                "element": "a",
+                                "attributes": {
+                                  "className": "btn btn-cta-secondary btn-follow",
+                                  "href": "https://twitter.com/3rdwave_themes",
+                                  "target": "_blank"
+                                }
+                              },
+                              {
+                                "element": "i",
+                                "attributes": {
+                                  "className": "fab fa-twitter"
+                                }
+                              },
+                              " Follow on twitter "
+                            ],
+                            "attributes": {
+                              "className": "children"
+                            }
+                          }
+                        ],
+                        "attributes": {
+                          "className": "section-inner shadow-sm rounded"
+                        }
+                      }
+                    ],
+                    "attributes": {
+                      "className": "credits aside section"
+                    }
+                  }
+                ],
+                "attributes": {
+                  "className": "secondary col-lg-4 col-12"
+                }
+              }
+            ],
+            "attributes": {
+              "className": "row"
+            }
+          }
+        ],
+        "attributes": {
+          "className": "container sections-wrapper py-5"
+        }
+      },
+      {
+        "element": "footer",
+        "children": [
+          {
+            "element": "div",
+            "children": [
+              {
+                "element": "small",
+                "children": [
+                  "Designed with ",
+                  {
+                    "element": "span",
+                    "attributes": {
+                      "className": "sr-only"
+                    }
+                  },
+                  "love",
+                  {
+                    "element": "i",
+                    "attributes": {
+                      "className": "fas fa-heart"
+                    }
+                  },
+                  " by ",
+                  {
+                    "element": "a",
+                    "attributes": {
+                      "href": "https://themes.3rdwavemedia.com",
+                      "target": "_blank"
+                    }
+                  },
+                  "Xiaoying Riley for developers"
+                ],
+                "attributes": {
+                  "className": "copyright"
+                }
+              }
+            ],
+            "attributes": {
+              "className": "container text-center"
+            }
+          }
+        ],
+        "attributes": {
+          "className": "footer"
+        }
+      }
+    ]
+  }
+}

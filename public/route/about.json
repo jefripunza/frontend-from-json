@@ -1,0 +1,12 @@
+{
+  "title": "About Page",
+  "onLoad": "console.log('About Loaded...')",
+  "onClose": "console.log('About Close...')",
+  "render": {
+    "element": "div",
+    "attributes": {
+      "className": "container"
+    },
+    "children": ["This is About Page..."]
+  }
+}
