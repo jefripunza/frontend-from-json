@@ -253,11 +253,12 @@ Deno.serve({ port: PORT }, async (request) => {
         const variable = await variablesCollection.findOne({
           key: "version",
         });
-        const version = variable.value;
-
+        let version = "";
+        if (variable) {
+          version = variable.value;
+        }
         response = {
           version,
-
           middlewares,
           routes,
         };
