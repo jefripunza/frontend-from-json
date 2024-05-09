@@ -32,11 +32,11 @@ jobs:
         run: "npm install"
 
       - name: Build step
-        run: "deno task compile"
+        run: "npm run build && bash asset-compile.sh && rm -rf run run.exe && deno compile -A --output run server.ts"
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
           project: "frontend-from-json"
-          entrypoint: "run"
-          root: "/"
+          entrypoint: "./server.ts"
+          root: "/app"
