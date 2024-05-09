@@ -50,6 +50,12 @@ const dependencies = {
   delay,
 };
 
+const getBrowserId = async () => {
+  const fp = await FingerprintJS.load();
+  const fpGet = await fp.get();
+  return fpGet.visitorId;
+};
+
 import PWABadge from "./PWABadge.tsx";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -196,11 +202,7 @@ function Main(): JSX.Element {
   const store = useStore();
 
   useEffect(() => {
-    (async () => {
-      const fp = await FingerprintJS.load();
-      const fpGet = await fp.get();
-      setBrowserId(fpGet.visitorId);
-    })();
+    (async () => setBrowserId(await getBrowserId()))();
   }, []);
 
   useEffect(() => {
@@ -292,9 +294,9 @@ function Main(): JSX.Element {
         params,
         browser_id,
       });
-      console.log("useEffect", { result });
+      console.log("useEffect", { return: result });
     };
-    if (onLoaded == 1) {
+    if (onLoaded == 1 && browser_id) {
       (async () => {
         await executeScript(onLoadScript);
         setLoaded(2);
@@ -305,7 +307,15 @@ function Main(): JSX.Element {
         (async () => await executeScript(onCloseScript))();
       }
     };
-  }, [onLoaded, store, onLoadScript, onCloseScript, params]);
+  }, [
+    onLoaded,
+    store,
+    onLoadScript,
+    onCloseScript,
+    params,
+    browser_id,
+    navigate,
+  ]);
 
   if (notFound) {
     return <>Endpoint Not Found...</>;

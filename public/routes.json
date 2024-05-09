@@ -6,6 +6,10 @@
     },
     {
       "endpoint": "/",
+      "json": "/route/portfolio.json"
+    },
+    {
+      "endpoint": "/home",
       "json": "/route/home.json"
     },
     {
