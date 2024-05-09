@@ -32,11 +32,11 @@ jobs:
         run: "npm install"
 
       - name: Build step
-        run: "npm run build && bash asset-compile.sh && deno cache server.ts"
+        run: "npm run build && bash asset-compile.sh && deno cache server.ts && deno compile -A --output run server.ts"
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
           project: "frontend-from-json"
-          entrypoint: "./server.ts"
+          entrypoint: "./run"
           root: ""
