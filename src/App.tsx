@@ -17,7 +17,276 @@ import {
 } from "react-toastify";
 import { create } from "zustand";
 import zukeeper from "zukeeper";
-import axios from "axios";
+import _axios_, { AxiosRequestConfig, AxiosError } from "axios";
+import CryptoJS from "crypto-js";
+// import { v4 as uuidv4 } from "uuid";
+
+const env = import.meta.env;
+
+function getSecretKey(browser_id: string) {
+  const origin = window.location.host;
+  const secret_key = `${origin}#${browser_id}`;
+  // console.log({ secret_key, origin: window.location }); // debug...
+  return secret_key;
+}
+function hashKey(key: string) {
+  return CryptoJS.SHA256(key).toString(CryptoJS.enc.Hex);
+}
+function reverseStrings(text: string) {
+  return String(text).split("").reverse().join("");
+}
+
+function encryptMethod(key: string, plaintext: string) {
+  // return CryptoJS.AES.encrypt(plaintext, key).toString();
+  return CryptoJS.TripleDES.encrypt(plaintext, key).toString();
+}
+function decryptMethod(key: string, cipher_text: string) {
+  // return CryptoJS.AES.decrypt(cipher_text, key).toString(CryptoJS.enc.Utf8);
+  return CryptoJS.TripleDES.decrypt(cipher_text, key).toString(
+    CryptoJS.enc.Utf8
+  );
+}
+
+function encode(secret_key: string, text: string) {
+  const key = hashKey(secret_key);
+
+  // Layer 1: AES Encryption with original hashed key
+  let cipher_text = encryptMethod(key, text);
+
+  // Layer 2: AES Encryption with reversed hashed key
+  const reversedKey = reverseStrings(key);
+  cipher_text = encryptMethod(reversedKey, cipher_text);
+
+  // Layer 3: AES Encryption with first half of the original hashed key rehashed
+  const firstHalfKey = hashKey(key.substring(0, key.length / 2));
+  cipher_text = encryptMethod(firstHalfKey, cipher_text);
+
+  // Layer 4: AES Encryption with second half of the original hashed key rehashed
+  const secondHalfKey = hashKey(key.substring(key.length / 2));
+  cipher_text = encryptMethod(secondHalfKey, cipher_text);
+
+  // Layer 5: Base64 Encoding
+  return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(cipher_text));
+}
+function decode(secret_key: string, encoded_text: string) {
+  const key = hashKey(secret_key);
+
+  // Layer 5: Base64 Decoding
+  const decodedText = CryptoJS.enc.Base64.parse(encoded_text).toString(
+    CryptoJS.enc.Utf8
+  );
+
+  // Layer 4: AES Decryption with second half of the original hashed key rehashed
+  let plaintext = decryptMethod(
+    hashKey(key.substring(key.length / 2)),
+    decodedText
+  );
+
+  // Layer 3: AES Decryption with first half of the original hashed key rehashed
+  plaintext = decryptMethod(
+    hashKey(key.substring(0, key.length / 2)),
+    plaintext
+  );
+
+  // Layer 2: AES Decryption with reversed hashed key
+  const reversedKey = reverseStrings(key);
+  plaintext = decryptMethod(reversedKey, plaintext);
+
+  // Layer 1: AES Decryption with original hashed key
+  plaintext = decryptMethod(key, plaintext);
+
+  return plaintext;
+}
+
+function EncodeEndToEnd(browser_id: string, text: string) {
+  const secret_key = getSecretKey(browser_id);
+  return encode(secret_key, text);
+}
+function DecodeEndToEnd(browser_id: string, encoded_text: string) {
+  const secret_key = getSecretKey(browser_id);
+  return decode(secret_key, encoded_text);
+}
+
+const axios = _axios_.create();
+axios.defaults.baseURL = env.PROD ? "" : "http://localhost:1234";
+const errorHandling = (error: AxiosError) => {
+  return Promise.reject(
+    (error.response && error.response.data) || "Something went wrong!"
+  );
+};
+const axiosLogDebug = (
+  is_production: boolean,
+  on: string,
+  info: AxiosRequestConfig,
+  status: string,
+  data: any
+) => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const debug =
+    urlParams.get("debug") == "1" || localStorage.getItem("_DEBUG_") == "1";
+  if (!is_production && debug) {
+    info = info?.method ? info : info.url ? info : info;
+    const method = String(info.method).toUpperCase();
+    const url = (info?.baseURL || "") + (info?.url || "");
+    console.log(`(${on}) ${method} ${url} "${status}"`, { data });
+    localStorage.setItem("_DEBUG_", "1");
+  }
+};
+axios.interceptors.request.use(
+  async (request) => {
+    const is_production = env.PROD;
+    if (typeof request.params != "object") {
+      request.params = {};
+    }
+    if (
+      typeof request.params?.encrypt == "undefined" ||
+      !(
+        typeof request.params?.encrypt == "string" &&
+        (request.params.encrypt == "1" || request.params.encrypt == 1)
+      )
+    ) {
+      request.params["encrypt"] = 1;
+    }
+    if (!request.headers["Content-Type"]) {
+      request.headers["Accept"] = "application/json";
+      request.headers["Content-Type"] = "application/json";
+    }
+    if (!request.headers.Authorization) {
+      const token = localStorage.getItem("token");
+      if (token) {
+        request.headers.Authorization = `Bearer ${token}`;
+      }
+    }
+    const browser_id = await getBrowserId();
+    request.headers["x-browser-id"] = browser_id;
+    // Encrypting request body
+    if (request.data && typeof request.data === "object") {
+      const data = request.data;
+      axiosLogDebug(is_production, "request", request, "prepare", data);
+      const _encrypt_ = await EncodeEndToEnd(browser_id, JSON.stringify(data));
+      request.data = { _encrypt_ };
+    } else {
+      axiosLogDebug(is_production, "request", request, "prepare", {});
+    }
+    return request;
+  },
+  (error) => errorHandling(error)
+);
+interface NewResponse<T> {
+  success: boolean;
+  data?: T;
+  headers: any;
+  status: number | null;
+  message: string | null;
+}
+axios.interceptors.response.use(
+  // from server response
+  async (response): Promise<any> => {
+    const is_production = env.PROD;
+    if (response.data?._encrypt_) {
+      try {
+        // Decrypting response data
+        const browser_id = await getBrowserId();
+        const decrypt = DecodeEndToEnd(browser_id, response.data._encrypt_);
+        const data = JSON.parse(decrypt);
+        axiosLogDebug(is_production, "response", response, "success", data);
+        return {
+          success: true,
+          data,
+          headers: response?.headers || {},
+          status: response?.status || null,
+          message: "OK",
+        };
+      } catch (error) {
+        axiosLogDebug(is_production, "response", response, "error decrypt", {});
+        return {
+          success: false,
+          data: null,
+          headers: response?.headers || {},
+          status: response?.status || null,
+          message: "Error decrypting response",
+        };
+      }
+    } else {
+      axiosLogDebug(
+        is_production,
+        "response",
+        response,
+        "success",
+        response?.data || {}
+      );
+    }
+    return {
+      success: true,
+      data: response?.data,
+      headers: response?.headers || {},
+      status: response?.status || null,
+      message: "OK",
+    };
+  },
+  async (error): Promise<NewResponse<any>> => {
+    const message = error?.message;
+    const response = error.response;
+    const data = error?.response?.data;
+    if (data) {
+      if (data?._encrypt_) {
+        const _encrypt_ = data._encrypt_;
+        try {
+          // Decrypting response data
+          const browser_id = await getBrowserId();
+          const decrypt = DecodeEndToEnd(browser_id, _encrypt_);
+          const data = JSON.parse(decrypt);
+          axiosLogDebug(
+            !String(window.location.host).includes("localhost"),
+            "response",
+            error,
+            "error",
+            data
+          );
+          return {
+            success: false,
+            data,
+            headers: response?.headers || {},
+            status: response?.status || null,
+            message: message || response?.statusText || null,
+          };
+        } catch (error) {
+          console.log("data on error in try catch:", { error });
+          return {
+            success: false,
+            data: null,
+            headers: response?.headers || {},
+            status: response?.status || null,
+            message: "Error decrypting response",
+          };
+        }
+      } else {
+        axiosLogDebug(
+          !String(window.location.host).includes("localhost"),
+          "response",
+          error,
+          "error",
+          data
+        );
+      }
+    } else {
+      axiosLogDebug(
+        !String(window.location.host).includes("localhost"),
+        "response",
+        error,
+        "error",
+        {}
+      );
+    }
+    return {
+      success: false,
+      data,
+      headers: response?.headers || {},
+      status: response?.status || null,
+      message: message || response?.statusText || null,
+    };
+  }
+);
 
 const findAndReplace = (key: string, value: string) => {
   const elements = document.getElementsByTagName("*");
@@ -38,22 +307,83 @@ const findAndReplace = (key: string, value: string) => {
   }
 };
 
-const delay = async (timeout_ms: number) =>
-  await new Promise((resolve) => setTimeout(resolve, timeout_ms));
+const delay = async (timeout_ms: number) => {
+  return await new Promise((resolve) => setTimeout(resolve, timeout_ms));
+};
+
+interface Coordinates {
+  longitude: number;
+  latitude: number;
+}
+const getAddress = async ({
+  longitude,
+  latitude,
+}: Coordinates): Promise<any> => {
+  try {
+    const res = await _axios_.get(
+      `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
+    );
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching address:", error);
+    return null;
+  }
+};
+
+function isArray(value: any): boolean {
+  return value && typeof value === "object" && Array.isArray(value);
+}
+function isObject(value: any): boolean {
+  return value && typeof value === "object" && !Array.isArray(value);
+}
+function isInt(n: any): boolean {
+  return Number(n) === n && n % 1 === 0;
+}
+function isFloat(n: any): boolean {
+  return Number(n) === n && n % 1 !== 0;
+}
+
+const formatRupiah = (angka: number, prefix?: string): string => {
+  const value = parseFloat(angka.toString());
+  const valueString = value.toFixed(2);
+  const number_string = String(parseInt(angka.toString())).replace(
+    /[^,\d]/g,
+    ""
+  );
+  const split = number_string.split(",");
+  const sisa = split[0].length % 3;
+  let rupiah = split[0].substr(0, sisa);
+  const ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+  if (ribuan) {
+    const separator = sisa ? "." : "";
+    rupiah += separator + ribuan.join(".");
+  }
+  rupiah = split[1] !== undefined ? rupiah + "," + split[1] : rupiah;
+  if (valueString.includes(".")) {
+    const [, decimal] = valueString.split(".");
+    rupiah += `,${decimal.padEnd(2, "0")}`;
+  } else {
+    rupiah += ",00";
+  }
+  return prefix === undefined ? rupiah : rupiah ? prefix + rupiah : "";
+};
 
 const dependencies = {
   window,
+  _axios_,
   axios,
   toast,
   toastTransition: { Flip, Bounce, Zoom, Slide },
+  encode,
+  decode,
   findAndReplace,
   delay,
-};
-
-const getBrowserId = async () => {
-  const fp = await FingerprintJS.load();
-  const fpGet = await fp.get();
-  return fpGet.visitorId;
+  getAddress,
+  isArray,
+  isObject,
+  isInt,
+  isFloat,
+  formatRupiah,
 };
 
 import PWABadge from "./PWABadge.tsx";
@@ -70,14 +400,11 @@ interface CustomWindow extends Window {
 }
 declare let window: CustomWindow;
 
-interface JSONElement {
-  element: string;
-  attributes?: { [key: string]: string };
-  children?: (JSONElement | string)[];
-  action?: {
-    [key: string]: string; // action prop can contain multiple actions
-  };
-}
+const getBrowserId = async () => {
+  const fp = await FingerprintJS.load();
+  const fpGet = await fp.get();
+  return fpGet.visitorId;
+};
 
 const execute = async (script: string, args: any): Promise<any> => {
   return await new Function(
@@ -88,6 +415,14 @@ const execute = async (script: string, args: any): Promise<any> => {
   )(args);
 };
 
+interface JSONElement {
+  element: string;
+  attributes?: { [key: string]: string };
+  children?: (JSONElement | string)[];
+  action?: {
+    [key: string]: string; // action prop can contain multiple actions
+  };
+}
 function renderElement(
   _element_: JSONElement,
   navigate: NavigateFunction,
@@ -136,6 +471,245 @@ const useStore = create(
   }))
 );
 window.store = useStore;
+
+interface IDatabase {
+  [dbName: string]: IDBDatabase;
+}
+
+interface ITable {
+  name: string;
+  keyPath: string;
+  autoIncrement?: boolean;
+}
+
+class Database<T> {
+  private version: number = 1;
+  private databases: IDatabase = {};
+
+  constructor(version?: number) {
+    this.version = version || 1;
+  }
+
+  connect(dbName: string, tables?: ITable[] | undefined): Promise<IDBDatabase> {
+    return new Promise((resolve, reject) => {
+      if (this.databases[dbName]) {
+        resolve(this.databases[dbName]);
+        return;
+      }
+      const request = indexedDB.open(dbName, this.version);
+      request.onerror = () => {
+        reject(request.error);
+      };
+      request.onsuccess = () => {
+        const db = request.result;
+        db.onversionchange = function () {
+          db.close();
+          alert("Database is outdated, please reload the page.");
+          window.location.reload();
+        };
+        this.databases[dbName] = db;
+        console.log(`✅ Database (${dbName}) connected!`);
+        resolve(db);
+      };
+      request.onupgradeneeded = (event) => {
+        const db = (event.target as any).result;
+        db.onversionchange = function () {
+          db.close();
+          alert("Database is outdated, please reload the page.");
+          window.location.reload();
+        };
+        if (tables) {
+          for (let i = 0; i < tables.length; i++) {
+            const table = tables[i];
+            const name = table.name;
+            const keyPath = table.keyPath;
+            const autoIncrement = table.autoIncrement;
+            db.createObjectStore(name, { keyPath, autoIncrement });
+          }
+        }
+        resolve(db);
+      };
+    });
+  }
+
+  listDatabases(): string[] {
+    return Object.keys(this.databases);
+  }
+
+  add(dbName: string, tableName: string, data: T): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      if (!this.databases[dbName]) {
+        await delay(10);
+        resolve(await this.add(dbName, tableName, data));
+      }
+      const transaction = this.databases[dbName].transaction(
+        [tableName],
+        "readwrite"
+      );
+      const objectStore = transaction.objectStore(tableName);
+      const request = objectStore.add(data);
+      request.onsuccess = () => {
+        resolve();
+      };
+      request.onerror = () => {
+        reject(request.error);
+      };
+    });
+  }
+
+  getAll(dbName: string, tableName: string): Promise<T[]> {
+    return new Promise(async (resolve, reject) => {
+      if (!this.databases[dbName]) {
+        await delay(10);
+        resolve(await this.getAll(dbName, tableName));
+      }
+      const transaction = this.databases[dbName].transaction(
+        [tableName],
+        "readonly"
+      );
+      const objectStore = transaction.objectStore(tableName);
+      const request = objectStore.getAll();
+      request.onsuccess = () => {
+        resolve(request.result);
+      };
+      request.onerror = () => {
+        reject(request.error);
+      };
+    });
+  }
+
+  get(
+    dbName: string,
+    tableName: string,
+    key: IDBValidKey | IDBKeyRange
+  ): Promise<T> {
+    return new Promise(async (resolve, reject) => {
+      if (!this.databases[dbName]) {
+        await delay(10);
+        resolve(await this.get(dbName, tableName, key));
+      }
+
+      const transaction = this.databases[dbName].transaction(
+        [tableName],
+        "readonly"
+      );
+      const objectStore = transaction.objectStore(tableName);
+      const request = objectStore.get(key);
+
+      request.onsuccess = () => {
+        resolve(request.result);
+      };
+
+      request.onerror = () => {
+        reject(request.error);
+      };
+    });
+  }
+
+  update(
+    dbName: string,
+    tableName: string,
+    key: IDBValidKey,
+    newData: T
+  ): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      if (!this.databases[dbName]) {
+        await delay(10);
+        resolve(await this.update(dbName, tableName, key, newData));
+      }
+
+      const transaction = this.databases[dbName].transaction(
+        [tableName],
+        "readwrite"
+      );
+      const objectStore = transaction.objectStore(tableName);
+      const request = objectStore.put(newData, key);
+
+      request.onsuccess = () => {
+        resolve();
+      };
+
+      request.onerror = () => {
+        reject(request.error);
+      };
+    });
+  }
+
+  delete(
+    dbName: string,
+    tableName: string,
+    key: IDBValidKey | IDBKeyRange
+  ): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      if (!this.databases[dbName]) {
+        await delay(10);
+        resolve(await this.delete(dbName, tableName, key));
+      }
+
+      const transaction = this.databases[dbName].transaction(
+        [tableName],
+        "readwrite"
+      );
+      const objectStore = transaction.objectStore(tableName);
+      const request = objectStore.delete(key);
+
+      request.onsuccess = () => {
+        resolve();
+      };
+
+      request.onerror = () => {
+        reject(request.error);
+      };
+    });
+  }
+
+  clear(dbName: string, tableName: string): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      if (!this.databases[dbName]) {
+        await delay(10);
+        resolve(await this.clear(dbName, tableName));
+      }
+
+      const transaction = this.databases[dbName].transaction(
+        [tableName],
+        "readwrite"
+      );
+      const objectStore = transaction.objectStore(tableName);
+      const request = objectStore.clear();
+
+      request.onsuccess = () => {
+        resolve();
+      };
+
+      request.onerror = () => {
+        reject(request.error);
+      };
+    });
+  }
+}
+
+const db = new Database(1);
+
+const system = {
+  get: async (key: string) => {
+    const result: any = await db.get("app", "system", key);
+    if (!result) return null;
+    return result.value;
+  },
+  set: async (key: string, value: any) => {
+    try {
+      const result: any = await db.get("app", "system", key);
+      if (result) {
+        await db.delete("app", "system", key);
+        await db.add("app", "system", { key, value });
+      } else {
+        await db.add("app", "system", { key, value });
+      }
+    } catch (error) {
+      // skip...
+    }
+  },
+};
 
 function Main(): JSX.Element {
   const navigate = useNavigate();
@@ -201,6 +775,42 @@ function Main(): JSX.Element {
 
   const store = useStore();
 
+  const [isOnline, setOnline] = useState(true);
+  const [onLoad, setLoad] = useState<boolean>(false);
+  useEffect(() => {
+    const retry = async () => {
+      try {
+        const ping: any = await axios.get("/ping");
+        if (ping.success) {
+          const ip = ping.data.ip;
+          console.log({ ip });
+          await system.set("ip", ip);
+          setOnline(true);
+        } else {
+          setOnline(false);
+        }
+      } catch (error) {
+        setOnline(false);
+      } finally {
+        await delay(3000);
+        retry();
+      }
+    };
+    retry();
+  }, []);
+  useEffect(() => {
+    if (isOnline) {
+      if (onLoad) {
+        toast.success("now is online!");
+      }
+    } else {
+      if (onLoad) {
+        toast.error("you are offline!");
+      }
+      setLoad(true);
+    }
+  }, [isOnline, onLoad]);
+
   useEffect(() => {
     (async () => setBrowserId(await getBrowserId()))();
   }, []);
@@ -210,17 +820,72 @@ function Main(): JSX.Element {
       setProgress(10);
       setLoaded(0);
       setNotFound(false);
-      let response;
+      document.title = "Please wait...";
       try {
-        response = await fetch("/routes.json");
-        setProgress(20);
-        const routes = await response.json();
-        setProgress(50);
-        console.log("/routes.json", { routes, endpoint });
+        await db.connect("app", [
+          {
+            name: "system",
+            keyPath: "key",
+            autoIncrement: true,
+          },
+          {
+            name: "routes",
+            keyPath: "endpoint",
+          },
+          {
+            name: "middlewares",
+            keyPath: "key",
+          },
+        ]);
+
+        let init: NewResponse<any> | boolean = false;
+        if (isOnline) {
+          init = await axios.get("/init");
+          console.log("/init", {
+            init,
+            endpoint,
+          });
+        }
+
+        let routes: any[] = [];
+        let middlewares: any[] = [];
+        if (typeof init != "boolean" && init.success) {
+          const version = init?.data?.version || ""; // #1 get version untuk check existing version
+          const existing_version = await system.get("version");
+          if (version != existing_version) {
+            routes = init?.data?.routes || [];
+            middlewares = init?.data?.middlewares || [];
+            await db.clear("app", "routes");
+            await db.clear("app", "middlewares");
+            for (let i = 0; i < routes.length; i++) {
+              const route = routes[i];
+              try {
+                await db.add("app", "routes", { ...route });
+              } catch (error) {
+                // skip...
+              }
+            }
+            for (let i = 0; i < middlewares.length; i++) {
+              const middleware = middlewares[i];
+              try {
+                await db.add("app", "middlewares", { ...middleware });
+              } catch (error) {
+                // skip...
+              }
+            }
+            await system.set("version", version);
+          }
+        }
+
+        if (routes.length == 0) {
+          routes = await db.getAll("app", "routes");
+        }
+
+        setProgress(30);
 
         // Check each route pattern for a match with the current endpoint
         let matchedRoute;
-        for (const route of routes.routes) {
+        for (const route of routes) {
           if (route.endpoint == "*") continue;
           let modifiedEndpoint = route.endpoint.startsWith("/")
             ? route.endpoint
@@ -253,7 +918,7 @@ function Main(): JSX.Element {
 
         if (!matchedRoute) {
           // If no match found, set the route to the not found route
-          const notFoundRoute = routes.routes.find(
+          const notFoundRoute = routes.find(
             (route: any) => route.endpoint === "*"
           );
           if (!notFoundRoute) {
@@ -262,23 +927,26 @@ function Main(): JSX.Element {
           }
           matchedRoute = notFoundRoute;
         }
-        setParam(matchedRoute.params);
 
-        // Load data from matched route's JSON file
-        response = await fetch(matchedRoute.json);
-        setProgress(70);
-        const routeData = await response.json();
-        setProgress(100);
-        console.log(matchedRoute.json, { routeData });
-        document.title = routeData.title;
-        setRender(routeData.render);
-        if (typeof routeData?.onLoad === "string") {
-          setOnLoadScript(routeData.onLoad);
+        const params = matchedRoute?.params;
+        const view = matchedRoute.view;
+        const title = view?.title;
+        const onLoad = view?.onLoad;
+        const onClose = view?.onClose;
+        const render = view?.render;
+
+        document.title = title;
+        setParam(params);
+        setRender(render);
+        if (typeof onLoad === "string") {
+          setOnLoadScript(onLoad);
         }
-        if (typeof routeData?.onClose === "string") {
-          setOnCloseScript(routeData.onClose);
+        if (typeof onClose === "string") {
+          setOnCloseScript(onClose);
         }
+
         setLoaded(1);
+        setProgress(100);
       } catch (error) {
         console.log({ error });
       }
@@ -309,12 +977,12 @@ function Main(): JSX.Element {
     };
   }, [
     onLoaded,
-    store,
     onLoadScript,
     onCloseScript,
+    navigate,
+    store,
     params,
     browser_id,
-    navigate,
   ]);
 
   if (notFound) {

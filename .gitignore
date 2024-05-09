@@ -24,3 +24,12 @@ dev-dist
 *.njsproj
 *.sln
 *.sw?
+
+run
+run.exe
+
+asset_config.json
+assets.ts
+
+package-lock.json
+yarn.lock

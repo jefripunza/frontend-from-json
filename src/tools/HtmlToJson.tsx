@@ -25,7 +25,7 @@ function HtmlToJson(): JSX.Element {
       const minifiedHtml = source
         .replace(/[\n\r]+|[\s]{2,}/g, "") // Hapus baris baru dan spasi berlebihan
         .replace(/<!--[\s\S]*?-->/g, "") // Hapus komentar HTML
-        .trim();
+        .trim(); // whitespace
       let result = await HTMLToJSON(minifiedHtml, false);
       result = JSON.stringify(result, null, 2);
       result = String(result)
