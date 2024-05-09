@@ -270,36 +270,30 @@
                               {
                                 "element": "p",
                                 "children": [
-                                  "Write a brief intro about yourself. It's a good idea to include your personal interests and hobbies as well. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec. Commodo ligula eget dolor. Aenean massa.       "
+                                  "Write a brief intro about yourself. It's a good idea to include your personal interests and hobbies as well. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec. Commodo ligula eget dolor. Aenean massa.   "
                                 ]
-                              },
-                              "     "
+                              }
                             ],
                             "attributes": {
                               "className": "children"
                             }
-                          },
-                          "   "
+                          }
                         ],
                         "attributes": {
                           "className": "section-inner shadow-sm rounded"
                         }
-                      },
-                      " "
+                      }
                     ],
                     "attributes": {
                       "className": "about section"
                     }
                   },
-                  "\n ",
                   {
                     "element": "section",
                     "children": [
-                      "   ",
                       {
                         "element": "div",
                         "children": [
-                          "     ",
                           {
                             "element": "h2",
                             "children": ["Latest Projects"],
@@ -307,23 +301,18 @@
                               "className": "heading"
                             }
                           },
-                          "     ",
                           {
                             "element": "div",
                             "children": [
-                              "       ",
                               {
                                 "element": "div",
                                 "children": [
-                                  " ",
                                   {
                                     "element": "div",
                                     "children": [
-                                      "   ",
                                       {
                                         "element": "a",
                                         "children": [
-                                          "     ",
                                           {
                                             "element": "img",
                                             "attributes": {
@@ -331,43 +320,36 @@
                                               "src": "assets/images/projects/project-featured.jpg",
                                               "alt": "project name"
                                             }
-                                          },
-                                          "   "
+                                          }
                                         ],
                                         "attributes": {
                                           "href": "https://themes.3rdwavemedia.com/bootstrap-templates/startup/launch-bootstrap-4-template-for-saas-businesses/",
                                           "target": "_blank"
                                         }
                                       },
-                                      "   ",
                                       {
                                         "element": "div",
                                         "children": [
-                                          "     ",
                                           {
                                             "element": "div",
                                             "children": ["New"],
                                             "attributes": {
                                               "className": "text"
                                             }
-                                          },
-                                          "   "
+                                          }
                                         ],
                                         "attributes": {
                                           "className": "ribbon"
                                         }
-                                      },
-                                      " "
+                                      }
                                     ],
                                     "attributes": {
                                       "className": "featured-image has-ribbon"
                                     }
                                   },
-                                  "\n ",
                                   {
                                     "element": "h3",
                                     "children": [
-                                      "   ",
                                       {
                                         "element": "a",
                                         "children": [
@@ -377,31 +359,26 @@
                                           "href": "https://themes.3rdwavemedia.com/bootstrap-templates/startup/launch-bootstrap-4-template-for-saas-businesses/",
                                           "target": "_blank"
                                         }
-                                      },
-                                      " "
+                                      }
                                     ],
                                     "attributes": {
                                       "className": "title mb-3"
                                     }
                                   },
-                                  "\n ",
                                   {
                                     "element": "div",
                                     "children": [
-                                      "   ",
                                       {
                                         "element": "p",
                                         "children": [
-                                          "     You can promote your main project here. Suspendisse in tellus     dolor. Vivamus a tortor eu turpis pharetra consequat quis non     metus. Aliquam aliquam, orci eu suscipit pellentesque, mauris     dui tincidunt enim, eget iaculis ante dolor non turpis. Ut     enim ad minima veniam, quis nostrum exercitationem ullam     corporis suscipit laboriosam.   "
+                                          "You can promote your main project here. Suspendisse in tellus dolor. Vivamus a tortor eu turpis pharetra consequat quis non metus. Aliquam aliquam, orci eu suscipit pellentesque, mauris dui tincidunt enim, eget iaculis ante dolor non turpis. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.   "
                                         ]
-                                      },
-                                      " "
+                                      }
                                     ],
                                     "attributes": {
                                       "className": "desc text-start"
                                     }
                                   },
-                                  " ",
                                   {
                                     "element": "a",
                                     "children": [
@@ -418,29 +395,24 @@
                                       "href": "https://themes.3rdwavemedia.com/bootstrap-templates/startup/launch-bootstrap-4-template-for-saas-businesses/",
                                       "target": "_blank"
                                     }
-                                  },
-                                  "       "
+                                  }
                                 ],
                                 "attributes": {
                                   "className": "item featured text-center"
                                 }
                               },
-                              "       ",
                               {
                                 "element": "hr",
                                 "attributes": {
                                   "className": "divider"
                                 }
                               },
-                              "       ",
                               {
                                 "element": "div",
                                 "children": [
-                                  " ",
                                   {
                                     "element": "a",
                                     "children": [
-                                      "   ",
                                       {
                                         "element": "img",
                                         "attributes": {
@@ -448,8 +420,7 @@
                                           "src": "assets/images/projects/project-1.png",
                                           "alt": "project name"
                                         }
-                                      },
-                                      " "
+                                      }
                                     ],
                                     "attributes": {
                                       "className": "col-md-4 col-12",
@@ -457,46 +428,40 @@
                                       "target": "_blank"
                                     }
                                   },
-                                  " ",
                                   {
                                     "element": "div",
                                     "children": [
-                                      "   ",
                                       {
                                         "element": "h3",
                                         "children": [
-                                          "     ",
                                           {
                                             "element": "a",
                                             "children": [
-                                              "CoderPro - Boootstrap Startup Template For Software       Projects"
+                                              "CoderPro - Boootstrap Startup Template For Software   Projects"
                                             ],
                                             "attributes": {
                                               "href": "https://themes.3rdwavemedia.com/bootstrap-templates/startup/coderpro-bootstrap-4-startup-template-for-software-projects/",
                                               "target": "_blank"
                                             }
-                                          },
-                                          "   "
+                                          }
                                         ],
                                         "attributes": {
                                           "className": "title"
                                         }
                                       },
-                                      "   ",
                                       {
                                         "element": "p",
                                         "children": [
-                                          "     You can put one of your secondary projects here. Suspendisse     in tellus dolor. Vivamus a tortor eu turpis pharetra consequat     quis non metus. Aliquam aliquam, orci eu suscipit     pellentesque, mauris dui tincidunt enim, eget iaculis ante     dolor non turpis.   "
+                                          "You can put one of your secondary projects here. Suspendisse in tellus dolor. Vivamus a tortor eu turpis pharetra consequat quis non metus. Aliquam aliquam, orci eu suscipit pellentesque, mauris dui tincidunt enim, eget iaculis ante dolor non turpis.   "
                                         ],
                                         "attributes": {
                                           "className": "mb-2"
                                         }
                                       },
-                                      "   ",
                                       {
                                         "element": "p",
                                         "children": [
-                                          "     ",
+                                          " ",
                                           {
                                             "element": "a",
                                             "children": [
@@ -523,13 +488,13 @@
                                       "className": "desc col-md-8 col-12"
                                     }
                                   },
-                                  "       "
+                                  "   "
                                 ],
                                 "attributes": {
                                   "className": "item row"
                                 }
                               },
-                              "\n       ",
+                              "\n   ",
                               {
                                 "element": "div",
                                 "children": [
@@ -562,11 +527,11 @@
                                       {
                                         "element": "h3",
                                         "children": [
-                                          "     ",
+                                          " ",
                                           {
                                             "element": "a",
                                             "children": [
-                                              "DevCard - Boootstrap Portfolio Template for Software       Developers"
+                                              "DevCard - Boootstrap Portfolio Template for Software   Developers"
                                             ],
                                             "attributes": {
                                               "href": "https://themes.3rdwavemedia.com/bootstrap-templates/resume/devcard-bootstrap-4-vcard-portfolio-template-for-software-developers/",
@@ -583,7 +548,7 @@
                                       {
                                         "element": "p",
                                         "children": [
-                                          "     You can put one of your secondary projects here. Suspendisse     in tellus dolor. Vivamus a tortor eu turpis pharetra consequat     quis non metus. Aliquam aliquam, orci eu suscipit     pellentesque, mauris dui tincidunt enim, eget iaculis ante     dolor non turpis.   "
+                                          " You can put one of your secondary projects here. Suspendisse in tellus dolor. Vivamus a tortor eu turpis pharetra consequat quis non metus. Aliquam aliquam, orci eu suscipit pellentesque, mauris dui tincidunt enim, eget iaculis ante dolor non turpis.   "
                                         ],
                                         "attributes": {
                                           "className": "mb-2"
@@ -593,7 +558,7 @@
                                       {
                                         "element": "p",
                                         "children": [
-                                          "     ",
+                                          " ",
                                           {
                                             "element": "a",
                                             "children": [
@@ -620,13 +585,13 @@
                                       "className": "desc col-md-8 col-12"
                                     }
                                   },
-                                  "       "
+                                  "   "
                                 ],
                                 "attributes": {
                                   "className": "item row"
                                 }
                               },
-                              "\n       ",
+                              "\n   ",
                               {
                                 "element": "div",
                                 "children": [
@@ -659,11 +624,11 @@
                                       {
                                         "element": "h3",
                                         "children": [
-                                          "     ",
+                                          " ",
                                           {
                                             "element": "a",
                                             "children": [
-                                              "Instance - Boootstrap Portfolio Template for Aspiring Full       Stack Developers"
+                                              "Instance - Boootstrap Portfolio Template for Aspiring Full   Stack Developers"
                                             ],
                                             "attributes": {
                                               "href": "https://themes.3rdwavemedia.com/bootstrap-templates/resume/instance-bootstrap-portfolio-theme-for-developers/",
@@ -680,7 +645,7 @@
                                       {
                                         "element": "p",
                                         "children": [
-                                          "     You can put one of your secondary projects here. Suspendisse     in tellus dolor. Vivamus a tortor eu turpis pharetra consequat     quis non metus. Aliquam aliquam, orci eu suscipit     pellentesque, mauris dui tincidunt enim, eget iaculis ante     dolor non turpis.   "
+                                          " You can put one of your secondary projects here. Suspendisse in tellus dolor. Vivamus a tortor eu turpis pharetra consequat quis non metus. Aliquam aliquam, orci eu suscipit pellentesque, mauris dui tincidunt enim, eget iaculis ante dolor non turpis.   "
                                         ],
                                         "attributes": {
                                           "className": "mb-2"
@@ -690,7 +655,7 @@
                                       {
                                         "element": "p",
                                         "children": [
-                                          "     ",
+                                          " ",
                                           {
                                             "element": "a",
                                             "children": [
@@ -717,13 +682,13 @@
                                       "className": "desc col-md-8 col-12"
                                     }
                                   },
-                                  "       "
+                                  "   "
                                 ],
                                 "attributes": {
                                   "className": "item row"
                                 }
                               },
-                              "\n       ",
+                              "\n   ",
                               {
                                 "element": "div",
                                 "children": [
@@ -756,7 +721,7 @@
                                       {
                                         "element": "h3",
                                         "children": [
-                                          "     ",
+                                          " ",
                                           {
                                             "element": "a",
                                             "children": [
@@ -777,7 +742,7 @@
                                       {
                                         "element": "p",
                                         "children": [
-                                          "     You can put one of your secondary projects here. Suspendisse     in tellus dolor. Vivamus a tortor eu turpis pharetra consequat     quis non metus.   "
+                                          " You can put one of your secondary projects here. Suspendisse in tellus dolor. Vivamus a tortor eu turpis pharetra consequat quis non metus.   "
                                         ],
                                         "attributes": {
                                           "className": "mb-2"
@@ -787,7 +752,7 @@
                                       {
                                         "element": "p",
                                         "children": [
-                                          "     ",
+                                          " ",
                                           {
                                             "element": "a",
                                             "children": [
@@ -814,13 +779,13 @@
                                       "className": "desc col-md-8 col-12"
                                     }
                                   },
-                                  "       "
+                                  "   "
                                 ],
                                 "attributes": {
                                   "className": "item row"
                                 }
                               },
-                              "       ",
+                              "   ",
                               {
                                 "element": "div",
                                 "children": [
@@ -853,11 +818,11 @@
                                       {
                                         "element": "h3",
                                         "children": [
-                                          "     ",
+                                          " ",
                                           {
                                             "element": "a",
                                             "children": [
-                                              "DevStudio - Boootstrap Template for WebDev Agencies and       Freelance Developers"
+                                              "DevStudio - Boootstrap Template for WebDev Agencies and   Freelance Developers"
                                             ],
                                             "attributes": {
                                               "href": "https://themes.3rdwavemedia.com/bootstrap-templates/startup/devstudio-bootstrap-theme-for-web-development-agencies-and-developers/",
@@ -874,7 +839,7 @@
                                       {
                                         "element": "p",
                                         "children": [
-                                          "     You can put one of your secondary projects here. Quisque     rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue.     Curabitur ullamcorper ultricies nisi.   "
+                                          " You can put one of your secondary projects here. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi.   "
                                         ],
                                         "attributes": {
                                           "className": "mb-2"
@@ -884,7 +849,7 @@
                                       {
                                         "element": "p",
                                         "children": [
-                                          "     ",
+                                          " ",
                                           {
                                             "element": "a",
                                             "children": [
@@ -911,13 +876,13 @@
                                       "className": "desc col-md-8 col-12"
                                     }
                                   },
-                                  "       "
+                                  "   "
                                 ],
                                 "attributes": {
                                   "className": "item row"
                                 }
                               },
-                              "     "
+                              " "
                             ],
                             "attributes": {
                               "className": "children"
@@ -943,7 +908,7 @@
                       {
                         "element": "div",
                         "children": [
-                          "     ",
+                          " ",
                           {
                             "element": "h2",
                             "children": ["Other Projects"],
@@ -951,11 +916,11 @@
                               "className": "heading"
                             }
                           },
-                          "     ",
+                          " ",
                           {
                             "element": "div",
                             "children": [
-                              "       ",
+                              "   ",
                               {
                                 "element": "div",
                                 "children": [
@@ -1023,13 +988,13 @@
                                       " "
                                     ]
                                   },
-                                  "       "
+                                  "   "
                                 ],
                                 "attributes": {
                                   "className": "item"
                                 }
                               },
-                              "       ",
+                              "   ",
                               {
                                 "element": "div",
                                 "children": [
@@ -1097,13 +1062,13 @@
                                       " "
                                     ]
                                   },
-                                  "       "
+                                  "   "
                                 ],
                                 "attributes": {
                                   "className": "item"
                                 }
                               },
-                              "       ",
+                              "   ",
                               {
                                 "element": "div",
                                 "children": [
@@ -1171,13 +1136,13 @@
                                       " "
                                     ]
                                   },
-                                  "       "
+                                  "   "
                                 ],
                                 "attributes": {
                                   "className": "item"
                                 }
                               },
-                              "\n       ",
+                              "\n   ",
                               {
                                 "element": "a",
                                 "children": [
@@ -1194,7 +1159,7 @@
                                   "href": "#"
                                 }
                               },
-                              "     "
+                              " "
                             ],
                             "attributes": {
                               "className": "children"
@@ -1220,7 +1185,7 @@
                       {
                         "element": "div",
                         "children": [
-                          "     ",
+                          " ",
                           {
                             "element": "h2",
                             "children": ["Work Experience"],
@@ -1228,11 +1193,11 @@
                               "className": "heading"
                             }
                           },
-                          "     ",
+                          " ",
                           {
                             "element": "div",
                             "children": [
-                              "       ",
+                              "   ",
                               {
                                 "element": "div",
                                 "children": [
@@ -1277,13 +1242,13 @@
                                       "   Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac,   enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a,   tellus. Phasellus viverra nulla ut metus varius laoreet. Donec   vitae sapien ut libero venenatis faucibus. Nullam quis ante.   Etiam sit amet orci eget eros faucibus tincidunt. "
                                     ]
                                   },
-                                  "       "
+                                  "   "
                                 ],
                                 "attributes": {
                                   "className": "item"
                                 }
                               },
-                              "       ",
+                              "   ",
                               {
                                 "element": "div",
                                 "children": [
@@ -1328,13 +1293,13 @@
                                       "   Vivamus a tortor eu turpis pharetra consequat quis non metus.   Aliquam aliquam, orci eu suscipit pellentesque, mauris dui   tincidunt enim. Sed fringilla mauris sit amet nibh. Donec   sodales sagittis magna. "
                                     ]
                                   },
-                                  "       "
+                                  "   "
                                 ],
                                 "attributes": {
                                   "className": "item"
                                 }
                               },
-                              "\n       ",
+                              "\n   ",
                               {
                                 "element": "div",
                                 "children": [
@@ -1379,13 +1344,13 @@
                                       "   Maecenas tempus, tellus eget condimentum rhoncus, sem quam   semper libero, sit amet adipiscing sem neque sed ipsum. "
                                     ]
                                   },
-                                  "       "
+                                  "   "
                                 ],
                                 "attributes": {
                                   "className": "item"
                                 }
                               },
-                              "     "
+                              " "
                             ],
                             "attributes": {
                               "className": "children"
@@ -1411,7 +1376,7 @@
                       {
                         "element": "div",
                         "children": [
-                          "     ",
+                          " ",
                           {
                             "element": "h2",
                             "children": ["My GitHub"],
@@ -1419,11 +1384,11 @@
                               "className": "heading"
                             }
                           },
-                          "     ",
+                          " ",
                           {
                             "element": "p",
                             "children": [
-                              "       You can embed your GitHub contribution graph calendar using       IonicaBizau's       ",
+                              "   You can embed your GitHub contribution graph calendar using   IonicaBizau's   ",
                               {
                                 "element": "a",
                                 "children": ["GitHub Calendar"],
@@ -1432,10 +1397,10 @@
                                   "target": "_blank"
                                 }
                               },
-                              "       widget.     "
+                              "   widget. "
                             ]
                           },
-                          "\n     ",
+                          "\n ",
                           {
                             "element": "div",
                             "attributes": {
@@ -1443,11 +1408,11 @@
                               "className": "github-graph"
                             }
                           },
-                          "\n     ",
+                          "\n ",
                           {
                             "element": "p",
                             "children": [
-                              "       You can also embed your GitHub activities using Casey Scarborough's       ",
+                              "   You can also embed your GitHub activities using Casey Scarborough's   ",
                               {
                                 "element": "a",
                                 "children": ["GitHub Activity Stream"],
@@ -1456,10 +1421,10 @@
                                   "target": "_blank"
                                 }
                               },
-                              "       widget.     "
+                              "   widget. "
                             ]
                           },
-                          "\n     ",
+                          "\n ",
                           {
                             "element": "div",
                             "attributes": {
@@ -1497,7 +1462,7 @@
                       {
                         "element": "div",
                         "children": [
-                          "     ",
+                          " ",
                           {
                             "element": "h2",
                             "children": ["Basic Information"],
@@ -1505,11 +1470,11 @@
                               "className": "heading sr-only"
                             }
                           },
-                          "     ",
+                          " ",
                           {
                             "element": "div",
                             "children": [
-                              "       ",
+                              "   ",
                               {
                                 "element": "ul",
                                 "children": [
@@ -1590,13 +1555,13 @@
                                       " "
                                     ]
                                   },
-                                  "       "
+                                  "   "
                                 ],
                                 "attributes": {
                                   "className": "list-unstyled"
                                 }
                               },
-                              "     "
+                              " "
                             ],
                             "attributes": {
                               "className": "children"
@@ -1622,7 +1587,7 @@
                       {
                         "element": "div",
                         "children": [
-                          "     ",
+                          " ",
                           {
                             "element": "h2",
                             "children": ["Skills"],
@@ -1630,21 +1595,21 @@
                               "className": "heading"
                             }
                           },
-                          "     ",
+                          " ",
                           {
                             "element": "div",
                             "children": [
-                              "       ",
+                              "   ",
                               {
                                 "element": "p",
                                 "children": [
-                                  " Intro about your skills goes here. Keep the list lean and only show your primary skillset. You can always provide a link to your Linkedin or Github profile so people can get more info there.       "
+                                  " Intro about your skills goes here. Keep the list lean and only show your primary skillset. You can always provide a link to your Linkedin or Github profile so people can get more info there.   "
                                 ],
                                 "attributes": {
                                   "className": "intro"
                                 }
                               },
-                              "\n       ",
+                              "\n   ",
                               {
                                 "element": "div",
                                 "children": [
@@ -1656,7 +1621,7 @@
                                       {
                                         "element": "h3",
                                         "children": [
-                                          "     Python & Django",
+                                          " Python & Django",
                                           {
                                             "element": "span",
                                             "children": [
@@ -1685,7 +1650,7 @@
                                       {
                                         "element": "div",
                                         "children": [
-                                          "     ",
+                                          " ",
                                           {
                                             "element": "div",
                                             "attributes": {
@@ -1717,7 +1682,7 @@
                                       {
                                         "element": "h3",
                                         "children": [
-                                          "     Javascript & jQuery",
+                                          " Javascript & jQuery",
                                           {
                                             "element": "span",
                                             "children": [
@@ -1746,7 +1711,7 @@
                                       {
                                         "element": "div",
                                         "children": [
-                                          "     ",
+                                          " ",
                                           {
                                             "element": "div",
                                             "attributes": {
@@ -1778,7 +1743,7 @@
                                       {
                                         "element": "h3",
                                         "children": [
-                                          "     HTML5, CSS3, SASS & LESS",
+                                          " HTML5, CSS3, SASS & LESS",
                                           {
                                             "element": "span",
                                             "children": [
@@ -1807,7 +1772,7 @@
                                       {
                                         "element": "div",
                                         "children": [
-                                          "     ",
+                                          " ",
                                           {
                                             "element": "div",
                                             "attributes": {
@@ -1839,7 +1804,7 @@
                                       {
                                         "element": "h3",
                                         "children": [
-                                          "     Ruby on Rails",
+                                          " Ruby on Rails",
                                           {
                                             "element": "span",
                                             "children": [
@@ -1868,7 +1833,7 @@
                                       {
                                         "element": "div",
                                         "children": [
-                                          "     ",
+                                          " ",
                                           {
                                             "element": "div",
                                             "attributes": {
@@ -1916,13 +1881,13 @@
                                       " "
                                     ]
                                   },
-                                  "       "
+                                  "   "
                                 ],
                                 "attributes": {
                                   "className": "skillset"
                                 }
                               },
-                              "     "
+                              " "
                             ],
                             "attributes": {
                               "className": "children"
@@ -1948,7 +1913,7 @@
                       {
                         "element": "div",
                         "children": [
-                          "     ",
+                          " ",
                           {
                             "element": "h2",
                             "children": ["Testimonials"],
@@ -1956,11 +1921,11 @@
                               "className": "heading"
                             }
                           },
-                          "     ",
+                          " ",
                           {
                             "element": "div",
                             "children": [
-                              "       ",
+                              "   ",
                               {
                                 "element": "div",
                                 "children": [
@@ -1972,14 +1937,14 @@
                                       {
                                         "element": "p",
                                         "children": [
-                                          "     ",
+                                          " ",
                                           {
                                             "element": "i",
                                             "attributes": {
                                               "className": "fas fa-quote-left"
                                             }
                                           },
-                                          "James is an excellent     software engineer and he is passionate about what he does. You     can totally count on him to deliver your projects!   "
+                                          "James is an excellent software engineer and he is passionate about what he does. You can totally count on him to deliver your projects!   "
                                         ]
                                       },
                                       " "
@@ -2016,13 +1981,13 @@
                                       "className": "source"
                                     }
                                   },
-                                  "       "
+                                  "   "
                                 ],
                                 "attributes": {
                                   "className": "item"
                                 }
                               },
-                              "\n       ",
+                              "\n   ",
                               {
                                 "element": "p",
                                 "children": [
@@ -2043,10 +2008,10 @@
                                       "href": "#"
                                     }
                                   },
-                                  "       "
+                                  "   "
                                 ]
                               },
-                              "     "
+                              " "
                             ],
                             "attributes": {
                               "className": "children"
@@ -2072,7 +2037,7 @@
                       {
                         "element": "div",
                         "children": [
-                          "     ",
+                          " ",
                           {
                             "element": "h2",
                             "children": ["Education"],
@@ -2080,11 +2045,11 @@
                               "className": "heading"
                             }
                           },
-                          "     ",
+                          " ",
                           {
                             "element": "div",
                             "children": [
-                              "       ",
+                              "   ",
                               {
                                 "element": "div",
                                 "children": [
@@ -2123,13 +2088,13 @@
                                       "className": "university"
                                     }
                                   },
-                                  "       "
+                                  "   "
                                 ],
                                 "attributes": {
                                   "className": "item"
                                 }
                               },
-                              "       ",
+                              "   ",
                               {
                                 "element": "div",
                                 "children": [
@@ -2168,13 +2133,13 @@
                                       "className": "university"
                                     }
                                   },
-                                  "       "
+                                  "   "
                                 ],
                                 "attributes": {
                                   "className": "item"
                                 }
                               },
-                              "     "
+                              " "
                             ],
                             "attributes": {
                               "className": "children"
@@ -2200,7 +2165,7 @@
                       {
                         "element": "div",
                         "children": [
-                          "     ",
+                          " ",
                           {
                             "element": "h2",
                             "children": ["Languages"],
@@ -2208,11 +2173,11 @@
                               "className": "heading"
                             }
                           },
-                          "     ",
+                          " ",
                           {
                             "element": "div",
                             "children": [
-                              "       ",
+                              "   ",
                               {
                                 "element": "ul",
                                 "children": [
@@ -2250,7 +2215,7 @@
                                               "className": "fas fa-star"
                                             }
                                           },
-                                          "     ",
+                                          " ",
                                           {
                                             "element": "i",
                                             "attributes": {
@@ -2264,7 +2229,7 @@
                                               "className": "fas fa-star"
                                             }
                                           },
-                                          "     ",
+                                          " ",
                                           {
                                             "element": "i",
                                             "attributes": {
@@ -2311,20 +2276,13 @@
                                       {
                                         "element": "span",
                                         "children": [
-                                          "Professional Proficiency     ",
+                                          "Professional Proficiency ",
                                           {
                                             "element": "br",
                                             "attributes": {
                                               "className": "visible-sm visible-xs"
                                             }
                                           },
-                                          {
-                                            "element": "i",
-                                            "attributes": {
-                                              "className": "fas fa-star"
-                                            }
-                                          },
-                                          "     ",
                                           {
                                             "element": "i",
                                             "attributes": {
@@ -2338,7 +2296,14 @@
                                               "className": "fas fa-star"
                                             }
                                           },
-                                          "     ",
+                                          " ",
+                                          {
+                                            "element": "i",
+                                            "attributes": {
+                                              "className": "fas fa-star"
+                                            }
+                                          },
+                                          " ",
                                           {
                                             "element": "i",
                                             "attributes": {
@@ -2356,13 +2321,13 @@
                                       "className": "item"
                                     }
                                   },
-                                  "       "
+                                  "   "
                                 ],
                                 "attributes": {
                                   "className": "list-unstyled"
                                 }
                               },
-                              "     "
+                              " "
                             ],
                             "attributes": {
                               "className": "children"
@@ -2388,7 +2353,7 @@
                       {
                         "element": "div",
                         "children": [
-                          "     ",
+                          " ",
                           {
                             "element": "h2",
                             "children": ["Latest Blog Posts"],
@@ -2396,11 +2361,11 @@
                               "className": "heading"
                             }
                           },
-                          "     ",
+                          " ",
                           {
                             "element": "p",
                             "children": [
-                              "       You can use Sascha Depold's       ",
+                              "   You can use Sascha Depold's   ",
                               {
                                 "element": "a",
                                 "children": ["Vanilla RSS plugin"],
@@ -2409,10 +2374,10 @@
                                   "target": "_blank"
                                 }
                               },
-                              "       to pull in your blog post feeds.     "
+                              "   to pull in your blog post feeds. "
                             ]
                           },
-                          "     ",
+                          " ",
                           {
                             "element": "div",
                             "attributes": {
@@ -2440,7 +2405,7 @@
                       {
                         "element": "div",
                         "children": [
-                          "     ",
+                          " ",
                           {
                             "element": "h2",
                             "children": ["Favourite coding music"],
@@ -2448,11 +2413,11 @@
                               "className": "heading"
                             }
                           },
-                          "     ",
+                          " ",
                           {
                             "element": "div",
                             "children": [
-                              "       ",
+                              "   ",
                               {
                                 "element": "ul",
                                 "children": [
@@ -2550,13 +2515,13 @@
                                       " "
                                     ]
                                   },
-                                  "       "
+                                  "   "
                                 ],
                                 "attributes": {
                                   "className": "list-unstyled"
                                 }
                               },
-                              "     "
+                              " "
                             ],
                             "attributes": {
                               "className": "children"
@@ -2567,22 +2532,18 @@
                         "attributes": {
                           "className": "section-inner shadow-sm rounded"
                         }
-                      },
-                      " "
+                      }
                     ],
                     "attributes": {
                       "className": "list music aside section"
                     }
                   },
-                  "\n ",
                   {
                     "element": "aside",
                     "children": [
-                      "   ",
                       {
                         "element": "div",
                         "children": [
-                          "     ",
                           {
                             "element": "h2",
                             "children": ["Conferences"],
@@ -2590,26 +2551,21 @@
                               "className": "heading"
                             }
                           },
-                          "     ",
                           {
                             "element": "div",
                             "children": [
-                              "       ",
                               {
                                 "element": "ul",
                                 "children": [
-                                  " ",
                                   {
                                     "element": "li",
                                     "children": [
-                                      "   ",
                                       {
                                         "element": "i",
                                         "attributes": {
                                           "className": "far fa-calendar-alt"
                                         }
                                       },
-                                      "   ",
                                       {
                                         "element": "a",
                                         "children": ["WWDC 2030"],
@@ -2621,18 +2577,15 @@
                                       " (San Francisco) "
                                     ]
                                   },
-                                  " ",
                                   {
                                     "element": "li",
                                     "children": [
-                                      "   ",
                                       {
                                         "element": "i",
                                         "attributes": {
                                           "className": "far fa-calendar-alt"
                                         }
                                       },
-                                      "   ",
                                       {
                                         "element": "a",
                                         "children": ["Hive"],
@@ -2642,40 +2595,33 @@
                                       },
                                       " (Seattle) "
                                     ]
-                                  },
-                                  "       "
+                                  }
                                 ],
                                 "attributes": {
                                   "className": "list-unstyled"
                                 }
-                              },
-                              "     "
+                              }
                             ],
                             "attributes": {
                               "className": "children"
                             }
-                          },
-                          "   "
+                          }
                         ],
                         "attributes": {
                           "className": "section-inner shadow-sm rounded"
                         }
-                      },
-                      " "
+                      }
                     ],
                     "attributes": {
                       "className": "list conferences aside section"
                     }
                   },
-                  "\n ",
                   {
                     "element": "aside",
                     "children": [
-                      "   ",
                       {
                         "element": "div",
                         "children": [
-                          "     ",
                           {
                             "element": "h2",
                             "children": ["Credits"],
@@ -2683,19 +2629,15 @@
                               "className": "heading"
                             }
                           },
-                          "     ",
                           {
                             "element": "div",
                             "children": [
-                              "       ",
                               {
                                 "element": "ul",
                                 "children": [
-                                  " ",
                                   {
                                     "element": "li",
                                     "children": [
-                                      "   ",
                                       {
                                         "element": "a",
                                         "attributes": {
@@ -2712,11 +2654,9 @@
                                       "Bootstrap "
                                     ]
                                   },
-                                  " ",
                                   {
                                     "element": "li",
                                     "children": [
-                                      "   ",
                                       {
                                         "element": "a",
                                         "attributes": {
@@ -2733,11 +2673,9 @@
                                       "FontAwesome "
                                     ]
                                   },
-                                  " ",
                                   {
                                     "element": "li",
                                     "children": [
-                                      "   ",
                                       {
                                         "element": "a",
                                         "attributes": {
@@ -2751,14 +2689,12 @@
                                           "className": "fas fa-external-link-alt"
                                         }
                                       },
-                                      "GitHub Calendar     Plugin "
+                                      "GitHub Calendar Plugin "
                                     ]
                                   },
-                                  "\n ",
                                   {
                                     "element": "li",
                                     "children": [
-                                      "   ",
                                       {
                                         "element": "a",
                                         "attributes": {
@@ -2772,14 +2708,12 @@
                                           "className": "fas fa-external-link-alt"
                                         }
                                       },
-                                      "GitHub Activity     Stream "
+                                      "GitHub Activity Stream "
                                     ]
                                   },
-                                  "\n ",
                                   {
                                     "element": "li",
                                     "children": [
-                                      "   ",
                                       {
                                         "element": "a",
                                         "attributes": {
@@ -2796,11 +2730,9 @@
                                       "Vanilla RSS "
                                     ]
                                   },
-                                  " ",
                                   {
                                     "element": "li",
                                     "children": [
-                                      "   ",
                                       {
                                         "element": "a",
                                         "attributes": {
@@ -2815,18 +2747,15 @@
                                       },
                                       "Dark Mode Switch "
                                     ]
-                                  },
-                                  "       "
+                                  }
                                 ],
                                 "attributes": {
                                   "className": "list-unstyled pb-2"
                                 }
                               },
-                              "\n       ",
                               {
                                 "element": "hr"
                               },
-                              "\n       ",
                               {
                                 "element": "p",
                                 "children": [
@@ -2851,13 +2780,12 @@
                                     "element": "strong",
                                     "children": ["FREE"]
                                   },
-                                  " as long as you keep the footer attribution link.       "
+                                  " as long as you keep the footer attribution link.   "
                                 ],
                                 "attributes": {
                                   "className": "pt-2"
                                 }
                               },
-                              "       ",
                               {
                                 "element": "p",
                                 "children": [
@@ -2930,7 +2858,7 @@
                                       "target": "_blank"
                                     }
                                   },
-                                  "Xiaoying on twitter so you don't miss any future freebies!       "
+                                  "Xiaoying on twitter so you don't miss any future freebies!   "
                                 ]
                               },
                               {

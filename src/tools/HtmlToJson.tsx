@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 // @ts-ignore
 import { HTMLToJSON } from "html-to-json-parser";
+import Editor from "@monaco-editor/react";
 
 function HtmlToJson(): JSX.Element {
   const [source, setSource] = useState<string>("");
@@ -13,10 +14,20 @@ function HtmlToJson(): JSX.Element {
         setResult("");
         return;
       }
-      let result = await HTMLToJSON(source, false);
-      console.log(0, { result });
+      // const minifierOptions = {
+      //   collapseWhitespace: true,
+      //   removeComments: true,
+      //   removeRedundantAttributes: true,
+      //   removeEmptyAttributes: true,
+      //   minifyJS: true,
+      //   minifyCSS: true,
+      // };
+      const minifiedHtml = source
+        .replace(/[\n\r]+|[\s]{2,}/g, "") // Hapus baris baru dan spasi berlebihan
+        .replace(/<!--[\s\S]*?-->/g, "") // Hapus komentar HTML
+        .trim();
+      let result = await HTMLToJSON(minifiedHtml, false);
       result = JSON.stringify(result, null, 2);
-      console.log(1, { result });
       result = String(result)
         .replace(/"type"/g, '"element"')
         .replace(/"content"/g, '"children"');
@@ -28,28 +39,31 @@ function HtmlToJson(): JSX.Element {
   return (
     <div className="row pt-3 px-3">
       <div className="col-6">
-        <div className="form-group">
-          <label htmlFor="textarea-source">Source</label>
-          <textarea
-            className="form-control"
-            id="textarea-source"
-            rows={3}
-            value={source}
-            onChange={(e) => setSource(e.target.value)}
-          ></textarea>
-        </div>
+        <Editor
+          theme="vs-dark"
+          height="90vh"
+          defaultLanguage="html"
+          defaultValue={'<div class="container"></div>'}
+          value={source}
+          onChange={(value) => setSource(value || "")}
+        />
       </div>
       <div className="col-6">
-        <div className="form-group">
-          <label htmlFor="textarea-result">Result</label>
-          <textarea
-            className="form-control"
-            id="textarea-result"
-            rows={3}
-            value={result}
-            onChange={(e) => setSource(e.target.value)}
-          ></textarea>
-        </div>
+        <Editor
+          theme="vs-dark"
+          height="90vh"
+          defaultLanguage="json"
+          defaultValue={JSON.stringify(
+            {
+              element: "div",
+              attributes: { class: "container" },
+            },
+            null,
+            2
+          )}
+          value={result}
+          onChange={(value) => setSource(value || "")}
+        />
       </div>
     </div>
   );

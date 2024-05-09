@@ -1,6 +1,6 @@
 {
-  "title": "Product #name#",
-  "onLoad": "console.log('Product Loaded...', { params }); findAndReplace('#name#', params.id); return params.id;",
+  "title": "Product #id#",
+  "onLoad": "console.log('Product Loaded...', { params }); findAndReplace('#id#', params.id); return 123456;",
   "onClose": "console.log('Product Close...', { params })",
   "render": {
     "element": "div",
@@ -8,7 +8,7 @@
       "className": "container"
     },
     "children": [
-      "This is Product Page...",
+      "This is Product Page with ID is #id#",
       {
         "element": "div",
         "children": [

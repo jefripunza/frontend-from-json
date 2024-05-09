@@ -10,9 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fingerprintjs/fingerprintjs": "^4.3.0",
+    "@monaco-editor/react": "^4.6.0",
     "@popperjs/core": "^2.11.8",
     "axios": "^1.6.8",
+    "base-64": "^1.0.0",
     "bootstrap": "5.3.3",
+    "crypto-js": "^4.2.0",
     "css-loader": "^7.1.1",
     "html-to-json-parser": "^2.0.1",
     "jquery": "^3.7.1",
@@ -26,6 +30,7 @@
     "react-top-loading-bar": "^2.3.1",
     "sort-by": "^1.2.0",
     "style-loader": "^4.0.0",
+    "uuid": "^9.0.1",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
@@ -35,6 +40,7 @@
     "@typescript-eslint/parser": "^7.8.0",
     "@vite-pwa/assets-generator": "^0.2.4",
     "@vitejs/plugin-react": "^4.2.1",
+    "cross-env": "^7.0.3",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.6",

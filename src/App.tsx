@@ -18,6 +18,37 @@ import { create } from "zustand";
 import zukeeper from "zukeeper";
 import axios from "axios";
 
+const findAndReplace = (key: string, value: string) => {
+  const elements = document.getElementsByTagName("*");
+  for (let i = 0; i < elements.length; i++) {
+    const element = elements[i];
+    if (element.childNodes.length > 0) {
+      for (let j = 0; j < element.childNodes.length; j++) {
+        const node = element.childNodes[j];
+        if (node.nodeType === 3) {
+          let text = node.nodeValue;
+          if (text && text.includes(key)) {
+            text = text.replace(new RegExp(key, "g"), value);
+            node.nodeValue = text;
+          }
+        }
+      }
+    }
+  }
+};
+
+const delay = async (timeout_ms: number) =>
+  await new Promise((resolve) => setTimeout(resolve, timeout_ms));
+
+const dependencies = {
+  window,
+  axios,
+  toast,
+  toastTransition: { Flip, Bounce, Zoom, Slide },
+  findAndReplace,
+  delay,
+};
+
 import PWABadge from "./PWABadge.tsx";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -50,25 +81,6 @@ const execute = async (script: string, args: any): Promise<any> => {
   )(args);
 };
 
-const findAndReplace = (key: string, value: string) => {
-  const elements = document.getElementsByTagName("*");
-  for (let i = 0; i < elements.length; i++) {
-    const element = elements[i];
-    if (element.childNodes.length > 0) {
-      for (let j = 0; j < element.childNodes.length; j++) {
-        const node = element.childNodes[j];
-        if (node.nodeType === 3) {
-          let text = node.nodeValue;
-          if (text && text.includes(key)) {
-            text = text.replace(new RegExp(key, "g"), value);
-            node.nodeValue = text;
-          }
-        }
-      }
-    }
-  }
-};
-
 function renderElement(
   _element_: JSONElement,
   navigate: NavigateFunction,
@@ -92,15 +104,11 @@ function renderElement(
       if (Object.prototype.hasOwnProperty.call(action, key)) {
         eventHandlers[key] = async (e: React.MouseEvent) =>
           await execute(action[key], {
-            window,
-            axios,
-            toast,
-            toastTransition: { Flip, Bounce, Zoom, Slide },
+            ...dependencies,
             navigate,
             store,
-            e,
             params,
-            findAndReplace,
+            e,
           });
       }
     }
@@ -266,14 +274,10 @@ function Main(): JSX.Element {
   useEffect(() => {
     const executeScript = async (script: string) => {
       const result = await execute(script, {
-        window,
-        axios,
-        toast,
-        toastTransition: { Flip, Bounce, Zoom, Slide },
+        ...dependencies,
         navigate,
         store,
         params,
-        findAndReplace,
       });
       console.log("useEffect", { result });
     };
