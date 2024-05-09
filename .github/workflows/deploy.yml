@@ -38,5 +38,5 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: "frontend-from-json"
-          entrypoint: "run"
+          entrypoint: "./run"
           root: "/"
