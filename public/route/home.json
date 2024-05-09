@@ -1,6 +1,6 @@
 {
   "title": "Example HTML from JSON",
-  "onLoad": "console.log('Root Loaded...')",
+  "onLoad": "console.log('Root Loaded...', {browser_id})",
   "onClose": "console.log('Root Close...')",
   "render": {
     "element": "div",

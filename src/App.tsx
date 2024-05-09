@@ -6,6 +6,7 @@ import {
   NavigateFunction,
 } from "react-router-dom";
 import LoadingBar from "react-top-loading-bar";
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import {
   ToastContainer,
   toast,
@@ -85,7 +86,8 @@ function renderElement(
   _element_: JSONElement,
   navigate: NavigateFunction,
   store: any,
-  params: any
+  params: any,
+  browser_id: string
 ): JSX.Element {
   const { element, attributes, children, action } = _element_;
   const elementProps: { [key: string]: string } | undefined = attributes
@@ -95,7 +97,7 @@ function renderElement(
     if (typeof child === "string") {
       return child;
     } else {
-      return renderElement(child, navigate, store, params);
+      return renderElement(child, navigate, store, params, browser_id);
     }
   });
   const eventHandlers: { [key: string]: React.MouseEventHandler } = {};
@@ -108,6 +110,7 @@ function renderElement(
             navigate,
             store,
             params,
+            browser_id,
             e,
           });
       }
@@ -180,6 +183,7 @@ function Main(): JSX.Element {
   }, [endpoint, navigate]);
 
   const [progress, setProgress] = useState(0);
+  const [browser_id, setBrowserId] = useState<string>("");
 
   const [onLoaded, setLoaded] = useState<number>(0); // 0 1 2
   const [notFound, setNotFound] = useState<boolean>(false);
@@ -190,6 +194,14 @@ function Main(): JSX.Element {
   const [render, setRender] = useState<any>({});
 
   const store = useStore();
+
+  useEffect(() => {
+    (async () => {
+      const fp = await FingerprintJS.load();
+      const fpGet = await fp.get();
+      setBrowserId(fpGet.visitorId);
+    })();
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -278,6 +290,7 @@ function Main(): JSX.Element {
         navigate,
         store,
         params,
+        browser_id,
       });
       console.log("useEffect", { result });
     };
@@ -303,7 +316,13 @@ function Main(): JSX.Element {
   }
 
   // Render the JSON data
-  const renderedElement = renderElement(render, navigate, store, params);
+  const renderedElement = renderElement(
+    render,
+    navigate,
+    store,
+    params,
+    browser_id
+  );
   return (
     <>
       <LoadingBar
