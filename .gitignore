@@ -33,3 +33,5 @@ assets.ts
 
 package-lock.json
 yarn.lock
+
+.env

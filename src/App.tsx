@@ -17,6 +17,7 @@ import {
 } from "react-toastify";
 import { create } from "zustand";
 import zukeeper from "zukeeper";
+import anime from "animejs/lib/anime.es.js";
 import _axios_, { AxiosRequestConfig, AxiosError } from "axios";
 import CryptoJS from "crypto-js";
 // import { v4 as uuidv4 } from "uuid";
@@ -374,6 +375,7 @@ const dependencies = {
   axios,
   toast,
   toastTransition: { Flip, Bounce, Zoom, Slide },
+  anime,
   encode,
   decode,
   findAndReplace,
@@ -394,6 +396,13 @@ import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 
 import HtmlToJson from "./tools/HtmlToJson.tsx";
+
+const tools = [
+  {
+    path: "/tool/html-to-json",
+    element: <HtmlToJson />,
+  },
+];
 
 interface CustomWindow extends Window {
   store?: any;
@@ -464,7 +473,11 @@ function renderElement(
   );
 }
 
-const useStore = create(
+interface IStore {
+  setDefault: (data: any) => void;
+  setStore: (data: any) => void;
+}
+const useStore = create<IStore>(
   zukeeper((set: any) => ({
     setDefault: (data: any) => set(() => data),
     setStore: (data: any) => set((state: any) => ({ ...state, ...data })),
@@ -762,7 +775,7 @@ function Main(): JSX.Element {
     };
   }, [endpoint, navigate]);
 
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState<number>(0);
   const [browser_id, setBrowserId] = useState<string>("");
 
   const [onLoaded, setLoaded] = useState<number>(0); // 0 1 2
@@ -771,10 +784,13 @@ function Main(): JSX.Element {
   const [onLoadScript, setOnLoadScript] = useState<string>("");
   const [onCloseScript, setOnCloseScript] = useState<string>("");
   const [params, setParam] = useState<any>({});
+
+  const [style, setStyle] = useState<string>("");
   const [render, setRender] = useState<any>({});
 
   const store = useStore();
 
+  //-> check online or offline
   const [isOnline, setOnline] = useState(true);
   const [onLoad, setLoad] = useState<boolean>(false);
   useEffect(() => {
@@ -815,6 +831,7 @@ function Main(): JSX.Element {
     (async () => setBrowserId(await getBrowserId()))();
   }, []);
 
+  //-> handling page and main management
   useEffect(() => {
     (async () => {
       setProgress(10);
@@ -928,15 +945,17 @@ function Main(): JSX.Element {
           matchedRoute = notFoundRoute;
         }
 
-        const params = matchedRoute?.params;
+        const params = matchedRoute?.params || {};
         const view = matchedRoute.view;
-        const title = view?.title;
-        const onLoad = view?.onLoad;
-        const onClose = view?.onClose;
-        const render = view?.render;
+        const title = view?.title || "";
+        const onLoad = view?.onLoad || "";
+        const onClose = view?.onClose || "";
+        const style = view?.style || "";
+        const render = view?.render || {};
 
         document.title = title;
         setParam(params);
+        setStyle(style);
         setRender(render);
         if (typeof onLoad === "string") {
           setOnLoadScript(onLoad);
@@ -951,8 +970,10 @@ function Main(): JSX.Element {
         console.log({ error });
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [endpoint]);
 
+  //-> execute script onload and onclose from json
   useEffect(() => {
     const executeScript = async (script: string) => {
       const result = await execute(script, {
@@ -986,11 +1007,10 @@ function Main(): JSX.Element {
   ]);
 
   if (notFound) {
-    return <>Endpoint Not Found...</>;
+    return <EndpointNotFoundPage endpoint={endpoint} />;
   }
-
   if (Object.keys(render).length == 0) {
-    return <>Loading...</>;
+    return <InitializePage />;
   }
 
   // Render the JSON data
@@ -1008,21 +1028,26 @@ function Main(): JSX.Element {
         progress={progress}
         onLoaderFinished={() => setProgress(0)}
       />
+      <style>{style}</style>
       {renderedElement}
       <PWABadge />
     </>
   );
 }
 
+const EndpointNotFoundPage = ({ endpoint }: { endpoint: string }) => {
+  return <div>Endpoint Not Found...</div>;
+};
+const InitializePage = () => {
+  return <div>Loading...</div>;
+};
+
 const App = () => {
   return (
     <>
       <RouterProvider
         router={createBrowserRouter([
-          {
-            path: "/tool/html-to-json",
-            element: <HtmlToJson />,
-          },
+          ...tools,
           {
             path: "*",
             element: <Main />,
