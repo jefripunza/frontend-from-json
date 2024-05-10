@@ -1036,7 +1036,7 @@ function Main(): JSX.Element {
 }
 
 const EndpointNotFoundPage = ({ endpoint }: { endpoint: string }) => {
-  return <div>Endpoint Not Found...</div>;
+  return <div>Endpoint Not Found... {endpoint}</div>;
 };
 const InitializePage = () => {
   return <div>Loading...</div>;
