@@ -433,7 +433,6 @@ const execute = async (script: string, args: any): Promise<any> => {
 interface JSONElement {
   element: string;
   attributes?: IObject<string>;
-  action: IObject<string>; // action prop can contain multiple actions
   children?: (JSONElement | string)[];
 }
 function renderElement(
@@ -443,7 +442,7 @@ function renderElement(
   params: any,
   browser_id: string
 ): JSX.Element {
-  const { element, attributes, children, action } = _element_;
+  const { element, attributes, children } = _element_;
   const elementProps: IObject<string> | undefined = attributes
     ? { ...attributes }
     : undefined;
@@ -455,11 +454,35 @@ function renderElement(
     }
   });
   const eventHandlers: IObject<React.MouseEventHandler> = {};
-  if (action) {
-    for (const key in action) {
-      if (Object.prototype.hasOwnProperty.call(action, key)) {
+  if (elementProps) {
+    for (const key in elementProps) {
+      if (
+        Object.prototype.hasOwnProperty.call(elementProps, key) &&
+        [
+          "onCopy",
+          "onCut",
+          "onPaste",
+
+          "onChange",
+          "onBeforeInput",
+          "onSubmit",
+          "onLoad",
+          "onError",
+
+          "onClick",
+          "onKeyDown",
+          "onKeyPress",
+          "onKeyUp",
+
+          "onScroll",
+
+          "onFocus",
+          "onBlur",
+          "onMouseOver",
+        ].includes(key)
+      ) {
         eventHandlers[key] = async (e: React.MouseEvent) =>
-          await execute(action[key], {
+          await execute(elementProps[key], {
             ...dependencies,
             navigate,
             store,
@@ -475,54 +498,6 @@ function renderElement(
     { ...elementProps, ...eventHandlers },
     ...(renderedChildren || [])
   );
-}
-
-function moveAttributesToAction(element: IRender): IRender {
-  // Jika tidak ada atribut atau atributnya kosong, langsung kembalikan elemen
-  if (!element.attributes || Object.keys(element.attributes).length === 0) {
-    return element;
-  }
-
-  // Salin elemen agar tidak mengubah objek asli
-  const updatedElement: IRender = { ...element };
-  const attributes = updatedElement.attributes as IObject<string>;
-
-  // Inisialisasi action jika belum ada
-  if (!updatedElement.action) {
-    updatedElement.action = {};
-  }
-
-  // Pindahkan atribut ke dalam action
-  Object.keys(attributes as IObject<string>)
-    .filter((key) =>
-      [
-        "onClick",
-        "onChange",
-        "onKeyDown",
-        "onKeyUp",
-        "onFocus",
-        "onBlur",
-        "onMouseOver",
-      ].includes(key)
-    )
-    .forEach((key) => {
-      updatedElement.action[key] = attributes[key];
-      if (updatedElement.attributes) {
-        delete updatedElement.attributes[key];
-      }
-    });
-
-  // Rekursi ke dalam children jika ada
-  if (updatedElement.children) {
-    updatedElement.children = updatedElement.children.map((child) => {
-      if (typeof child === "object") {
-        return moveAttributesToAction(child as IRender);
-      }
-      return child;
-    });
-  }
-
-  return updatedElement;
 }
 
 interface IStore {
@@ -780,7 +755,6 @@ interface IRender {
   element: string;
   children: IRender[];
   attributes?: IObject<string | number>;
-  action: IObject<string>;
 }
 interface IView {
   title: string;
@@ -1051,9 +1025,8 @@ function Main(): JSX.Element {
         const onLoad = view?.onLoad || "";
         const onClose = view?.onClose || "";
         const style = view?.style || "";
-        let render = view?.render || {};
-        render = moveAttributesToAction(render);
-        console.log({ render });
+        const render = view?.render || {};
+        // render = moveAttributesToAction(render);
 
         document.title = title;
         setParam(params);
