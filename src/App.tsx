@@ -1080,7 +1080,7 @@ function Main(): JSX.Element {
         (async () => await executeScript(onCloseScript))();
       }
     };
-  }, [executeScript, onCloseScript, onLoaded, store]);
+  }, [executeScript, onCloseScript, onLoaded, store, previousState]);
 
   if (notFound && listRoutes.length > 0) {
     return <EndpointNotFoundPage endpoint={endpoint} />;
