@@ -24,6 +24,10 @@ import _axios_, { AxiosRequestConfig, AxiosError } from "axios";
 import CryptoJS from "crypto-js";
 import { v4 as uuidv4 } from "uuid";
 
+interface IObject<T> {
+  [key: string]: T;
+}
+
 const env = import.meta.env;
 
 function getSecretKey(browser_id: string) {
@@ -430,9 +434,6 @@ interface JSONElement {
   element: string;
   attributes?: { [key: string]: string };
   children?: (JSONElement | string)[];
-  action?: {
-    [key: string]: string; // action prop can contain multiple actions
-  };
 }
 function renderElement(
   _element_: JSONElement,
@@ -441,7 +442,26 @@ function renderElement(
   params: any,
   browser_id: string
 ): JSX.Element {
-  const { element, attributes, children, action } = _element_;
+  const { element, attributes, children } = _element_;
+  const action: IObject<string> = {}; // karena semua string action code harus masuk ke execute
+  if (attributes) {
+    for (const key in attributes) {
+      if (
+        [
+          "onClick",
+          "onChange",
+          "onKeyDown",
+          "onKeyUp",
+          "onFocus",
+          "onBlur",
+          "onMouseOver",
+        ].includes(key)
+      ) {
+        action[key] = attributes[key];
+        delete attributes[key];
+      }
+    }
+  }
   const elementProps: { [key: string]: string } | undefined = attributes
     ? { ...attributes }
     : undefined;
@@ -457,6 +477,7 @@ function renderElement(
     for (const key in action) {
       if (Object.prototype.hasOwnProperty.call(action, key)) {
         eventHandlers[key] = async (e: React.MouseEvent) =>
+          // semua string action code yang tersedia wajib masuk ke sini...
           await execute(action[key], {
             ...dependencies,
             navigate,
@@ -730,15 +751,6 @@ interface IRender {
   element: string;
   children: IRender[];
   attributes?: { [key: string]: string | number };
-  action?: {
-    onClick?: string;
-    onChange?: string;
-    onKeyDown?: string;
-    onKeyUp?: string;
-    onFocus?: string;
-    onBlur?: string;
-    onMouseOver?: string;
-  };
 }
 interface IView {
   title: string;

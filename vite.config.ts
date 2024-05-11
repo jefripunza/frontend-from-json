@@ -17,9 +17,9 @@ export default defineConfig({
       },
 
       manifest: {
-        name: "frontend-from-json",
-        short_name: "frontend-from-json",
-        description: "Create FrontEnd from JSON File",
+        name: "Progressive Web App Builder",
+        short_name: "PWA Builder",
+        description: "Making PWA applications easier and faster",
         theme_color: "#ffffff",
       },
 

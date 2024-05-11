@@ -125,9 +125,24 @@ try {
 }
 const database = client.database(MONGO_NAME);
 
+// frontend...
 const variablesCollection = database.collection("variables");
 const routesCollection = database.collection("routes");
 const middlewaresCollection = database.collection("middlewares");
+
+// backend...
+interface IBrowser {
+  key: string;
+  client_name?: string;
+  blocked?: boolean;
+}
+const browsersCollection = database.collection<IBrowser>("browsers");
+
+interface IUserBrowser {
+  user_id: string;
+  browser_id: string;
+}
+const userBrowsersCollection = database.collection("userBrowsers");
 
 // ----------------------------------------------------------
 // ----------------------------------------------------------
@@ -157,6 +172,15 @@ Deno.serve({ port: PORT }, async (request) => {
   let endpoint: string = url.pathname.replace(/\/+$/, "");
   endpoint = endpoint == "" ? "/" : endpoint;
   const method: string = request.method;
+
+  const headers = Object.fromEntries(request.headers);
+  const schema = headers["referer"]
+    ? String(headers.referer).split("://")[0]
+    : null;
+  const origin = String(request.headers.get("origin") ?? host)
+    .replace("http://", "")
+    .replace("https://", "")
+    .split("/")[0];
 
   // ==========================================================================================
 
@@ -207,10 +231,15 @@ Deno.serve({ port: PORT }, async (request) => {
     url,
     endpoint,
     method,
+
+    headers,
+    schema,
+    origin,
   };
   let response: any = {};
   // console.log({ req });
 
+  // CORS Origin skip all...
   if (method === "OPTIONS") {
     return new Response("OK", {
       status: Status.OK,
@@ -220,6 +249,26 @@ Deno.serve({ port: PORT }, async (request) => {
       },
     });
   }
+
+  //-> global middleware
+  const browser_id = headers['x-browser-id'];
+  if (!browser_id) {
+    return new Response("cannot access", {
+      status: Status.NotAcceptable,
+      headers: {
+        ...response_headers,
+        "Content-Type": "plain/text",
+      },
+    });
+  }
+
+  const browser = await browsersCollection.findOne({
+    key: browser_id,
+  });
+  if (!browser) {
+    // insert...
+  }
+  console.log({ browser_id, browser });
 
   try {
     if (endpoint == backend_endpoint.ping) {
