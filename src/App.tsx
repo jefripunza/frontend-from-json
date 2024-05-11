@@ -845,7 +845,7 @@ function Main(): JSX.Element {
           if (version != existing_version) {
             const init: NewResponse<any> = await axios.get("/init");
 
-            const routes = init?.data?.routes || [];
+            const routes: IRoute[] = init?.data?.routes || [];
             await db.clear("app", "routes");
             for (let i = 0; i < routes.length; i++) {
               const route = routes[i];
@@ -856,7 +856,7 @@ function Main(): JSX.Element {
               }
             }
 
-            const middlewares = init?.data?.middlewares || [];
+            const middlewares: IMiddleware[] = init?.data?.middlewares || [];
             await db.clear("app", "middlewares");
             for (let i = 0; i < middlewares.length; i++) {
               const middleware = middlewares[i];

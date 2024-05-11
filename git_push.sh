@@ -6,6 +6,8 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
+yarn build
+
 git add .
 git commit -m "$*"
 git push
