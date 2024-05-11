@@ -34,8 +34,6 @@ play_sound 1 "./sound/start-build.mp3"
 yarn build
 play_sound 1 "./sound/finish-build.mp3"
 
-echo ""
-
 git add .
 git commit -m "$*"
 git push
@@ -43,6 +41,6 @@ git push
 echo ""
 echo "$bracket"
 echo "Sukses push"
-play_sound 1 "./sound/finish.mp3"
+hide_play_finish=$(play_sound 1 "./sound/finish.mp3")
 
 echo "$bracket" # Exit...
