@@ -444,6 +444,7 @@ function renderElement(
 ): JSX.Element {
   const { element, attributes, children } = _element_;
   const action: IObject<string> = {}; // karena semua string action code harus masuk ke execute
+  console.log({ element, attributes });
   if (attributes) {
     for (const key in attributes) {
       if (
