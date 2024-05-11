@@ -491,6 +491,7 @@ function renderElement(
           });
       }
     }
+    console.log(2, { ...elementProps, ...eventHandlers });
   }
   return React.createElement(
     element,
