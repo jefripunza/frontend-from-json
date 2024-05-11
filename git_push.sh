@@ -31,7 +31,7 @@ echo "$bracket"
 echo "Kode tidak ada masalah."
 
 play_sound 1 "./sound/start-build.mp3"
-vite build
+yarn build
 play_sound 1 "./sound/finish-build.mp3"
 
 echo ""
