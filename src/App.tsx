@@ -462,7 +462,6 @@ function renderElement(
         delete attributes[key];
       }
     }
-    console.log(1, { element, attributes, action }); // debug...
   }
 
   const elementProps: { [key: string]: string } | undefined = attributes
@@ -476,7 +475,8 @@ function renderElement(
     }
   });
   const eventHandlers: { [key: string]: React.MouseEventHandler } = {};
-  if (action) {
+  if (Object.keys(action).length > 0) {
+    console.log(1, { element, attributes, action }); // debug...
     for (const key in action) {
       if (Object.prototype.hasOwnProperty.call(action, key)) {
         eventHandlers[key] = async (e: React.MouseEvent) =>
