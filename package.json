@@ -5,7 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npx cross-env rm -rf dist && tsc && vite build",
+    "clear": "npx cross-env rm -rf dist",
+    "tsc": "tsc",
+    "build": "vite build",
+    "build:all": "npx cross-env rm -rf dist && tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },

@@ -935,8 +935,6 @@ function Main(): JSX.Element {
         ]);
 
         const routes = await db.getAll<IRoute>("app", "routes");
-        const middlewares = await db.getAll("app", "middlewares");
-
         setProgress(30);
 
         // Check each route pattern for a match with the current endpoint
@@ -988,6 +986,20 @@ function Main(): JSX.Element {
           }
           matchedRoute = { ...notFoundRoute, params: {} };
         }
+        const match_middlewares = matchedRoute.middlewares;
+
+        const middlewares: IMiddleware[] = await db.getAll(
+          "app",
+          "middlewares"
+        );
+        const middleware_uses = middlewares.filter((middleware) =>
+          match_middlewares.includes(middleware.key)
+        );
+        for (let i = 0; i < middleware_uses.length; i++) {
+          const middleware = middleware_uses[i];
+          console.log({ use_middleware: middleware });
+        }
+        setProgress(50);
 
         const params = matchedRoute?.params || {};
         const view = matchedRoute?.view as IView;
