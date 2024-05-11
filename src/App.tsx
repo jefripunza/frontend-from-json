@@ -24,10 +24,6 @@ import _axios_, { AxiosRequestConfig, AxiosError } from "axios";
 import CryptoJS from "crypto-js";
 import { v4 as uuidv4 } from "uuid";
 
-interface IObject<T> {
-  [key: string]: T;
-}
-
 const env = import.meta.env;
 
 function getSecretKey(browser_id: string) {
@@ -434,6 +430,9 @@ interface JSONElement {
   element: string;
   attributes?: { [key: string]: string };
   children?: (JSONElement | string)[];
+  action?: {
+    [key: string]: string; // action prop can contain multiple actions
+  };
 }
 function renderElement(
   _element_: JSONElement,
@@ -442,7 +441,7 @@ function renderElement(
   params: any,
   browser_id: string
 ): JSX.Element {
-  const { element, attributes, children } = _element_;
+  const { element, attributes, children, action } = _element_;
   const elementProps: { [key: string]: string } | undefined = attributes
     ? { ...attributes }
     : undefined;
@@ -453,48 +452,23 @@ function renderElement(
       return renderElement(child, navigate, store, params, browser_id);
     }
   });
-  const actions: IObject<string> = {}; // karena semua string action code harus masuk ke execute
-  if (attributes) {
-    console.log(0, { element, attributes });
-    for (const key in attributes) {
-      if (
-        [
-          "onClick",
-          "onChange",
-          "onKeyDown",
-          "onKeyUp",
-          "onFocus",
-          "onBlur",
-          "onMouseOver",
-        ].includes(key)
-      ) {
-        const attribute = attributes[key];
-        actions[key] = attribute;
-        delete attributes[key];
-      }
-    }
-  }
   const eventHandlers: { [key: string]: React.MouseEventHandler } = {};
-  if (Object.keys(actions).length > 0) {
-    console.log(1, { element, attributes, actions }); // debug...
-    for (const key in actions) {
-      eventHandlers[key] = async (e: React.MouseEvent) =>
-        // semua string action code yang tersedia wajib masuk ke sini...
-        await execute(actions[key], {
-          ...dependencies,
-          navigate,
-          store,
-          params,
-          browser_id,
-          e,
-        });
-      console.log(1.1, { element, key });
-      if (elementProps) {
-        delete elementProps[key];
+  if (action) {
+    for (const key in action) {
+      if (Object.prototype.hasOwnProperty.call(action, key)) {
+        eventHandlers[key] = async (e: React.MouseEvent) =>
+          await execute(action[key], {
+            ...dependencies,
+            navigate,
+            store,
+            params,
+            browser_id,
+            e,
+          });
       }
     }
-    console.log(2, { elementProps, eventHandlers });
   }
+  console.log({ elementProps, eventHandlers });
   return React.createElement(
     element,
     { ...elementProps, ...eventHandlers },
@@ -757,6 +731,15 @@ interface IRender {
   element: string;
   children: IRender[];
   attributes?: { [key: string]: string | number };
+  action?: {
+    onClick?: string;
+    onChange?: string;
+    onKeyDown?: string;
+    onKeyUp?: string;
+    onFocus?: string;
+    onBlur?: string;
+    onMouseOver?: string;
+  };
 }
 interface IView {
   title: string;
