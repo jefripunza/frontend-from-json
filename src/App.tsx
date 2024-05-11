@@ -450,8 +450,8 @@ function renderElement(
     }
   });
   const eventHandlers: { [key: string]: React.MouseEventHandler } = {};
-  if (elementProps) {
-    for (const key in elementProps) {
+  for (const key in elementProps) {
+    if (Object.prototype.hasOwnProperty.call(elementProps, key)) {
       if (
         [
           "onClick",
