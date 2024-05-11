@@ -462,6 +462,8 @@ function renderElement(
       }
     }
   }
+  if (Object.keys(action).length > 0) console.log({ element, action }); // debug...
+
   const elementProps: { [key: string]: string } | undefined = attributes
     ? { ...attributes }
     : undefined;
