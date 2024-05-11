@@ -2,7 +2,7 @@
   "tasks": {
     "dev": "deno run --watch=./server.ts --allow-read --allow-write --allow-env --allow-net --allow-sys server.ts",
     "lint": "deno lint --json server.ts",
-    "compile": "npm run build:all && bash asset-compile.sh && rm -rf run run.exe && deno compile -A --output run server.ts && pwd",
+    "compile": "npm run build && bash asset-compile.sh && rm -rf run run.exe && deno compile -A --output run server.ts && pwd",
     "start": "chmod +x ./run && ./run"
   }
 }
