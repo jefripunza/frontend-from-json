@@ -462,7 +462,7 @@ function renderElement(
         delete attributes[key];
       }
     }
-    if (Object.keys(action).length > 0) console.log(1, { element, action }); // debug...
+    console.log(1, { element, attributes, action }); // debug...
   }
 
   const elementProps: { [key: string]: string } | undefined = attributes
