@@ -430,9 +430,6 @@ interface JSONElement {
   element: string;
   attributes?: { [key: string]: string };
   children?: (JSONElement | string)[];
-  action?: {
-    [key: string]: string; // action prop can contain multiple actions
-  };
 }
 function renderElement(
   _element_: JSONElement,
@@ -441,7 +438,7 @@ function renderElement(
   params: any,
   browser_id: string
 ): JSX.Element {
-  const { element, attributes, children, action } = _element_;
+  const { element, attributes, children } = _element_;
   const elementProps: { [key: string]: string } | undefined = attributes
     ? { ...attributes }
     : undefined;
@@ -453,11 +450,21 @@ function renderElement(
     }
   });
   const eventHandlers: { [key: string]: React.MouseEventHandler } = {};
-  if (action) {
-    for (const key in action) {
-      if (Object.prototype.hasOwnProperty.call(action, key)) {
+  if (elementProps) {
+    for (const key in elementProps) {
+      if (
+        [
+          "onClick",
+          "onChange",
+          "onKeyDown",
+          "onKeyUp",
+          "onFocus",
+          "onBlur",
+          "onMouseOver",
+        ].includes(key)
+      ) {
         eventHandlers[key] = async (e: React.MouseEvent) =>
-          await execute(action[key], {
+          await execute(elementProps[key], {
             ...dependencies,
             navigate,
             store,
@@ -465,6 +472,7 @@ function renderElement(
             browser_id,
             e,
           });
+        delete elementProps[key];
       }
     }
   }
@@ -731,15 +739,6 @@ interface IRender {
   element: string;
   children: IRender[];
   attributes?: { [key: string]: string | number };
-  action?: {
-    onClick?: string;
-    onChange?: string;
-    onKeyDown?: string;
-    onKeyUp?: string;
-    onFocus?: string;
-    onBlur?: string;
-    onMouseOver?: string;
-  };
 }
 interface IView {
   title: string;
