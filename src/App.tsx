@@ -490,7 +490,7 @@ function renderElement(
         });
       console.log(1.1, { element, key });
     }
-    console.log(2, { ...elementProps, ...eventHandlers });
+    console.log(2, { elementProps, eventHandlers });
   }
   return React.createElement(
     element,
