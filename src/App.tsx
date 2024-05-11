@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 // import { unregisterSW } from "virtual:pwa-register";
 
 import {
@@ -258,7 +258,7 @@ axios.interceptors.response.use(
             message: message || response?.statusText || null,
           };
         } catch (error) {
-          console.log("data on error in try catch:", { error });
+          console.error("data on error in try catch:", { error });
           return {
             success: false,
             data: null,
@@ -820,7 +820,7 @@ function Main(): JSX.Element {
           }
         }
       } catch (error) {
-        console.log({ error });
+        console.error({ error });
       }
     };
     document.addEventListener("click", handleClick);
@@ -891,7 +891,7 @@ function Main(): JSX.Element {
 
           setOnline(true);
 
-          console.log({ ip, version });
+          // console.log({ ip, version }); // debug...
         } else {
           setOnline(false);
         }
@@ -1042,15 +1042,15 @@ function Main(): JSX.Element {
         setLoaded(1);
         setProgress(100);
       } catch (error) {
-        console.log({ error });
+        console.error({ error });
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [endpoint]);
 
   //-> execute script onload and onclose from json
-  useEffect(() => {
-    const executeScript = async (script: string) => {
+  const executeScript = useCallback(
+    async (script: string) => {
       const result = await execute(script, {
         ...dependencies,
         navigate,
@@ -1059,7 +1059,10 @@ function Main(): JSX.Element {
         browser_id,
       });
       console.log("useEffect", { return: result });
-    };
+    },
+    [navigate, store, params, browser_id]
+  );
+  useEffect(() => {
     if (onLoaded == 1 && browser_id) {
       (async () => {
         await executeScript(onLoadScript);
@@ -1071,15 +1074,7 @@ function Main(): JSX.Element {
         (async () => await executeScript(onCloseScript))();
       }
     };
-  }, [
-    onLoaded,
-    onLoadScript,
-    onCloseScript,
-    navigate,
-    store,
-    params,
-    browser_id,
-  ]);
+  }, [onLoaded, onLoadScript, onCloseScript, executeScript, browser_id]);
 
   if (notFound && listRoutes.length > 0) {
     return <EndpointNotFoundPage endpoint={endpoint} />;
