@@ -24,6 +24,10 @@ import _axios_, { AxiosRequestConfig, AxiosError } from "axios";
 import CryptoJS from "crypto-js";
 import { v4 as uuidv4 } from "uuid";
 
+interface IObject<T> {
+  [key: string]: T;
+}
+
 const env = import.meta.env;
 
 function getSecretKey(browser_id: string) {
@@ -428,7 +432,8 @@ const execute = async (script: string, args: any): Promise<any> => {
 
 interface JSONElement {
   element: string;
-  attributes?: { [key: string]: string };
+  attributes?: IObject<string>;
+  action: IObject<string>; // action prop can contain multiple actions
   children?: (JSONElement | string)[];
 }
 function renderElement(
@@ -438,8 +443,8 @@ function renderElement(
   params: any,
   browser_id: string
 ): JSX.Element {
-  const { element, attributes, children } = _element_;
-  const elementProps: { [key: string]: string } | undefined = attributes
+  const { element, attributes, children, action } = _element_;
+  const elementProps: IObject<string> | undefined = attributes
     ? { ...attributes }
     : undefined;
   const renderedChildren = children?.map((child) => {
@@ -449,22 +454,12 @@ function renderElement(
       return renderElement(child, navigate, store, params, browser_id);
     }
   });
-  const eventHandlers: { [key: string]: React.MouseEventHandler } = {};
-  for (const key in elementProps) {
-    if (Object.prototype.hasOwnProperty.call(elementProps, key)) {
-      if (
-        [
-          "onClick",
-          "onChange",
-          "onKeyDown",
-          "onKeyUp",
-          "onFocus",
-          "onBlur",
-          "onMouseOver",
-        ].includes(key)
-      ) {
+  const eventHandlers: IObject<React.MouseEventHandler> = {};
+  if (action) {
+    for (const key in action) {
+      if (Object.prototype.hasOwnProperty.call(action, key)) {
         eventHandlers[key] = async (e: React.MouseEvent) =>
-          await execute(elementProps[key], {
+          await execute(action[key], {
             ...dependencies,
             navigate,
             store,
@@ -472,16 +467,62 @@ function renderElement(
             browser_id,
             e,
           });
-        delete elementProps[key];
       }
     }
   }
-  console.log({ elementProps, eventHandlers });
   return React.createElement(
     element,
     { ...elementProps, ...eventHandlers },
     ...(renderedChildren || [])
   );
+}
+
+function moveAttributesToAction(element: IRender): IRender {
+  // Jika tidak ada atribut atau atributnya kosong, langsung kembalikan elemen
+  if (!element.attributes || Object.keys(element.attributes).length === 0) {
+    return element;
+  }
+
+  // Salin elemen agar tidak mengubah objek asli
+  const updatedElement: IRender = { ...element };
+  const attributes = updatedElement.attributes as IObject<string>;
+
+  // Inisialisasi action jika belum ada
+  if (!updatedElement.action) {
+    updatedElement.action = {};
+  }
+
+  // Pindahkan atribut ke dalam action
+  Object.keys(attributes as IObject<string>)
+    .filter((key) =>
+      [
+        "onClick",
+        "onChange",
+        "onKeyDown",
+        "onKeyUp",
+        "onFocus",
+        "onBlur",
+        "onMouseOver",
+      ].includes(key)
+    )
+    .forEach((key) => {
+      updatedElement.action[key] = attributes[key];
+      if (updatedElement.attributes) {
+        delete updatedElement.attributes[key];
+      }
+    });
+
+  // Rekursi ke dalam children jika ada
+  if (updatedElement.children) {
+    updatedElement.children = updatedElement.children.map((child) => {
+      if (typeof child === "object") {
+        return moveAttributesToAction(child as IRender);
+      }
+      return child;
+    });
+  }
+
+  return updatedElement;
 }
 
 interface IStore {
@@ -738,7 +779,8 @@ const variables = {
 interface IRender {
   element: string;
   children: IRender[];
-  attributes?: { [key: string]: string | number };
+  attributes?: IObject<string | number>;
+  action: IObject<string>;
 }
 interface IView {
   title: string;
@@ -753,7 +795,7 @@ interface IRoute {
   view: IView | string; // string jika encrypted
 }
 interface IMatchRoute extends IRoute {
-  params: { [key: string]: string };
+  params: IObject<string>;
 }
 
 interface IMiddleware {
@@ -963,7 +1005,7 @@ function Main(): JSX.Element {
           );
           const match = endpoint.match(modifiedEndpointRegex);
           if (match) {
-            const params: { [key: string]: string } = {};
+            const params: IObject<string> = {};
             paramNames.forEach((name, index) => {
               params[name] = decodeURIComponent(match[index + 1]);
             });
@@ -1009,7 +1051,9 @@ function Main(): JSX.Element {
         const onLoad = view?.onLoad || "";
         const onClose = view?.onClose || "";
         const style = view?.style || "";
-        const render = view?.render || {};
+        let render = view?.render || {};
+        render = moveAttributesToAction(render);
+        console.log({ render });
 
         document.title = title;
         setParam(params);
