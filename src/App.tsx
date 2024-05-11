@@ -489,6 +489,9 @@ function renderElement(
           e,
         });
       console.log(1.1, { element, key });
+      if (elementProps) {
+        delete elementProps[key];
+      }
     }
     console.log(2, { elementProps, eventHandlers });
   }
