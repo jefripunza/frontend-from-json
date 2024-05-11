@@ -453,7 +453,7 @@ function renderElement(
       return renderElement(child, navigate, store, params, browser_id);
     }
   });
-  const action: IObject<string> = {}; // karena semua string action code harus masuk ke execute
+  const actions: IObject<string> = {}; // karena semua string action code harus masuk ke execute
   if (attributes) {
     console.log(0, { element, attributes });
     for (const key in attributes) {
@@ -468,27 +468,27 @@ function renderElement(
           "onMouseOver",
         ].includes(key)
       ) {
-        action[key] = attributes[key];
+        const attribute = attributes[key];
+        actions[key] = attribute;
         delete attributes[key];
       }
     }
   }
   const eventHandlers: { [key: string]: React.MouseEventHandler } = {};
-  if (Object.keys(action).length > 0) {
-    console.log(1, { element, attributes, action }); // debug...
-    for (const key in action) {
-      if (Object.prototype.hasOwnProperty.call(action, key)) {
-        eventHandlers[key] = async (e: React.MouseEvent) =>
-          // semua string action code yang tersedia wajib masuk ke sini...
-          await execute(action[key], {
-            ...dependencies,
-            navigate,
-            store,
-            params,
-            browser_id,
-            e,
-          });
-      }
+  if (Object.keys(actions).length > 0) {
+    console.log(1, { element, attributes, actions }); // debug...
+    for (const key in actions) {
+      eventHandlers[key] = async (e: React.MouseEvent) =>
+        // semua string action code yang tersedia wajib masuk ke sini...
+        await execute(actions[key], {
+          ...dependencies,
+          navigate,
+          store,
+          params,
+          browser_id,
+          e,
+        });
+      console.log(1.1, { element, key });
     }
     console.log(2, { ...elementProps, ...eventHandlers });
   }
