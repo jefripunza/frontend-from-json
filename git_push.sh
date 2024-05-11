@@ -6,7 +6,7 @@ bracket="============================================="
 play_sound() {
     local volume="$1"
     local sound_file="$2"
-    ffplay -nodisp -loglevel quiet -af "volume=$volume" -autoexit "$sound_file"
+    hide_play=$(ffplay -nodisp -loglevel quiet -af "volume=$volume" -autoexit "$sound_file")
 }
 
 # Cek apakah ada parameter masuk
@@ -20,7 +20,7 @@ fi
 build_output=$(yarn tsc | sed '/^yarn run/d; /^$ tsc/d; /^info Visit/d')
 if [[ $build_output == *"error"* ]]; then
     echo "$bracket"
-    echo "Kode masih ada yang error !!"
+    echo "# Kode masih ada yang error !!"
     echo ""
     echo "$build_output"
     play_sound 4 "./sound/error.mp3"
@@ -28,8 +28,9 @@ if [[ $build_output == *"error"* ]]; then
 fi
 echo ""
 echo "$bracket"
-echo "Kode tidak ada masalah."
+echo "# Kode tidak ada masalah."
 play_sound 1 "./sound/good-code.mp3"
+echo ""
 
 git add .
 git commit -m "$*"
@@ -37,7 +38,7 @@ git push
 
 echo ""
 echo "$bracket"
-echo "Sukses push"
-hide_play_finish=$(play_sound 1 "./sound/finish.mp3")
+echo "# Sukses push"
+play_sound 1 "./sound/finish.mp3"
 
 echo "$bracket" # Exit...
