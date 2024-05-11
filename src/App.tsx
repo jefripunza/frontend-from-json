@@ -827,6 +827,7 @@ function Main(): JSX.Element {
 
   const [style, setStyle] = useState<string>("");
   const [render, setRender] = useState<any>({});
+  const [listRoutes, setListRoute] = useState<IRoute[]>([]);
 
   const store = useStore();
 
@@ -935,6 +936,7 @@ function Main(): JSX.Element {
         ]);
 
         const routes = await db.getAll<IRoute>("app", "routes");
+        setListRoute(routes);
         setProgress(30);
 
         // Check each route pattern for a match with the current endpoint
@@ -1062,7 +1064,7 @@ function Main(): JSX.Element {
     browser_id,
   ]);
 
-  if (notFound) {
+  if (notFound && listRoutes.length > 0) {
     return <EndpointNotFoundPage endpoint={endpoint} />;
   }
   if (Object.keys(render).length == 0) {
