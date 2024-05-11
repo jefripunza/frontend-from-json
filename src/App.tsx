@@ -444,8 +444,8 @@ function renderElement(
 ): JSX.Element {
   const { element, attributes, children } = _element_;
   const action: IObject<string> = {}; // karena semua string action code harus masuk ke execute
-  console.log({ element, attributes });
   if (attributes) {
+    console.log(0, { element, attributes });
     for (const key in attributes) {
       if (
         [
@@ -462,8 +462,8 @@ function renderElement(
         delete attributes[key];
       }
     }
+    if (Object.keys(action).length > 0) console.log(1, { element, action }); // debug...
   }
-  if (Object.keys(action).length > 0) console.log({ element, action }); // debug...
 
   const elementProps: { [key: string]: string } | undefined = attributes
     ? { ...attributes }
