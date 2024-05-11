@@ -1076,11 +1076,15 @@ function Main(): JSX.Element {
     previousState.current = store;
 
     return () => {
+      console.log({
+        store,
+        previousStoreState,
+      });
       if (onLoaded == 2 && store !== previousStoreState) {
         (async () => await executeScript(onCloseScript))();
       }
     };
-  }, [executeScript, onCloseScript, onLoaded, store, previousState]);
+  }, [executeScript, onCloseScript, onLoaded, store]);
 
   if (notFound && listRoutes.length > 0) {
     return <EndpointNotFoundPage endpoint={endpoint} />;
