@@ -29,10 +29,7 @@ fi
 echo ""
 echo "$bracket"
 echo "Kode tidak ada masalah."
-
-play_sound 1 "./sound/start-build.mp3"
-yarn build
-play_sound 1 "./sound/finish-build.mp3"
+play_sound 1 "./sound/good-code.mp3"
 
 git add .
 git commit -m "$*"
