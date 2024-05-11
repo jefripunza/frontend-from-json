@@ -1069,12 +1069,14 @@ function Main(): JSX.Element {
         setLoaded(2);
       })();
     }
+  }, [browser_id, executeScript, onLoadScript, onLoaded]);
+  useEffect(() => {
     return () => {
       if (onLoaded == 2) {
         (async () => await executeScript(onCloseScript))();
       }
     };
-  }, [onLoaded, onLoadScript, onCloseScript, executeScript, browser_id]);
+  }, [executeScript, onCloseScript, onLoaded]);
 
   if (notFound && listRoutes.length > 0) {
     return <EndpointNotFoundPage endpoint={endpoint} />;
