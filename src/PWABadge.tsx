@@ -1,8 +1,9 @@
 import { useRegisterSW } from "virtual:pwa-register/react";
 
 import "./PWABadge.css";
+import { useEffect } from "react";
 
-function PWABadge() {
+function PWABadge({ update }: { update: string }) {
   // check for updates every hour
   const period = 60 * 60 * 1000;
 
@@ -23,6 +24,13 @@ function PWABadge() {
       }
     },
   });
+
+  useEffect(() => {
+    if (update != "") {
+      console.log({ updateServiceWorker: update });
+      updateServiceWorker(true);
+    }
+  }, [update, updateServiceWorker]);
 
   function close() {
     setOfflineReady(false);

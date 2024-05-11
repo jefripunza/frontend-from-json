@@ -22,7 +22,7 @@ import zukeeper from "zukeeper";
 import anime from "animejs/lib/anime.es.js";
 import _axios_, { AxiosRequestConfig, AxiosError } from "axios";
 import CryptoJS from "crypto-js";
-// import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 const env = import.meta.env;
 
@@ -813,6 +813,8 @@ function Main(): JSX.Element {
     };
   }, [endpoint, navigate]);
 
+  const [updateServiceWorker, setUpdateServiceWorker] = useState<string>("");
+
   const [progress, setProgress] = useState<number>(0);
   const [browser_id, setBrowserId] = useState<string>("");
 
@@ -866,7 +868,7 @@ function Main(): JSX.Element {
             }
 
             await variables.set("version", version); // paling terakhir / tanda tangan kontrak setuju
-            // unregister pwa...
+            setUpdateServiceWorker(uuidv4()); // update pwa...
             window.location.reload();
           }
 
@@ -1072,7 +1074,7 @@ function Main(): JSX.Element {
       />
       <style>{style}</style>
       {renderedElement}
-      <PWABadge />
+      <PWABadge update={updateServiceWorker} />
     </>
   );
 }
