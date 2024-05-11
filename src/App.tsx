@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+// import { unregisterSW } from "virtual:pwa-register";
+
 import {
   createBrowserRouter,
   RouterProvider,
@@ -496,11 +498,11 @@ interface ITable {
 }
 
 class Database<T> {
-  private version: number = 1;
+  private dbVersion: number = 1;
   private databases: IDatabase = {};
 
-  constructor(version?: number) {
-    this.version = version || 1;
+  constructor(dbVersion?: number) {
+    this.dbVersion = dbVersion || 1;
   }
 
   connect(dbName: string, tables?: ITable[] | undefined): Promise<IDBDatabase> {
@@ -509,7 +511,7 @@ class Database<T> {
         resolve(this.databases[dbName]);
         return;
       }
-      const request = indexedDB.open(dbName, this.version);
+      const request = indexedDB.open(dbName, this.dbVersion);
       request.onerror = () => {
         reject(request.error);
       };
@@ -570,7 +572,7 @@ class Database<T> {
     });
   }
 
-  getAll(dbName: string, tableName: string): Promise<T[]> {
+  getAll<T>(dbName: string, tableName: string): Promise<T[]> {
     return new Promise(async (resolve, reject) => {
       if (!this.databases[dbName]) {
         await delay(10);
@@ -703,26 +705,62 @@ class Database<T> {
 
 const db = new Database(1);
 
-const system = {
+const variables = {
   get: async (key: string) => {
-    const result: any = await db.get("app", "system", key);
+    const result: any = await db.get("app", "variables", key);
     if (!result) return null;
     return result.value;
   },
   set: async (key: string, value: any) => {
     try {
-      const result: any = await db.get("app", "system", key);
+      const result: any = await db.get("app", "variables", key);
       if (result) {
-        await db.delete("app", "system", key);
-        await db.add("app", "system", { key, value });
+        await db.delete("app", "variables", key);
+        await db.add("app", "variables", { key, value });
       } else {
-        await db.add("app", "system", { key, value });
+        await db.add("app", "variables", { key, value });
       }
     } catch (error) {
       // skip...
     }
   },
 };
+
+interface IRender {
+  element: string;
+  children: IRender[];
+  attributes?: { [key: string]: string | number };
+  action?: {
+    onClick?: string;
+    onChange?: string;
+    onKeyDown?: string;
+    onKeyUp?: string;
+    onFocus?: string;
+    onBlur?: string;
+    onMouseOver?: string;
+  };
+}
+interface IView {
+  title: string;
+  style?: string;
+  onLoad?: string;
+  onClose?: string;
+  render: IRender;
+}
+interface IRoute {
+  endpoint: string;
+  middlewares: string[];
+  view: IView | string; // string jika encrypted
+}
+interface IMatchRoute extends IRoute {
+  params: { [key: string]: string };
+}
+
+interface IMiddleware {
+  key: string;
+  script: string;
+  order: number;
+}
 
 function Main(): JSX.Element {
   const navigate = useNavigate();
@@ -799,9 +837,42 @@ function Main(): JSX.Element {
         const ping: any = await axios.get("/ping");
         if (ping.success) {
           const ip = ping.data.ip;
-          console.log({ ip });
-          await system.set("ip", ip);
+          await variables.set("ip", ip);
+          const version = ping.data.version;
+          const existing_version = await variables.get("version");
+          if (version != existing_version) {
+            const init: NewResponse<any> = await axios.get("/init");
+
+            const routes = init?.data?.routes || [];
+            await db.clear("app", "routes");
+            for (let i = 0; i < routes.length; i++) {
+              const route = routes[i];
+              try {
+                await db.add("app", "routes", { ...route });
+              } catch (error) {
+                // skip...
+              }
+            }
+
+            const middlewares = init?.data?.middlewares || [];
+            await db.clear("app", "middlewares");
+            for (let i = 0; i < middlewares.length; i++) {
+              const middleware = middlewares[i];
+              try {
+                await db.add("app", "middlewares", { ...middleware });
+              } catch (error) {
+                // skip...
+              }
+            }
+
+            await variables.set("version", version); // paling terakhir / tanda tangan kontrak setuju
+            // unregister pwa...
+            window.location.reload();
+          }
+
           setOnline(true);
+
+          console.log({ ip, version });
         } else {
           setOnline(false);
         }
@@ -841,10 +912,16 @@ function Main(): JSX.Element {
       try {
         await db.connect("app", [
           {
-            name: "system",
+            name: "variables",
             keyPath: "key",
             autoIncrement: true,
           },
+          {
+            name: "pendingApis",
+            keyPath: "key",
+            autoIncrement: true,
+          },
+
           {
             name: "routes",
             keyPath: "endpoint",
@@ -855,53 +932,13 @@ function Main(): JSX.Element {
           },
         ]);
 
-        let init: NewResponse<any> | boolean = false;
-        if (isOnline) {
-          init = await axios.get("/init");
-          console.log("/init", {
-            init,
-            endpoint,
-          });
-        }
-
-        let routes: any[] = [];
-        let middlewares: any[] = [];
-        if (typeof init != "boolean" && init.success) {
-          const version = init?.data?.version || ""; // #1 get version untuk check existing version
-          const existing_version = await system.get("version");
-          if (version != existing_version) {
-            routes = init?.data?.routes || [];
-            middlewares = init?.data?.middlewares || [];
-            await db.clear("app", "routes");
-            await db.clear("app", "middlewares");
-            for (let i = 0; i < routes.length; i++) {
-              const route = routes[i];
-              try {
-                await db.add("app", "routes", { ...route });
-              } catch (error) {
-                // skip...
-              }
-            }
-            for (let i = 0; i < middlewares.length; i++) {
-              const middleware = middlewares[i];
-              try {
-                await db.add("app", "middlewares", { ...middleware });
-              } catch (error) {
-                // skip...
-              }
-            }
-            await system.set("version", version);
-          }
-        }
-
-        if (routes.length == 0) {
-          routes = await db.getAll("app", "routes");
-        }
+        const routes = await db.getAll<IRoute>("app", "routes");
+        const middlewares = await db.getAll("app", "middlewares");
 
         setProgress(30);
 
         // Check each route pattern for a match with the current endpoint
-        let matchedRoute;
+        let matchedRoute: IMatchRoute | undefined;
         for (const route of routes) {
           if (route.endpoint == "*") continue;
           let modifiedEndpoint = route.endpoint.startsWith("/")
@@ -928,7 +965,12 @@ function Main(): JSX.Element {
             paramNames.forEach((name, index) => {
               params[name] = decodeURIComponent(match[index + 1]);
             });
-            matchedRoute = { ...route, params };
+            matchedRoute = {
+              endpoint: "",
+              middlewares: [],
+              view: route.view as IView,
+              params,
+            };
             break;
           }
         }
@@ -942,11 +984,11 @@ function Main(): JSX.Element {
             setNotFound(true);
             return;
           }
-          matchedRoute = notFoundRoute;
+          matchedRoute = { ...notFoundRoute, params: {} };
         }
 
         const params = matchedRoute?.params || {};
-        const view = matchedRoute.view;
+        const view = matchedRoute?.view as IView;
         const title = view?.title || "";
         const onLoad = view?.onLoad || "";
         const onClose = view?.onClose || "";

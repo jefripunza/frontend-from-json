@@ -223,10 +223,24 @@ Deno.serve({ port: PORT }, async (request) => {
 
   try {
     if (endpoint == backend_endpoint.ping) {
-      const ipify = await fetch("https://api.ipify.org/?format=json");
-      const { ip } = await ipify.json();
+      let ip = "";
+      try {
+        const ipify = await fetch("https://api.ipify.org/?format=json");
+        const response_ipify = await ipify.json();
+        ip = response_ipify.ip;
+      } catch (error) {
+        // skip...
+      }
+      const variable = await variablesCollection.findOne({
+        key: "version",
+      });
+      let version = "";
+      if (variable) {
+        version = variable.value;
+      }
       response = {
         ip,
+        version,
       };
     } else if (String(endpoint).startsWith(backend_endpoint.init)) {
       if (method == "GET") {
@@ -250,21 +264,15 @@ Deno.serve({ port: PORT }, async (request) => {
           delete route["for"];
           return route;
         });
-        const variable = await variablesCollection.findOne({
-          key: "version",
-        });
-        let version = "";
-        if (variable) {
-          version = variable.value;
-        }
         response = {
-          version,
           middlewares,
           routes,
         };
       }
     } else if (String(endpoint).startsWith(backend_endpoint.api)) {
-      response = {};
+      response = {
+        coming_soon: true,
+      };
     }
 
     // endpoint not found...
