@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 // import { unregisterSW } from "virtual:pwa-register";
 
 import {
@@ -1049,7 +1049,6 @@ function Main(): JSX.Element {
   }, [endpoint]);
 
   //-> execute script onload and onclose from json
-  const previousState = useRef<any>(null);
   const executeScript = useCallback(
     async (script: string) => {
       const result = await execute(script, {
@@ -1071,20 +1070,24 @@ function Main(): JSX.Element {
       })();
     }
   }, [browser_id, executeScript, onLoadScript, onLoaded]);
+  const [previousEndpoint, setPreviousEndpoint] = useState<string>(
+    window.location.pathname
+  );
   useEffect(() => {
-    const previousStoreState = previousState.current as IStore;
-    previousState.current = store;
-
+    const endpoint = window.location.pathname;
     return () => {
       console.log({
-        store,
-        previousStoreState,
+        endpoint,
+        previousEndpoint,
       });
-      if (onLoaded == 2 && store !== previousStoreState) {
-        (async () => await executeScript(onCloseScript))();
+      if (onLoaded == 2 && endpoint !== previousEndpoint) {
+        (async () => {
+          await executeScript(onCloseScript);
+          setPreviousEndpoint(endpoint);
+        })();
       }
     };
-  }, [executeScript, onCloseScript, onLoaded, store]);
+  }, [executeScript, onCloseScript, onLoaded, previousEndpoint, store]);
 
   if (notFound && listRoutes.length > 0) {
     return <EndpointNotFoundPage endpoint={endpoint} />;
