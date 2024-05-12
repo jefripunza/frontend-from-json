@@ -8,7 +8,7 @@
     "clear": "npx cross-env rm -rf dist",
     "tsc": "tsc",
     "html:min": "node html-minify.js",
-    "build": "npx cross-env rm -rf dist && tsc && vite build && node html-minify.js",
+    "build": "npx cross-env rm -rf dist && tsc && vite build && deno run -A html-minify.js",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -52,7 +52,6 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.6",
-    "html-minifier": "^4.0.0",
     "typescript": "^5.2.2",
     "vite": "^5.2.10",
     "vite-plugin-pwa": "^0.20.0",

@@ -1,16 +1,14 @@
-import { minify } from "html-minifier";
+import { minifyHTML } from "https://deno.land/x/minifier/mod.ts";
 import * as fs from "node:fs";
 
 const html_target = "./dist/index.html";
 
 const data = fs.readFileSync(html_target, "utf8");
-const min = minify(data, {
-  collapseWhitespace: true,
-  removeAttributeQuotes: true,
-  collapseInlineTagWhitespace: true,
+const min = minifyHTML(data, {
   minifyCSS: true,
   minifyJS: true,
-  minifyURLs: true,
-  removeComments: true,
 });
-fs.writeFileSync(html_target, min);
+
+const html_output = html_target;
+// const html_output = "./result.html";
+fs.writeFileSync(html_output, min);
