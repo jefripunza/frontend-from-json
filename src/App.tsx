@@ -30,8 +30,31 @@ interface IObject<T> {
 
 const env = import.meta.env;
 
+// const getLanguage = () =>
+//   navigator.userLanguage ||
+//   (navigator.languages &&
+//     navigator.languages.length &&
+//     navigator.languages[0]) ||
+//   navigator.language ||
+//   navigator.browserLanguage ||
+//   navigator.systemLanguage ||
+//   "en";
+
+// const getClientInfo = () => {
+//   const info = window.clientInformation;
+//   return {
+//     // info,
+//     os: info.platform,
+//     vendor: info.vendor,
+//     languages: info.languages,
+//   };
+// };
+
 function getSecretKey(browser_id: string) {
-  const origin = window.location.host;
+  let origin = window.location.host;
+  if (String(origin).startsWith("localhost:")) {
+    origin = "localhost";
+  }
   const secret_key = `${origin}#${browser_id}`;
   // console.log({ secret_key, origin: window.location }); // debug...
   return secret_key;
@@ -787,6 +810,7 @@ function Main(): JSX.Element {
   const navigate = useNavigate();
   const endpoint = window.location.pathname;
 
+  //-> anchor handle...
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
@@ -798,6 +822,8 @@ function Main(): JSX.Element {
       if (!anchor) return;
       const hash = (anchor as HTMLAnchorElement).hash;
       const href = anchor.getAttribute("href");
+      const prevent_default =
+        anchor.getAttribute("data-prevent-default") == "true";
       const navigate_replace = anchor.getAttribute("data-navigate-replace");
       const targetAttr = anchor.getAttribute("target");
       try {
@@ -816,7 +842,7 @@ function Main(): JSX.Element {
         } else if (targetAttr === "_blank" && href) {
           window.open(href, "_blank")?.focus();
         } else {
-          if (href) {
+          if (href && !prevent_default) {
             if (navigate_replace) {
               navigate(href, { replace: true });
             } else {
@@ -838,6 +864,7 @@ function Main(): JSX.Element {
 
   const [progress, setProgress] = useState<number>(0);
   const [browser_id, setBrowserId] = useState<string>("");
+  const [secret_key, setSecretKey] = useState<string>("");
 
   const [onLoaded, setLoaded] = useState<number>(0); // 0 1 2
   const [notFound, setNotFound] = useState<boolean>(false);
@@ -853,6 +880,7 @@ function Main(): JSX.Element {
   const store = useStore();
 
   //-> check online or offline
+  const [isBlocked, setBlocked] = useState(false);
   const [isOnline, setOnline] = useState(true);
   const [onLoad, setLoad] = useState<boolean>(false);
   useEffect(() => {
@@ -865,32 +893,44 @@ function Main(): JSX.Element {
           const version = ping.data.version;
           const existing_version = await variables.get("version");
           if (version != existing_version) {
+            setProgress(0);
             const init: NewResponse<any> = await axios.get("/init");
+            setProgress(30);
 
             const routes: IRoute[] = init?.data?.routes || [];
             await db.clear("app", "routes");
+            setProgress(40);
             for (let i = 0; i < routes.length; i++) {
               const route = routes[i];
+              route.view = encode(secret_key, JSON.stringify(route.view));
               try {
                 await db.add("app", "routes", { ...route });
               } catch (error) {
                 // skip...
               }
             }
+            setProgress(50);
 
             const middlewares: IMiddleware[] = init?.data?.middlewares || [];
             await db.clear("app", "middlewares");
+            setProgress(70);
             for (let i = 0; i < middlewares.length; i++) {
               const middleware = middlewares[i];
+              middleware.script = encode(
+                secret_key,
+                JSON.stringify(middleware.script)
+              );
               try {
                 await db.add("app", "middlewares", { ...middleware });
               } catch (error) {
                 // skip...
               }
             }
+            setProgress(60);
 
             await variables.set("version", version); // paling terakhir / tanda tangan kontrak setuju
             setUpdateServiceWorker(uuidv4()); // update pwa...
+            setProgress(100);
             window.location.reload();
           }
 
@@ -898,12 +938,15 @@ function Main(): JSX.Element {
 
           // console.log({ ip, version }); // debug...
         } else {
+          if (String(ping.data).includes("blocked")) {
+            setBlocked(true);
+          }
           setOnline(false);
         }
       } catch (error) {
         setOnline(false);
       } finally {
-        await delay(3000);
+        await delay(3000); // delay ping...
         retry();
       }
     };
@@ -913,9 +956,13 @@ function Main(): JSX.Element {
     if (isOnline) {
       if (onLoad) {
         toast.success("now is online!");
+        if (isBlocked) {
+          window.location.reload();
+          setBlocked(false);
+        }
       }
     } else {
-      if (onLoad) {
+      if (onLoad && !isBlocked) {
         toast.error("you are offline!");
       }
       setLoad(true);
@@ -923,7 +970,15 @@ function Main(): JSX.Element {
   }, [isOnline, onLoad]);
 
   useEffect(() => {
-    (async () => setBrowserId(await getBrowserId()))();
+    (async () => {
+      const value = await getBrowserId();
+      let origin = window.location.host;
+      if (String(origin).startsWith("localhost:")) {
+        origin = "localhost";
+      }
+      setBrowserId(value);
+      setSecretKey(`${origin}#${value}`);
+    })();
   }, []);
 
   //-> handling page and main management
@@ -1025,7 +1080,8 @@ function Main(): JSX.Element {
         setProgress(50);
 
         const params = matchedRoute?.params || {};
-        const view = matchedRoute?.view as IView;
+        let view = matchedRoute?.view as any;
+        view = JSON.parse(decode(secret_key, view)) as IView;
         const title = view?.title || "";
         const onLoad = view?.onLoad || "";
         const onClose = view?.onClose || "";
@@ -1056,14 +1112,15 @@ function Main(): JSX.Element {
   //-> execute script onload and onclose from json
   const executeScript = useCallback(
     async (script: string) => {
-      const result = await execute(script, {
+      // const result =
+      await execute(script, {
         ...dependencies,
         navigate,
         store,
         params,
         browser_id,
       });
-      console.log("useEffect", { return: result });
+      // console.log("useEffect", { script, return: result });
     },
     [navigate, store, params, browser_id]
   );
@@ -1075,23 +1132,43 @@ function Main(): JSX.Element {
       })();
     }
   }, [browser_id, executeScript, onLoadScript, onLoaded]);
-  const [previousEndpoint, setPreviousEndpoint] = useState<string>(
-    window.location.pathname
-  );
+  const [initReady, setInitReady] = useState<boolean>(false);
   useEffect(() => {
-    const endpoint = window.location.pathname;
-    console.log({
-      endpoint,
-      previousEndpoint,
-    });
-    if (endpoint != previousEndpoint) {
-      (async () => {
-        await executeScript(onCloseScript);
-        setPreviousEndpoint(endpoint);
-      })();
+    if (browser_id != "") {
+      setInitReady(true);
     }
-  }, [executeScript, onCloseScript, previousEndpoint, render]);
+  }, [browser_id]);
+  const [previousCloseScript, setPreviousCloseScript] = useState<string>("");
+  useEffect(() => {
+    if (
+      initReady &&
+      String(onCloseScript).length > 0 &&
+      String(previousCloseScript).length == 0
+    ) {
+      setPreviousCloseScript(onCloseScript);
+    } else {
+      if (
+        initReady &&
+        String(onCloseScript).length > 0 &&
+        onCloseScript != previousCloseScript
+      ) {
+        (async () => {
+          await executeScript(previousCloseScript);
+          setPreviousCloseScript(onCloseScript);
+        })();
+      }
+    }
+  }, [
+    browser_id,
+    executeScript,
+    initReady,
+    onCloseScript,
+    previousCloseScript,
+  ]);
 
+  if (isBlocked) {
+    return <BlockedPage />;
+  }
   if (notFound && listRoutes.length > 0) {
     return <EndpointNotFoundPage endpoint={endpoint} />;
   }
@@ -1126,6 +1203,9 @@ const EndpointNotFoundPage = ({ endpoint }: { endpoint: string }) => {
 };
 const InitializePage = () => {
   return <div>Loading...</div>;
+};
+const BlockedPage = () => {
+  return <div>Blocked...</div>;
 };
 
 const App = () => {
