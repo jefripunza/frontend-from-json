@@ -4,11 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "module:reinstall": "npx cross-env rm -rf node_modules && yarn",
     "dev": "vite",
     "clear": "npx cross-env rm -rf dist",
     "tsc": "tsc",
     "html:min": "node html-minify.js",
-    "build": "npx cross-env rm -rf dist && tsc && vite build && deno run -A html-minify.js",
+    "build": "npx cross-env rm -rf dist && tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
