@@ -12,3 +12,13 @@ const min = minifyHTML(data, {
 const html_output = html_target;
 // const html_output = "./result.html";
 fs.writeFileSync(html_output, min);
+
+// const min = minify(data, {
+//   collapseWhitespace: true,
+//   removeAttributeQuotes: true,
+//   collapseInlineTagWhitespace: true,
+//   minifyCSS: true,
+//   minifyJS: true,
+//   minifyURLs: true,
+//   removeComments: true,
+// });
