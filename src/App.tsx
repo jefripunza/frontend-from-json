@@ -1080,14 +1080,14 @@ function Main(): JSX.Element {
       previousEndpoint,
     });
     return () => {
-      if (onLoaded == 2 && endpoint !== previousEndpoint) {
+      if (endpoint != previousEndpoint) {
         (async () => {
           await executeScript(onCloseScript);
           setPreviousEndpoint(endpoint);
         })();
       }
     };
-  }, [executeScript, onCloseScript, onLoaded, previousEndpoint, store]);
+  }, [executeScript, onCloseScript, previousEndpoint]);
 
   if (notFound && listRoutes.length > 0) {
     return <EndpointNotFoundPage endpoint={endpoint} />;
