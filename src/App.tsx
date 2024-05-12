@@ -456,40 +456,45 @@ function renderElement(
   const eventHandlers: IObject<React.MouseEventHandler> = {};
   if (elementProps) {
     for (const key in elementProps) {
-      if (
-        Object.prototype.hasOwnProperty.call(elementProps, key) &&
-        [
-          "onCopy",
-          "onCut",
-          "onPaste",
+      if (String(key).startsWith("on")) {
+        if (
+          Object.prototype.hasOwnProperty.call(elementProps, key) &&
+          [
+            "onCopy",
+            "onCut",
+            "onPaste",
 
-          "onChange",
-          "onBeforeInput",
-          "onSubmit",
-          "onLoad",
-          "onError",
+            "onChange",
+            "onBeforeInput",
+            "onSubmit",
+            "onLoad",
+            "onError",
 
-          "onClick",
-          "onKeyDown",
-          "onKeyPress",
-          "onKeyUp",
+            "onClick",
+            "onKeyDown",
+            "onKeyPress",
+            "onKeyUp",
 
-          "onScroll",
+            "onScroll",
 
-          "onFocus",
-          "onBlur",
-          "onMouseOver",
-        ].includes(key)
-      ) {
-        eventHandlers[key] = async (e: React.MouseEvent) =>
-          await execute(elementProps[key], {
-            ...dependencies,
-            navigate,
-            store,
-            params,
-            browser_id,
-            e,
-          });
+            "onFocus",
+            "onBlur",
+            "onMouseOver",
+          ].includes(key)
+        ) {
+          eventHandlers[key] = async (e: React.MouseEvent) =>
+            await execute(elementProps[key], {
+              ...dependencies,
+              navigate,
+              store,
+              params,
+              browser_id,
+              e,
+            });
+        } else {
+          // awas pengamanan action...
+          delete elementProps[key];
+        }
       }
     }
   }
@@ -1079,15 +1084,13 @@ function Main(): JSX.Element {
       endpoint,
       previousEndpoint,
     });
-    return () => {
-      if (endpoint != previousEndpoint) {
-        (async () => {
-          await executeScript(onCloseScript);
-          setPreviousEndpoint(endpoint);
-        })();
-      }
-    };
-  }, [executeScript, onCloseScript, previousEndpoint]);
+    if (endpoint != previousEndpoint) {
+      (async () => {
+        await executeScript(onCloseScript);
+        setPreviousEndpoint(endpoint);
+      })();
+    }
+  }, [executeScript, onCloseScript, previousEndpoint, render]);
 
   if (notFound && listRoutes.length > 0) {
     return <EndpointNotFoundPage endpoint={endpoint} />;
