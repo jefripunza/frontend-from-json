@@ -950,8 +950,10 @@ function Main(): JSX.Element {
         retry();
       }
     };
-    retry();
-  }, []);
+    if (browser_id) {
+      retry();
+    }
+  }, [browser_id, secret_key]);
   useEffect(() => {
     if (isOnline) {
       if (onLoad) {
@@ -983,131 +985,133 @@ function Main(): JSX.Element {
 
   //-> handling page and main management
   useEffect(() => {
-    (async () => {
-      setProgress(10);
-      setLoaded(0);
-      setNotFound(false);
-      document.title = "Please wait...";
-      try {
-        await db.connect("app", [
-          {
-            name: "variables",
-            keyPath: "key",
-            autoIncrement: true,
-          },
-          {
-            name: "pendingApis",
-            keyPath: "key",
-            autoIncrement: true,
-          },
+    if (secret_key) {
+      (async () => {
+        setProgress(10);
+        setLoaded(0);
+        setNotFound(false);
+        document.title = "Please wait...";
+        try {
+          await db.connect("app", [
+            {
+              name: "variables",
+              keyPath: "key",
+              autoIncrement: true,
+            },
+            {
+              name: "pendingApis",
+              keyPath: "key",
+              autoIncrement: true,
+            },
 
-          {
-            name: "routes",
-            keyPath: "endpoint",
-          },
-          {
-            name: "middlewares",
-            keyPath: "key",
-          },
-        ]);
+            {
+              name: "routes",
+              keyPath: "endpoint",
+            },
+            {
+              name: "middlewares",
+              keyPath: "key",
+            },
+          ]);
 
-        const routes = await db.getAll<IRoute>("app", "routes");
-        setListRoute(routes);
-        setProgress(30);
+          const routes = await db.getAll<IRoute>("app", "routes");
+          setListRoute(routes);
+          setProgress(30);
 
-        // Check each route pattern for a match with the current endpoint
-        let matchedRoute: IMatchRoute | undefined;
-        for (const route of routes) {
-          if (route.endpoint == "*") continue;
-          let modifiedEndpoint = route.endpoint.startsWith("/")
-            ? route.endpoint
-            : "/" + route.endpoint;
-          if (modifiedEndpoint != "/" && modifiedEndpoint.endsWith("/")) {
-            modifiedEndpoint = modifiedEndpoint.slice(0, -1);
+          // Check each route pattern for a match with the current endpoint
+          let matchedRoute: IMatchRoute | undefined;
+          for (const route of routes) {
+            if (route.endpoint == "*") continue;
+            let modifiedEndpoint = route.endpoint.startsWith("/")
+              ? route.endpoint
+              : "/" + route.endpoint;
+            if (modifiedEndpoint != "/" && modifiedEndpoint.endsWith("/")) {
+              modifiedEndpoint = modifiedEndpoint.slice(0, -1);
+            }
+            const paramNames: string[] = [];
+            const modifiedEndpointRegex = new RegExp(
+              "^" +
+                modifiedEndpoint.replace(
+                  /:([^/]+)/g,
+                  (_: any, paramName: string) => {
+                    paramNames.push(paramName);
+                    return "([^/]+)";
+                  }
+                ) +
+                "$"
+            );
+            const match = endpoint.match(modifiedEndpointRegex);
+            if (match) {
+              const params: IObject<string> = {};
+              paramNames.forEach((name, index) => {
+                params[name] = decodeURIComponent(match[index + 1]);
+              });
+              matchedRoute = {
+                endpoint: "",
+                middlewares: [],
+                view: route.view as IView,
+                params,
+              };
+              break;
+            }
           }
-          const paramNames: string[] = [];
-          const modifiedEndpointRegex = new RegExp(
-            "^" +
-              modifiedEndpoint.replace(
-                /:([^/]+)/g,
-                (_: any, paramName: string) => {
-                  paramNames.push(paramName);
-                  return "([^/]+)";
-                }
-              ) +
-              "$"
+
+          if (!matchedRoute) {
+            // If no match found, set the route to the not found route
+            const notFoundRoute = routes.find(
+              (route: any) => route.endpoint === "*"
+            );
+            if (!notFoundRoute) {
+              setNotFound(true);
+              return;
+            }
+            matchedRoute = { ...notFoundRoute, params: {} };
+          }
+          const match_middlewares = matchedRoute.middlewares;
+
+          const middlewares: IMiddleware[] = await db.getAll(
+            "app",
+            "middlewares"
           );
-          const match = endpoint.match(modifiedEndpointRegex);
-          if (match) {
-            const params: IObject<string> = {};
-            paramNames.forEach((name, index) => {
-              params[name] = decodeURIComponent(match[index + 1]);
-            });
-            matchedRoute = {
-              endpoint: "",
-              middlewares: [],
-              view: route.view as IView,
-              params,
-            };
-            break;
-          }
-        }
-
-        if (!matchedRoute) {
-          // If no match found, set the route to the not found route
-          const notFoundRoute = routes.find(
-            (route: any) => route.endpoint === "*"
+          const middleware_uses = middlewares.filter((middleware) =>
+            match_middlewares.includes(middleware.key)
           );
-          if (!notFoundRoute) {
-            setNotFound(true);
-            return;
+          for (let i = 0; i < middleware_uses.length; i++) {
+            const middleware = middleware_uses[i];
+            console.log({ use_middleware: middleware });
           }
-          matchedRoute = { ...notFoundRoute, params: {} };
-        }
-        const match_middlewares = matchedRoute.middlewares;
+          setProgress(50);
 
-        const middlewares: IMiddleware[] = await db.getAll(
-          "app",
-          "middlewares"
-        );
-        const middleware_uses = middlewares.filter((middleware) =>
-          match_middlewares.includes(middleware.key)
-        );
-        for (let i = 0; i < middleware_uses.length; i++) {
-          const middleware = middleware_uses[i];
-          console.log({ use_middleware: middleware });
-        }
-        setProgress(50);
+          const params = matchedRoute?.params || {};
+          let view = matchedRoute?.view as any;
+          view = JSON.parse(decode(secret_key, view)) as IView;
+          const title = view?.title || "";
+          const onLoad = view?.onLoad || "";
+          const onClose = view?.onClose || "";
+          const style = view?.style || "";
+          const render = view?.render || {};
+          // render = moveAttributesToAction(render);
 
-        const params = matchedRoute?.params || {};
-        let view = matchedRoute?.view as any;
-        view = JSON.parse(decode(secret_key, view)) as IView;
-        const title = view?.title || "";
-        const onLoad = view?.onLoad || "";
-        const onClose = view?.onClose || "";
-        const style = view?.style || "";
-        const render = view?.render || {};
-        // render = moveAttributesToAction(render);
+          document.title = title;
+          setParam(params);
+          setStyle(style);
+          setRender(render);
+          if (typeof onLoad === "string") {
+            setOnLoadScript(onLoad);
+          }
+          if (typeof onClose === "string") {
+            setOnCloseScript(onClose);
+          }
 
-        document.title = title;
-        setParam(params);
-        setStyle(style);
-        setRender(render);
-        if (typeof onLoad === "string") {
-          setOnLoadScript(onLoad);
+          setLoaded(1);
+          setProgress(100);
+        } catch (error) {
+          console.error({ error });
         }
-        if (typeof onClose === "string") {
-          setOnCloseScript(onClose);
-        }
-
-        setLoaded(1);
-        setProgress(100);
-      } catch (error) {
-        console.error({ error });
-      }
-    })();
+      })();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [endpoint]);
+  }, [endpoint, secret_key]);
 
   //-> execute script onload and onclose from json
   const executeScript = useCallback(
