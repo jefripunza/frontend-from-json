@@ -1075,11 +1075,11 @@ function Main(): JSX.Element {
   );
   useEffect(() => {
     const endpoint = window.location.pathname;
+    console.log({
+      endpoint,
+      previousEndpoint,
+    });
     return () => {
-      console.log({
-        endpoint,
-        previousEndpoint,
-      });
       if (onLoaded == 2 && endpoint !== previousEndpoint) {
         (async () => {
           await executeScript(onCloseScript);
