@@ -137,6 +137,35 @@ function DecodeEndToEnd(browser_id: string, encoded_text: string) {
   return decode(secret_key, encoded_text);
 }
 
+function getVariablesFromJSON(jsonString: string): IObject<IObject<string>> {
+  const variables: IObject<IObject<string>> = {};
+  const regex = /#\|([^|]+?)\|([^|]+?)\|#/g;
+  let match: RegExpExecArray | null;
+  while ((match = regex.exec(jsonString)) !== null) {
+    const variableName = match[1].trim();
+    const variableString = match[2];
+    const variable: IObject<string> = {};
+    const pairs = variableString.split(",");
+    pairs.forEach((pair) => {
+      const [key, value] = pair.split("=");
+      variable[key.trim()] = value.trim();
+    });
+    variables[variableName] = variable;
+  }
+  return variables;
+}
+
+function replaceVariable(
+  input: string,
+  variableName: string,
+  newValue: string
+) {
+  const regex = new RegExp(`"#\\|${variableName}\\|([^|]+?)\\|#"`, "g");
+  return input.replace(regex, (_, _oldValue) => {
+    return newValue;
+  });
+}
+
 const axios = _axios_.create();
 axios.defaults.baseURL = env.PROD ? "" : "http://localhost:1234";
 const errorHandling = (error: AxiosError) => {
@@ -398,6 +427,28 @@ const formatRupiah = (angka: number, prefix?: string): string => {
   return prefix === undefined ? rupiah : rupiah ? prefix + rupiah : "";
 };
 
+const getEndpoint = (e: any, host_dev: string, host_prod: any = false) => {
+  let endpoint = e.target.href;
+  const origin = e.target.origin;
+  if (endpoint) {
+    if (
+      (String(endpoint).startsWith("http://") ||
+        String(endpoint).startsWith("https://")) &&
+      String(endpoint).includes("localhost")
+    ) {
+      endpoint = String(endpoint).replace(origin, host_dev);
+    } else {
+      if (
+        typeof host_prod == "string" &&
+        String(host_prod).startsWith("https://")
+      ) {
+        endpoint = String(endpoint).replace(origin, host_prod);
+      }
+    }
+  }
+  return endpoint;
+};
+
 const dependencies = {
   window,
   _axios_,
@@ -405,6 +456,7 @@ const dependencies = {
   toast,
   toastTransition: { Flip, Bounce, Zoom, Slide },
   anime,
+  getEndpoint,
   encode,
   decode,
   findAndReplace,
@@ -791,6 +843,16 @@ interface IView {
   onClose?: string;
   render: IRender;
 }
+
+// -------------------------------------------
+// -------------------------------------------
+
+interface IMiddleware {
+  key: string;
+  script: string;
+  order: number;
+}
+
 interface IRoute {
   endpoint: string;
   middlewares: string[];
@@ -800,11 +862,18 @@ interface IMatchRoute extends IRoute {
   params: IObject<string>;
 }
 
-interface IMiddleware {
+interface IComponent {
+  key: string;
+  view: IView | string;
+}
+
+interface IAction {
   key: string;
   script: string;
-  order: number;
 }
+
+// -------------------------------------------
+// -------------------------------------------
 
 function Main(): JSX.Element {
   const navigate = useNavigate();
@@ -812,7 +881,8 @@ function Main(): JSX.Element {
 
   //-> anchor handle...
   useEffect(() => {
-    const handleClick = (event: MouseEvent) => {
+    const handleClick = (event: any) => {
+      // HTMLAnchorElement | Event
       const target = event.target as HTMLElement;
       if (target.tagName != "A") {
         return; // skip...
@@ -897,20 +967,6 @@ function Main(): JSX.Element {
             const init: NewResponse<any> = await axios.get("/init");
             setProgress(30);
 
-            const routes: IRoute[] = init?.data?.routes || [];
-            await db.clear("app", "routes");
-            setProgress(40);
-            for (let i = 0; i < routes.length; i++) {
-              const route = routes[i];
-              route.view = encode(secret_key, JSON.stringify(route.view));
-              try {
-                await db.add("app", "routes", { ...route });
-              } catch (error) {
-                // skip...
-              }
-            }
-            setProgress(50);
-
             const middlewares: IMiddleware[] = init?.data?.middlewares || [];
             await db.clear("app", "middlewares");
             setProgress(70);
@@ -926,7 +982,52 @@ function Main(): JSX.Element {
                 // skip...
               }
             }
-            setProgress(60);
+            setProgress(50);
+
+            const routes: IRoute[] = init?.data?.routes || [];
+            await db.clear("app", "routes");
+            setProgress(40);
+            for (let i = 0; i < routes.length; i++) {
+              const route = routes[i];
+              route.view = encode(secret_key, JSON.stringify(route.view));
+              try {
+                await db.add("app", "routes", { ...route });
+              } catch (error) {
+                // skip...
+              }
+            }
+            setProgress(50);
+
+            const components: IComponent[] = init?.data?.components || [];
+            await db.clear("app", "components");
+            setProgress(40);
+            for (let i = 0; i < components.length; i++) {
+              const component = components[i];
+              component.view = encode(
+                secret_key,
+                JSON.stringify(component.view)
+              );
+              try {
+                await db.add("app", "components", { ...component });
+              } catch (error) {
+                // skip...
+              }
+            }
+            setProgress(50);
+
+            const actions: IAction[] = init?.data?.actions || [];
+            await db.clear("app", "actions");
+            setProgress(40);
+            for (let i = 0; i < actions.length; i++) {
+              const action = actions[i];
+              action.script = encode(secret_key, JSON.stringify(action.script));
+              try {
+                await db.add("app", "actions", { ...action });
+              } catch (error) {
+                // skip...
+              }
+            }
+            setProgress(50);
 
             await variables.set("version", version); // paling terakhir / tanda tangan kontrak setuju
             setUpdateServiceWorker(uuidv4()); // update pwa...
@@ -1005,11 +1106,19 @@ function Main(): JSX.Element {
             },
 
             {
+              name: "middlewares",
+              keyPath: "key",
+            },
+            {
               name: "routes",
               keyPath: "endpoint",
             },
             {
-              name: "middlewares",
+              name: "components",
+              keyPath: "key",
+            },
+            {
+              name: "actions",
               keyPath: "key",
             },
           ]);
@@ -1089,8 +1198,41 @@ function Main(): JSX.Element {
           const onLoad = view?.onLoad || "";
           const onClose = view?.onClose || "";
           const style = view?.style || "";
-          const render = view?.render || {};
-          // render = moveAttributesToAction(render);
+          let render = JSON.stringify(view?.render || {});
+          const Render = async (rdr: any) => {
+            const variables = getVariablesFromJSON(rdr);
+            const variable_keys = Object.keys(variables);
+            if (variable_keys.length > 0) {
+              const components: IComponent[] = await db.getAll(
+                "app",
+                "components"
+              );
+              const component_uses = components.filter((component) =>
+                variable_keys.includes(component.key)
+              );
+              for (let i = 0; i < component_uses.length; i++) {
+                const component = component_uses[i];
+                const key = component.key;
+                let view = decode(secret_key, component.view as string);
+                const variable = variables[key];
+                Object.keys(variable).forEach((key) => {
+                  const value = variable[key];
+                  const regex = new RegExp(`#${key}#`, "g");
+                  view = String(view).replace(regex, value);
+                });
+                const component_variables = getVariablesFromJSON(view);
+                const component_variable_keys =
+                  Object.keys(component_variables);
+                if (component_variable_keys.length > 0) {
+                  view = await Render(view);
+                }
+                rdr = replaceVariable(rdr, key, view);
+              }
+            }
+            return rdr;
+          };
+          render = await Render(render);
+          render = JSON.parse(render);
 
           document.title = title;
           setParam(params);

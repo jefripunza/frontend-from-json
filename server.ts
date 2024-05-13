@@ -233,6 +233,9 @@ const variablesCollection = database.collection("variables");
 const routesCollection = database.collection("routes");
 const middlewaresCollection = database.collection("middlewares");
 
+const componentsCollection = database.collection("components");
+const actionsCollection = database.collection("actions");
+
 // backend...
 interface IBrowser {
   key: string;
@@ -486,16 +489,6 @@ Deno.serve({ port: PORT }, async (request) => {
       };
     } else if (String(endpoint).startsWith(backend_endpoint.init)) {
       if (method == "GET") {
-        let middlewares = await middlewaresCollection
-          .find({
-            for: "FE",
-          })
-          .toArray();
-        middlewares = middlewares.map((middleware) => {
-          delete middleware["_id"];
-          delete middleware["for"];
-          return middleware;
-        });
         let routes = await routesCollection
           .find({
             for: "FE",
@@ -506,9 +499,39 @@ Deno.serve({ port: PORT }, async (request) => {
           delete route["for"];
           return route;
         });
+
+        let middlewares = await middlewaresCollection
+          .find({
+            for: "FE",
+          })
+          .toArray();
+        middlewares = middlewares.map((middleware) => {
+          delete middleware["_id"];
+          delete middleware["for"];
+          return middleware;
+        });
+
+        let components = await componentsCollection
+          .find({})
+          .toArray();
+        components = components.map((component) => {
+          delete component["_id"];
+          return component;
+        });
+
+        let actions = await actionsCollection
+          .find({})
+          .toArray();
+        actions = actions.map((action) => {
+          delete action["_id"];
+          return action;
+        });
+
         response = {
           middlewares,
           routes,
+          components,
+          actions,
         };
       }
     } else if (String(endpoint).startsWith(backend_endpoint.api)) {
