@@ -122,6 +122,15 @@ function convertSize(size: number) {
 
   return { value: parseFloat(value as string), unit };
 }
+
+function getVariablesAction(input: string): string[] {
+  const regex = /#(\*\w+\*?)#/g;
+  const matches = input.match(regex);
+  if (!matches) return [];
+  const variables = matches.map((match) => match.replace(/(#\*|\*#)/g, ""));
+  return variables;
+}
+
 // ----------------------------------------------------------
 // ----------------------------------------------------------
 
@@ -285,12 +294,17 @@ if (!_base_admin) {
   })
 }
 
+enum Method {
+  FE = "FE",
+  BE = "BE",
+}
+
 interface IRoute {
   _id?: ObjectId;
-  for?: string;
+  for?: Method; // FE | BE
   endpoint: string;
-  method?: string;
-  script?: string;
+  method?: string; // BE only
+  script?: string; // BE only
   middlewares: string[];
   view: any;
 }
@@ -307,7 +321,7 @@ await routesCollection.createIndexes({
 
 interface IMiddleware {
   _id?: ObjectId;
-  for?: string;
+  for?: Method; // FE | BE
   key: string;
   script: string;
   order: number;
@@ -609,22 +623,27 @@ Deno.serve({ port: PORT }, async (request) => {
       } catch (error) {
         // skip...
       }
-      const variable = await variablesCollection.findOne({
-        key: "version",
-      }) as IVariable;
-      let version = "";
-      if (variable) {
-        version = variable.value;
+      const variables = await variablesCollection
+        .find({
+          key: {
+            $in: ["version", "base_admin"]
+          },
+        })
+        .toArray() as IVariable[];
+      const collections = {}
+      for (let i = 0; i < variables.length; i++) {
+        const variable = variables[i];
+        collections[variable.key] = variable.value
       }
       response = {
         ip,
-        version,
+        ...collections,
       };
     } else if (String(endpoint).startsWith(backend_endpoint.init)) {
       if (method == "GET") {
         let routes = await routesCollection
           .find({
-            for: "FE",
+            for: Method.FE,
           })
           .toArray() as IRoute[];
         routes = routes.map((route) => {
@@ -635,7 +654,7 @@ Deno.serve({ port: PORT }, async (request) => {
 
         let middlewares = await middlewaresCollection
           .find({
-            for: "FE",
+            for: Method.FE,
           })
           .toArray() as IMiddleware[];
         middlewares = middlewares.map((middleware) => {
@@ -660,10 +679,10 @@ Deno.serve({ port: PORT }, async (request) => {
       }
     } else if (String(endpoint).startsWith(backend_endpoint.api)) {
       endpoint = "/" + String(endpoint).split("/").filter((ep, i) => i > 1 && ep != "").join("/")
-      const regexPattern = new RegExp("^" + endpoint.replace(/:([^\/]+)/g, "([^/]+)") + "$")
+      const regexPattern = new RegExp("^" + endpoint.replace(/:([^/]+)/g, "([^/]+)") + "$")
       const routes = await routesCollection
         .find({
-          // for: "BE",
+          for: Method.BE,
         })
         .toArray() as IRoute[];
       let route_match, match;

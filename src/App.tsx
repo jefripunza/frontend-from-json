@@ -19,12 +19,14 @@ import {
   Zoom,
   Slide,
 } from "react-toastify";
+import addNotification, { Notifications } from "react-push-notification";
 import { create } from "zustand";
 import zukeeper from "zukeeper";
 import anime from "animejs/lib/anime.es.js";
 import _axios_, { AxiosRequestConfig, AxiosError } from "axios";
 import CryptoJS from "crypto-js";
 import { v4 as uuidv4 } from "uuid";
+// import Editor from "@monaco-editor/react";
 
 interface IObject<T> {
   [key: string]: T;
@@ -473,6 +475,7 @@ const dependencies = {
   toast,
   toastTransition: { Flip, Bounce, Zoom, Slide },
   anime,
+  addNotification,
   getEndpoint,
   encode,
   decode,
@@ -965,14 +968,18 @@ function Main(): JSX.Element {
   const [isBlocked, setBlocked] = useState(false);
   const [isOnline, setOnline] = useState(true);
   const [onLoad, setLoad] = useState<boolean>(false);
+  const [baseAdmin, setBaseAdmin] = useState<string>("/");
+  console.log({ baseAdmin });
   useEffect(() => {
     const retry = async () => {
       try {
         const ping: any = await axios.get("/ping");
         if (ping.success) {
+          console.log({ ping });
           const ip = ping.data.ip;
           await variables.set("ip", ip);
           const version = ping.data.version;
+          setBaseAdmin(ping.data.base_admin);
           const existing_version = await variables.get("version");
           if (version != existing_version) {
             setProgress(0);
@@ -1333,6 +1340,7 @@ function Main(): JSX.Element {
   );
   return (
     <>
+      <Notifications />
       <LoadingBar
         color="#28a745"
         progress={progress}
