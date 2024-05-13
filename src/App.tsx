@@ -1,3 +1,5 @@
+// deno-lint-ignore-file no-explicit-any
+
 import React, { useCallback, useEffect, useState } from "react";
 // import { unregisterSW } from "virtual:pwa-register";
 
@@ -137,7 +139,7 @@ function DecodeEndToEnd(browser_id: string, encoded_text: string) {
   return decode(secret_key, encoded_text);
 }
 
-function getVariablesFromJSON(jsonString: string): IObject<IObject<string>> {
+function getVariablesComponent(jsonString: string): IObject<IObject<string>> {
   const variables: IObject<IObject<string>> = {};
   const regex = /#\|([^|]+?)\|([^|]+?)\|#/g;
   let match: RegExpExecArray | null;
@@ -154,8 +156,7 @@ function getVariablesFromJSON(jsonString: string): IObject<IObject<string>> {
   }
   return variables;
 }
-
-function replaceVariable(
+function replaceVariableComponent(
   input: string,
   variableName: string,
   newValue: string
@@ -164,6 +165,22 @@ function replaceVariable(
   return input.replace(regex, (_, _oldValue) => {
     return newValue;
   });
+}
+
+// function getVariablesAction(input: string): string[] {
+//   const regex = /#(\*\w+\*?)#/g;
+//   const matches = input.match(regex);
+//   if (!matches) return [];
+//   const variables = matches.map((match) => match.replace(/(#\*|\*#)/g, ""));
+//   return variables;
+// }
+function replaceVariableAction(
+  input: string,
+  variableName: string,
+  newValue: string
+): string {
+  const regex = new RegExp(`#\\*${variableName}\\*#`, "g");
+  return input.replace(regex, newValue);
 }
 
 const axios = _axios_.create();
@@ -867,11 +884,6 @@ interface IComponent {
   view: IView | string;
 }
 
-interface IAction {
-  key: string;
-  script: string;
-}
-
 // -------------------------------------------
 // -------------------------------------------
 
@@ -965,11 +977,11 @@ function Main(): JSX.Element {
           if (version != existing_version) {
             setProgress(0);
             const init: NewResponse<any> = await axios.get("/init");
-            setProgress(30);
+            setProgress(10);
 
             const middlewares: IMiddleware[] = init?.data?.middlewares || [];
             await db.clear("app", "middlewares");
-            setProgress(70);
+            setProgress(20);
             for (let i = 0; i < middlewares.length; i++) {
               const middleware = middlewares[i];
               middleware.script = encode(
@@ -982,7 +994,7 @@ function Main(): JSX.Element {
                 // skip...
               }
             }
-            setProgress(50);
+            setProgress(30);
 
             const routes: IRoute[] = init?.data?.routes || [];
             await db.clear("app", "routes");
@@ -1000,7 +1012,7 @@ function Main(): JSX.Element {
 
             const components: IComponent[] = init?.data?.components || [];
             await db.clear("app", "components");
-            setProgress(40);
+            setProgress(60);
             for (let i = 0; i < components.length; i++) {
               const component = components[i];
               component.view = encode(
@@ -1013,21 +1025,7 @@ function Main(): JSX.Element {
                 // skip...
               }
             }
-            setProgress(50);
-
-            const actions: IAction[] = init?.data?.actions || [];
-            await db.clear("app", "actions");
-            setProgress(40);
-            for (let i = 0; i < actions.length; i++) {
-              const action = actions[i];
-              action.script = encode(secret_key, JSON.stringify(action.script));
-              try {
-                await db.add("app", "actions", { ...action });
-              } catch (error) {
-                // skip...
-              }
-            }
-            setProgress(50);
+            setProgress(70);
 
             await variables.set("version", version); // paling terakhir / tanda tangan kontrak setuju
             setUpdateServiceWorker(uuidv4()); // update pwa...
@@ -1117,10 +1115,6 @@ function Main(): JSX.Element {
               name: "components",
               keyPath: "key",
             },
-            {
-              name: "actions",
-              keyPath: "key",
-            },
           ]);
 
           const routes = await db.getAll<IRoute>("app", "routes");
@@ -1198,9 +1192,16 @@ function Main(): JSX.Element {
           const onLoad = view?.onLoad || "";
           const onClose = view?.onClose || "";
           const style = view?.style || "";
+          const action = view?.action || {};
+          const action_keys = Object.keys(action);
+
           let render = JSON.stringify(view?.render || {});
+          for (let i = 0; i < action_keys.length; i++) {
+            const key = action_keys[i];
+            render = replaceVariableAction(render, key, action[key]);
+          }
           const Render = async (rdr: any) => {
-            const variables = getVariablesFromJSON(rdr);
+            const variables = getVariablesComponent(rdr);
             const variable_keys = Object.keys(variables);
             if (variable_keys.length > 0) {
               const components: IComponent[] = await db.getAll(
@@ -1220,13 +1221,13 @@ function Main(): JSX.Element {
                   const regex = new RegExp(`#${key}#`, "g");
                   view = String(view).replace(regex, value);
                 });
-                const component_variables = getVariablesFromJSON(view);
+                const component_variables = getVariablesComponent(view);
                 const component_variable_keys =
                   Object.keys(component_variables);
                 if (component_variable_keys.length > 0) {
                   view = await Render(view);
                 }
-                rdr = replaceVariable(rdr, key, view);
+                rdr = replaceVariableComponent(rdr, key, view);
               }
             }
             return rdr;

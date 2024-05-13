@@ -23,7 +23,7 @@ import CryptoJS from "npm:crypto-js@4.2.0";
 import { Status } from "https://deno.land/std@0.148.0/http/http_status.ts";
 import { contentType } from "https://deno.land/std@0.153.0/media_types/mod.ts";
 import { parse } from "https://deno.land/std@0.200.0/flags/mod.ts";
-import { MongoClient } from "https://deno.land/x/mongo@v0.32.0/mod.ts";
+import { MongoClient, ObjectId } from "https://deno.land/x/mongo@v0.32.0/mod.ts";
 
 import assets from "./assets.ts";
 
@@ -224,31 +224,156 @@ try {
   }
   console.log(`✅ MongoDB Connected on ${target_url} => ${MONGO_NAME}`);
 } catch (error) {
+  console.log("❌ MongoDB Error", { error });
   Deno.exit(0);
 }
 const database = client.database(MONGO_NAME);
 
-// frontend...
-const variablesCollection = database.collection("variables");
-const routesCollection = database.collection("routes");
-const middlewaresCollection = database.collection("middlewares");
+const collections = {
+  // frontend...
+  variables: "variables",
+  routes: "routes", // + backend
+  middlewares: "middlewares",
+  components: "components",
 
-const componentsCollection = database.collection("components");
-const actionsCollection = database.collection("actions");
+  // backend...
+  browsers: "browsers",
+  userBrowsers: "userBrowsers",
+}
+const collectionList = await database.listCollectionNames();
+for (const collectionName in collections) {
+  if (!collectionList.includes(collectionName)) {
+    await database.createCollection(collectionName);
+    console.log(`✅ Collection ${collectionName} created.`);
+  }
+}
 
-// backend...
+//--------------
+//-> frontend...
+//--------------
+
+interface IVariable {
+  key: string;
+  value: string;
+}
+const variablesCollection = database.collection(collections.variables);
+await variablesCollection.createIndexes({
+  indexes: [
+    {
+      name: "variable_unique_per_item",
+      key: { key: 1 },
+      unique: true,
+    },
+  ],
+});
+const _version = await variablesCollection.findOne({
+  key: "version"
+});
+if (!_version) {
+  await variablesCollection.insertOne({
+    key: "version",
+    value: "0.0.1",
+  })
+}
+const _base_admin = await variablesCollection.findOne({
+  key: "base_admin"
+});
+if (!_base_admin) {
+  await variablesCollection.insertOne({
+    key: "base_admin",
+    value: "/admin",
+  })
+}
+
+interface IRoute {
+  _id?: ObjectId;
+  for?: string;
+  endpoint: string;
+  method?: string;
+  script?: string;
+  middlewares: string[];
+  view: any;
+}
+const routesCollection = database.collection(collections.routes);
+await routesCollection.createIndexes({
+  indexes: [
+    {
+      name: "route_unique_per_item",
+      key: { for: 1, endpoint: 1 },
+      unique: true,
+    },
+  ],
+});
+
+interface IMiddleware {
+  _id?: ObjectId;
+  for?: string;
+  key: string;
+  script: string;
+  order: number;
+}
+const middlewaresCollection = database.collection(collections.middlewares);
+await middlewaresCollection.createIndexes({
+  indexes: [
+    {
+      name: "middleware_unique_per_item",
+      key: { key: 1 },
+      unique: true,
+    },
+  ],
+});
+
+interface IComponent {
+  _id?: ObjectId;
+  key: string;
+  view: any;
+}
+const componentsCollection = database.collection(collections.components);
+await componentsCollection.createIndexes({
+  indexes: [
+    {
+      name: "component_unique_per_item",
+      key: { key: 1 },
+      unique: true,
+    },
+  ],
+});
+
+
+//-------------
+//-> backend...
+//-------------
+
 interface IBrowser {
   key: string;
-  userAgent: string;
+  user_agent: string;
   blocked?: boolean;
 }
-const browsersCollection = database.collection<IBrowser>("browsers");
+const browsersCollection = database.collection(collections.browsers);
+await browsersCollection.createIndexes({
+  indexes: [
+    {
+      name: "browser_unique_per_item",
+      key: { key: 1 },
+      unique: true,
+    },
+  ],
+});
 
 interface IUserBrowser {
   user_id: string;
   browser_id: string;
 }
-const userBrowsersCollection = database.collection("userBrowsers");
+const userBrowsersCollection = database.collection(collections.userBrowsers);
+await userBrowsersCollection.createIndexes({
+  indexes: [
+    {
+      name: "user_browser_unique_per_item",
+      key: { key: 1 },
+      unique: true,
+    },
+  ],
+});
 
 // ----------------------------------------------------------
 // ----------------------------------------------------------
@@ -317,9 +442,17 @@ Deno.serve({ port: PORT }, async (request) => {
   // frontend management...
   let statusCode = Status.OK; // 200
 
+  const base_admin = await variablesCollection.findOne({
+    key: "base_admin"
+  }) as IVariable;
+  const backend_endpoint_list = [
+    ...Object.values(backend_endpoint),
+    base_admin.value,
+  ];
+
   if (
     method == "GET" &&
-    !Object.values(backend_endpoint).some((value) =>
+    !backend_endpoint_list.some((value) =>
       String(endpoint).startsWith(value)
     )
   ) {
@@ -444,12 +577,12 @@ Deno.serve({ port: PORT }, async (request) => {
 
   const browser = await browsersCollection.findOne({
     key: browser_id,
-  });
+  }) as IBrowser;
   if (!browser) {
     // insert...
     await browsersCollection.insertOne({
       key: browser_id,
-      userAgent: headers['user-agent'],
+      user_agent: headers['user-agent'],
       blocked: false,
     });
   } else {
@@ -478,7 +611,7 @@ Deno.serve({ port: PORT }, async (request) => {
       }
       const variable = await variablesCollection.findOne({
         key: "version",
-      });
+      }) as IVariable;
       let version = "";
       if (variable) {
         version = variable.value;
@@ -493,7 +626,7 @@ Deno.serve({ port: PORT }, async (request) => {
           .find({
             for: "FE",
           })
-          .toArray();
+          .toArray() as IRoute[];
         routes = routes.map((route) => {
           delete route["_id"];
           delete route["for"];
@@ -504,7 +637,7 @@ Deno.serve({ port: PORT }, async (request) => {
           .find({
             for: "FE",
           })
-          .toArray();
+          .toArray() as IMiddleware[];
         middlewares = middlewares.map((middleware) => {
           delete middleware["_id"];
           delete middleware["for"];
@@ -513,32 +646,53 @@ Deno.serve({ port: PORT }, async (request) => {
 
         let components = await componentsCollection
           .find({})
-          .toArray();
+          .toArray() as IComponent[];
         components = components.map((component) => {
           delete component["_id"];
           return component;
-        });
-
-        let actions = await actionsCollection
-          .find({})
-          .toArray();
-        actions = actions.map((action) => {
-          delete action["_id"];
-          return action;
         });
 
         response = {
           middlewares,
           routes,
           components,
-          actions,
         };
       }
     } else if (String(endpoint).startsWith(backend_endpoint.api)) {
-      console.log({ body });
-      response = {
-        coming_soon: true,
-      };
+      endpoint = "/" + String(endpoint).split("/").filter((ep, i) => i > 1 && ep != "").join("/")
+      const regexPattern = new RegExp("^" + endpoint.replace(/:([^\/]+)/g, "([^/]+)") + "$")
+      const routes = await routesCollection
+        .find({
+          // for: "BE",
+        })
+        .toArray() as IRoute[];
+      let route_match, match;
+      for (const route of routes) {
+        match = endpoint.match(regexPattern);
+        if (match && method == route.method) {
+          route_match = route;
+          break;
+        }
+      }
+      if (route_match) {
+        const __req__ = [...Object.keys(req), "req"].join(", ")
+        const result = await new Function("__req__", `let {${__req__}} = __req__; return (async () => {${route_match.script}})();`)({ req });
+        if (typeof result == "object") {
+          if (typeof result?.statusCode == "number" && String(result.statusCode).length == 3) {
+            statusCode = result.statusCode;
+            delete result.statusCode;
+          }
+          response = result;
+        } else if (typeof result == "string") {
+          response = {
+            message: result,
+          };
+        } else {
+          response = {
+            value: result,
+          };
+        }
+      }
     }
 
     // endpoint not found...
@@ -563,6 +717,7 @@ Deno.serve({ port: PORT }, async (request) => {
       },
     });
   } catch (error) {
+    console.log({ error });
     return Response.json(
       {
         message: "internal server error",
