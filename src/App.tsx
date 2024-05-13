@@ -19,7 +19,6 @@ import {
   Zoom,
   Slide,
 } from "react-toastify";
-import addNotification, { Notifications } from "react-push-notification";
 import { create } from "zustand";
 import zukeeper from "zukeeper";
 import anime from "animejs/lib/anime.es.js";
@@ -33,6 +32,34 @@ interface IObject<T> {
 }
 
 const env = import.meta.env;
+
+interface IPushNotification {
+  title: string;
+  message: string;
+  icon?: string;
+}
+function pushNotification(options: IPushNotification) {
+  if (!("Notification" in window)) {
+    // Check if the browser supports notifications
+    alert("This browser does not support desktop notification");
+  } else if (Notification.permission === "granted") {
+    const notification = new Notification(options.title, {
+      body: options.message,
+      icon: "https://static.vecteezy.com/system/resources/previews/005/337/802/non_2x/icon-symbol-chat-outline-illustration-free-vector.jpg",
+    });
+    notification.onclick = function () {
+      window.open("/", "_blank");
+    };
+  } else if (Notification.permission !== "denied") {
+    // We need to ask the user for permission
+    Notification.requestPermission().then((permission) => {
+      // If the user accepts, let's create a notification
+      if (permission === "granted") {
+        new Notification("Notification Allowed!");
+      }
+    });
+  }
+}
 
 // const getLanguage = () =>
 //   navigator.userLanguage ||
@@ -475,7 +502,7 @@ const dependencies = {
   toast,
   toastTransition: { Flip, Bounce, Zoom, Slide },
   anime,
-  addNotification,
+  pushNotification,
   getEndpoint,
   encode,
   decode,
@@ -1340,7 +1367,6 @@ function Main(): JSX.Element {
   );
   return (
     <>
-      <Notifications />
       <LoadingBar
         color="#28a745"
         progress={progress}
